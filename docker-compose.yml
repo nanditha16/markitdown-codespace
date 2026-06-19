@@ -1,0 +1,10 @@
+services:
+  markitdown:
+    build: .
+    container_name: markitdown
+    volumes:
+      - ./:/app        
+      - ./input:/input
+      - ./output:/output
+    working_dir: /app
+    tty: true
