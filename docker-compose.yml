@@ -3,8 +3,12 @@ services:
     build: .
     container_name: markitdown
     volumes:
-      - ./:/app        
+      - ./:/app
       - ./input:/input
       - ./output:/output
+      - hf-cache:/root/.cache/huggingface
     working_dir: /app
     tty: true
+
+volumes:
+  hf-cache:

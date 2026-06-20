@@ -1,7 +1,13 @@
+#!/usr/bin/env python3
+"""
+Two-stage semantic retrieval: chunk-level → paragraph-level reranking.
+Produces prompts/semantic_prompt.txt with the most relevant resume sections for a query/JD.
+"""
 from sentence_transformers import SentenceTransformer
 from pathlib import Path
 import numpy as np
 import sys
+import os
 
 query = sys.argv[1] if len(sys.argv) > 1 else None
 
@@ -20,7 +26,7 @@ files = []
 
 # ✅ Load chunk-level documents
 for f in chunks_dir.glob("*.md"):
-    text = f.read_text().strip()
+    text = f.read_text(encoding="utf-8").strip()
     if text:
         documents.append(text)
         files.append(f)
@@ -30,8 +36,8 @@ if not documents:
     exit(1)
 
 # ✅ Stage 1 — Chunk-level retrieval
-doc_embeddings = model.encode(documents, convert_to_numpy=True)
-query_embedding = model.encode([query], convert_to_numpy=True)[0]
+doc_embeddings = model.encode(documents, convert_to_numpy=True, normalize_embeddings=True)
+query_embedding = model.encode([query], convert_to_numpy=True, normalize_embeddings=True)[0]
 
 chunk_scores = np.dot(doc_embeddings, query_embedding)
 
@@ -55,7 +61,7 @@ for idx in top_chunk_indices:
         continue
 
     # ✅ encode parts
-    part_embeddings = model.encode(parts, convert_to_numpy=True)
+    part_embeddings = model.encode(parts, convert_to_numpy=True, normalize_embeddings=True)
 
     # ✅ score parts
     part_scores = np.dot(part_embeddings, query_embedding)
@@ -73,9 +79,10 @@ selected_sections = sorted(selected_sections, key=lambda x: x[1], reverse=True)
 final_sections = selected_sections[:12]
 
 # ✅ build output
-output_file = "semantic_prompt.txt"
+os.makedirs("prompts", exist_ok=True)
+output_file = "prompts/semantic_prompt.txt"
 
-with open(output_file, "w") as out:
+with open(output_file, "w", encoding="utf-8") as out:
     out.write("You are analyzing relevant document sections.\n")
     out.write("Answer using ONLY the context below.\n\n")
     out.write("QUESTION:\n")
