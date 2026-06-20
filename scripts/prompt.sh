@@ -2,7 +2,8 @@
 
 set -e
 
-OUTPUT_FILE="prompt_output.txt"
+mkdir -p prompts
+OUTPUT_FILE="prompts/prompt_output.txt"
 
 echo "🧠 Preparing prompt-ready chunks..." > $OUTPUT_FILE
 

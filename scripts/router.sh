@@ -33,7 +33,10 @@ if ls input/image/* 1> /dev/null 2>&1; then
     filename=$(basename -- "$f")
     name="${filename%.*}"
 
+    # tesseract writes "<base>.txt" by default; force .md so clean/chunk
+    # steps (which only glob output/*.md) pick it up
     docker exec markitdown tesseract "/input/image/$filename" "/output/$name"
+    docker exec markitdown bash -c "mv /output/$name.txt /output/$name.md"
   done
 fi
 

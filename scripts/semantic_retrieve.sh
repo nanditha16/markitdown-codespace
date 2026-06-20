@@ -5,15 +5,19 @@ set -e
 QUERY="$1"
 
 if [ -z "$QUERY" ]; then
-  echo "❌ Usage: ./scripts/semantic_retrieve.sh \"your question\""
+  echo "❌ Usage: ./scripts/semantic_retrieve.sh \"your question or JD text\""
   exit 1
 fi
 
-# ✅ Run semantic retrieval inside container
-docker exec markitdown python /app/scripts/semantic_retrieve.py "$QUERY"
+START=$(date +%s)
 
-# ✅ Copy to clipboard (FIXED syntax)
-if command -v pbcopy > /dev/null 2>&1; then
-  cat semantic_prompt.txt | pbcopy
-  echo "✅ Semantic prompt copied to clipboard"
-fi
+# ✅ Run two-stage semantic retrieval inside container (chunk-level → paragraph rerank)
+docker exec markitdown python /app/scripts/retrieve.py "$QUERY"
+
+END=$(date +%s)
+ELAPSED=$((END - START))
+echo "⏱️  Retrieval took ${ELAPSED}s"
+
+echo "✅ Semantic prompt saved to prompts/semantic_prompt.txt"
+echo "👉 Upload prompts/semantic_prompt.txt directly to Claude.ai (file upload,"
+echo "   not clipboard paste — pbcopy was confirmed to corrupt non-ASCII chars)."

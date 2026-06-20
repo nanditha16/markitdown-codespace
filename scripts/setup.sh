@@ -9,8 +9,12 @@ if ! docker info >/dev/null 2>&1; then
   exit 1
 fi
 
-# Build and start container
-docker compose up -d --build
+# Build and start container.
+# --force-recreate ensures volume-mount changes in docker-compose.yml (e.g.
+# the hf-cache mount) actually take effect. Without this flag, `up -d` can
+# leave an already-running container as-is even after the compose file
+# changes, silently skipping new volume mounts.
+docker compose up -d --build --force-recreate
 
 echo "✅ Docker container is running"
 
@@ -20,5 +24,5 @@ chmod +x scripts/*.sh
 echo "✅ Setup complete"
 echo ""
 echo "👉 Next steps:"
-echo "  Add files to ./input/"
-echo "  Run: ./scripts/convert.sh"
+echo "  Add files to ./input/{pdf,docx,html,image,other}/"
+echo "  Run: ./run.sh"

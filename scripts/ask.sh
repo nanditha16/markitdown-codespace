@@ -10,7 +10,8 @@ if [ -z "$QUESTION" ]; then
   exit 1
 fi
 
-OUTPUT_FILE="question_prompt.txt"
+mkdir -p prompts
+OUTPUT_FILE="prompts/question_prompt.txt"
 
 echo "🧠 Building prompt for question: $QUESTION"
 

@@ -1,0 +1,292 @@
+# Role
+You are continuing an ATS resume evaluation. In a prior pass, this resume
+was scored against the job description below (ATS Match, Technical
+Alignment, Leadership Alignment, Domain Alignment, gaps, missing
+keywords) and the resume bank was already gated for fundamental fit
+(domain/sector/stakeholder type) — this step assumes that gate passed.
+Your job now is narrower and more concrete: turn remaining findings into
+file-level, line-level edit instructions for this ONE chosen variant
+(Nanditha_Murthy_Resume_PM_Oakville_RBC).
+
+# Boundary — what paraphrasing CAN and CANNOT fix
+Paraphrasing can close PRESENTATION gaps: a real fact exists in the
+resume but isn't phrased in the JD's terminology, isn't emphasized, or is
+buried. Paraphrasing CANNOT close STRUCTURAL gaps: the JD requires a
+type of experience (a sector, a stakeholder type, a scale of
+responsibility, a credential) that has no genuine counterpart anywhere
+in the chunks below. If you encounter a structural gap while doing this
+task, do not stretch a loosely-related chunk to cover it — name it under
+"GAPS — NO MATCHING CHUNK" instead. Stretching a chunk to imply
+experience that isn't there is worse than leaving the gap visible,
+because it sets up a claim the candidate can't actually back up in an
+interview.
+
+# Task
+For each recommendation you would make to improve this resume's match to
+the JD:
+1. Identify the SPECIFIC chunk file (from the inventory below) that
+   contains the relevant section.
+2. Quote the exact current text from that file.
+3. Propose a minimal paraphrase — reword/reorder/re-emphasize using the
+   JD's terminology where the underlying fact genuinely matches. Do not
+   add any skill, tool, metric, employer, or outcome not already present
+   in that chunk.
+4. If a JD requirement has no corresponding fact in ANY chunk below, say
+   so explicitly under "GAPS — NO MATCHING CHUNK" rather than inventing
+   one or forcing a weak chunk to stand in for it.
+
+# Constraints — DO NOT BREAK THESE
+- Every edit must cite the exact filename it applies to.
+- Every edit must preserve all numbers exactly (years, percentages,
+  dollar amounts, team sizes).
+- Minimal paraphrase only — this is not a rewrite-everything pass. If a
+  chunk already matches the JD's language well, say so and leave it alone
+  rather than changing it for the sake of changing it.
+- Do not propose a paraphrase for a structural gap (see Boundary above).
+  A reworded sentence that implies experience the candidate doesn't have
+  is a worse outcome than an honestly named gap.
+
+# Output Format
+
+## Edits by File
+For each chunk file that needs a change:
+
+### FILE: [filename]
+Current: [exact quoted text]
+Paraphrase: [minimal reworded version]
+Why: [which JD requirement/keyword this addresses]
+
+## Chunks Requiring No Change
+List filenames that already match the JD well — explicitly confirming
+"leave as-is" prevents unnecessary edits.
+
+## GAPS — NO MATCHING CHUNK
+JD requirements with no supporting fact in any chunk below, including
+any that are structural (not fixable by paraphrase) rather than
+presentational. Distinguish the two explicitly if both types appear.
+
+---
+
+# JOB DESCRIPTION
+Principal Program Manager
+Apply
+Logo locations
+Toronto, ON time type
+Full time posted on
+Posted 2 Days Ago job requisition id
+R109584
+Pour obtenir une traduction en français de l’offre d’emploi suivante, veuillez envoyer un courriel à careers@ontariohealth.ca. Les demandes seront traitées dans un délai de trois jours ouvrables et la période de dépôt des demandes sera prolongée de trois jours.
+
+To obtain a French translation of the following job posting, please email careers@ontariohealth.ca. Requests will be addressed within three business days, and the application window will be extended by three business days.
+
+At Ontario Health, we are committed to developing a strong organizational culture that connects and inspires all team members across the province. Our vision is that together, we will be a leader in health and wellness for all. Our mission is to connect the health system to drive improved and equitable health outcomes, experiences and value. How we work together is reflected through our five values: integrity, inspiration, tenacity, humility and care.
+
+What Ontario Health offers:
+
+At Ontario Health, your growth and well-being aren’t just supported—they’re celebrated every step of the way. Here, you have the opportunity to make a meaningful impact while shaping a fulfilling and sustainable career. Based on your role, you may receive:
+
+Comprehensive health coverage from day one, with fully paid medical, dental, and vision benefits to support you and your family’s health
+Flexible health care or wellness spending accounts, plus an inclusive program to support your overall well-being
+A premium defined benefit pension plan, ensuring long-term financial security
+Competitive vacation entitlement that encourages time to rest and recharge
+Three personal days and two float days annually, providing added flexibility to support work-life balance, in addition to vacation days
+Ongoing learning and career development opportunities designed to help you grow, advance, and thrive in your profession
+A collaborative, values-driven workplace where integrity, care, humility, inspiration, and tenacity shape everything we do
+Opportunities to participate in Communities of Inclusion, fostering belonging, equity, and the sharing of diverse perspectives across our team
+
+Want to make a difference in your career?  Consider this opportunity.
+
+Ontario Health is advancing a connected and digitally enabled health system to improve care delivery across the province. As a Principal Program Manager, you will provide strategic and execution leadership for a high-impact, province-wide program aligned with Ontario Health’s priorities and Digital Excellence in Health (DxH) operating model.
+
+In this role, you will lead the development and execution of program strategy, operating plans, and funding approaches to support successful delivery. You will work closely with senior leaders, government partners, and health system stakeholders to drive alignment, engagement, and outcomes across complex initiatives. This role also emphasizes broad partner enablement, cross-regional communication, and driving adoption and value realization of digital services, ensuring partners feel informed, supported, and equipped to support program objectives.
+
+This is a unique opportunity to influence system-wide change, enable digital health transformation, and contribute to improving access, quality, and experiences for patients and providers across Ontario.
+
+Here is what you would be doing:
+
+Lead the development and execution of program strategy, including business plans, operating models, and funding proposals
+
+Provide thought leadership to drive program direction and ensure alignment with Ontario Health’s strategic priorities
+
+Engage and collaborate with senior stakeholders across Ontario Health, Ministry partners, and the broader health system
+
+Lead change management initiatives, including the development of frameworks and practices to support adoption and behavioural change
+
+Drive province-wide program outcomes, ensuring stakeholders are informed, engaged, and supported in delivering initiatives
+
+Establish performance measurement approaches to evaluate program success and outcomes
+
+Provide strategic advice and client service to internal teams and external partners, including government stakeholders
+
+Coach and influence executives, program stakeholders, and partners to support effective program execution
+
+Build strong, collaborative relationships to align multiple stakeholders and drive consensus
+
+Lead complex decision-making with significant organizational impact, ensuring sustainable, long-term outcomes
+
+Here is what you will need to be successful:
+
+Education and Experience
+
+Bachelor’s or Master’s degree, in Business, Health Studies, Public Administration or related field, or equivalent experience
+
+Project Management, or related professional designation as asset
+
+10+ years of project and/or program management experience in the healthcare sector, managing complex, large-scale, matrixed, high-profile programs
+
+Broad experience overseeing large, complex initiatives at the intersection of health and technology
+
+Comprehensive understanding of Ontario’s healthcare system, provincial strategy, and healthcare environment
+
+Experience in health system planning and performance evaluation
+
+Understanding of the digital health landscape in Ontario is an asset
+
+Strong knowledge of Project Management LifeCycle and Software Development LifeCycle, including Agile/Scrum methodologies
+
+Knowledge and skills
+
+Excellent critical thinking, analytical, and decision-making skills in complex, high-pressure environments
+
+Strong communication and presentation skills, with the ability to engage diverse audiences effectively
+
+Ability to build and maintain strategic relationships with government, healthcare leaders, and key stakeholders
+
+Strong leadership, interpersonal, and change management skills, with the ability to work independently
+
+Ability to lead effective meetings and drive productive outcomes
+
+Strategic mindset with a strong systems-level perspective
+
+Results-oriented with a strong sense of accountability and ownership
+
+High emotional intelligence, with the ability to navigate complex stakeholder environments and diverse perspectives
+
+Ability to communicate complex concepts clearly to large and varied audiences
+
+Ability to remain composed and effective under pressure
+
+Strong political acuity and ability to navigate government environments
+
+Advanced proficiency in computer applications, including project management tools, MS Office, and collaboration platforms
+
+#LI-MB1
+
+Location: Toronto, Ontario
+
+Employment Type:
+
+Permanent Full time
+Contract Length:
+
+N/A
+Salary Band:
+
+Band 8
+External Application Deadline Date:
+
+July 2, 2026
+All applicants must be a resident of Ontario to be considered for roles at Ontario Health.
+
+Ontario Health encourages applications from candidates who are First Nations, Métis, Inuit, and urban Indigenous; Francophone; members of Black and racialized groups; 2SLGBTQIA+ communities; trans and nonbinary individuals; and people living with disabilities.
+
+Ontario Health is an accessible employer, and we offer accommodation in all aspects of employment, including the recruitment process. If you require a disability related accommodation in order to participate in the recruitment process, please email careers@ontariohealth.ca and a member of the team will connect with you within 48 hours.
+
+---
+
+# CHUNK INVENTORY — variant: Nanditha_Murthy_Resume_PM_Oakville_RBC (built by smart_chunk.sh)
+
+
+### FILE: Nanditha_Murthy_Resume_PM_Oakville_RBC_part_1.md
+NANDITHA S MURTHY
+
+Senior Program Manager | AI & Digital Transformation | Financial Services & Regulated Platforms
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+### FILE: Nanditha_Murthy_Resume_PM_Oakville_RBC_part_2.md
+SUMMARY
+
+Senior Program Manager with 13+ years leading AI and digital transformation programs in regulated financial services and healthcare. Guided end-to-end execution of large-scale, cross-functional programs spanning 8+ lines of business at a major Canadian bank, partnering with risk, compliance, product, and architecture leadership to deliver $1B+/day platforms with zero audit violations. Currently directing delivery of a GenAI healthcare platform - multi-agent orchestration, governance, and executive/investor communication. Deep understanding of AI/ML and GenAI systems paired with strong change management and executive storytelling.
+
+### FILE: Nanditha_Murthy_Resume_PM_Oakville_RBC_part_3.md
+CORE COMPETENCIES
+
+Program Management · AI & Digital Transformation · Executive Presentations & Storytelling · Business Case
+Development · Change Management · Matrixed Stakeholder Leadership · Budgeting & Resource Planning · Risk &
+Compliance Navigation · Agile/SAFe.
+
+### FILE: Nanditha_Murthy_Resume_PM_Oakville_RBC_part_4.md
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG
+Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+### FILE: Nanditha_Murthy_Resume_PM_Oakville_RBC_part_5.md
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  Audit & Compliance Excellence: Zero audit violations across four consecutive quarters; 100% PCI audit compliance across multi-tenant financial services clients.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+### FILE: Nanditha_Murthy_Resume_PM_Oakville_RBC_part_6.md
+PROFESSIONAL EXPERIENCE
+
+Technical Director — Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment.
+-  Implemented environment-based feature flags and phased rollout configuration across dev/staging/production, enabling safe, incremental AI feature delivery.
+-  Developed investor-ready business cases, delivery roadmaps, and executive communications for an AI platform, driving decision-making across CEO/CTO, advisors, and external stakeholders.
+Technical Lead / Technical Program Manager — TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Led AI/digital transformation and modernization programs across a matrixed organization - partnering with risk, compliance, and procurement-adjacent functions to secure approvals and remove delivery roadblocks, accelerating time-to-market 35%.
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks, driving continuous improvement across delivery workflows.
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+
+-  Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while maintaining compliance standards.
+-  Reduced compliance and roadmap risk 25% through data/consent service POCs and proactive risk assessment across program milestones; accelerated time-to-market 35% through stakeholder alignment across product, risk, and architecture.
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100% audit compliance.
+-  Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President - Global Markets Technology (Futures & Options Execution) — Citi Mississauga, ON | Feb 2020 –
+Jul 2021
+-  Owned execution and reliability for global futures and options platforms; led change management for business-critical enhancements, accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst — Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer — Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+### FILE: Nanditha_Murthy_Resume_PM_Oakville_RBC_part_7.md
+SELECTED PROJECT
+
+Bumblebee Beats / EmoConnect — Zero Trust AI wellness platform | Feb 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement) where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+
+### FILE: Nanditha_Murthy_Resume_PM_Oakville_RBC_part_8.md
+EDUCATION
+
+Master of Science, Computer Science — San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication — SJB Institute of Technology (VTU) B angalore, India | 2005 – 2009
+
+### FILE: Nanditha_Murthy_Resume_PM_Oakville_RBC_part_9.md
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+
+---
+Now produce the file-level edit recommendations following the format
+above.
