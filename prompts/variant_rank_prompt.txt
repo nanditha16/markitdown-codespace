@@ -96,134 +96,240 @@ candidate doesn't waste a Stage 2 evaluation on them.
 ---
 
 # JOB DESCRIPTION
-Principal Program Manager
-Apply
-Logo locations
-Toronto, ON time type
+Senior Program Manager
+Apply locations
+San Diego
+Los Angeles time type
 Full time posted on
-Posted 2 Days Ago job requisition id
-R109584
-Pour obtenir une traduction en français de l’offre d’emploi suivante, veuillez envoyer un courriel à careers@ontariohealth.ca. Les demandes seront traitées dans un délai de trois jours ouvrables et la période de dépôt des demandes sera prolongée de trois jours.
+Posted 17 Days Ago job requisition id
+JR-118671
+Sony Corporation of America, located in New York, NY, is the U.S. headquarters of Sony Group Corporation, based in Tokyo, Japan. Sony's principal U.S. businesses include Sony Electronics Inc., Sony Interactive Entertainment LLC, Sony Music Entertainment, Sony Music Publishing and Sony Pictures Entertainment Inc. With some 900 million Sony devices in hands and homes worldwide today, a vast array of Sony movies, television shows and music, and the PlayStation Network, Sony creates and delivers more entertainment experiences to more people than anyone else on earth. To learn more: www.sony.com/en.
 
-To obtain a French translation of the following job posting, please email careers@ontariohealth.ca. Requests will be addressed within three business days, and the application window will be extended by three business days.
+Sony Corporation of America (SCA) is seeking a Senior Program Manager to join the Digital Transformation (DX) Office based in San Diego or Los Angeles CA. The DX Office leads enterprise wide digital initiatives that reshape how Sony operates, serves customers, and creates value across global business units. This role goes beyond program coordination — it is a strategic leadership position responsible for translating business strategy into executable, measurable transformation outcomes. The Senior Program Manager will lead high-visibility, cross-functional global programs that modernize platforms, enable new business models, and drive operational excellence.
 
-At Ontario Health, we are committed to developing a strong organizational culture that connects and inspires all team members across the province. Our vision is that together, we will be a leader in health and wellness for all. Our mission is to connect the health system to drive improved and equitable health outcomes, experiences and value. How we work together is reflected through our five values: integrity, inspiration, tenacity, humility and care.
+You will serve as the orchestrator across business, product, data, and technology leaders, ensuring alignment, governance, risk management, and delivery of measurable business impact — not just project completion.
 
-What Ontario Health offers:
+This position is a hybrid role requiring 2-3 days on-site in the San Diego or Los Angeles Office.
 
-At Ontario Health, your growth and well-being aren’t just supported—they’re celebrated every step of the way. Here, you have the opportunity to make a meaningful impact while shaping a fulfilling and sustainable career. Based on your role, you may receive:
 
-Comprehensive health coverage from day one, with fully paid medical, dental, and vision benefits to support you and your family’s health
-Flexible health care or wellness spending accounts, plus an inclusive program to support your overall well-being
-A premium defined benefit pension plan, ensuring long-term financial security
-Competitive vacation entitlement that encourages time to rest and recharge
-Three personal days and two float days annually, providing added flexibility to support work-life balance, in addition to vacation days
-Ongoing learning and career development opportunities designed to help you grow, advance, and thrive in your profession
-A collaborative, values-driven workplace where integrity, care, humility, inspiration, and tenacity shape everything we do
-Opportunities to participate in Communities of Inclusion, fostering belonging, equity, and the sharing of diverse perspectives across our team
+POSITION SUMMARY
 
-Want to make a difference in your career?  Consider this opportunity.
+What You Will Own
+You will be accountable for end-to-end program leadership, from strategy alignment through value realization.
 
-Ontario Health is advancing a connected and digitally enabled health system to improve care delivery across the province. As a Principal Program Manager, you will provide strategic and execution leadership for a high-impact, province-wide program aligned with Ontario Health’s priorities and Digital Excellence in Health (DxH) operating model.
+Strategic Program Leadership
+-  Lead a portfolio of enterprise digital transformation programs spanning multiple business units, regions, and technology domains
+-  Translate corporate and business strategy into roadmaps, investment priorities, and execution plans
+-  Drive initiatives that transform customer experience, business models, data capabilities, and operational processes
+-  Ensure programs deliver measurable business outcomes (revenue growth, cost efficiency, speed-to-market, customer impact)
 
-In this role, you will lead the development and execution of program strategy, operating plans, and funding approaches to support successful delivery. You will work closely with senior leaders, government partners, and health system stakeholders to drive alignment, engagement, and outcomes across complex initiatives. This role also emphasizes broad partner enablement, cross-regional communication, and driving adoption and value realization of digital services, ensuring partners feel informed, supported, and equipped to support program objectives.
+Cross-Functional & Executive Alignment
+-  Act as the primary program lead, partnering with Senior Leadership, Business Innovation, Product, Engineering, Data, Legal, and Operations
+-  Facilitate decision-making across competing priorities, trade-offs, and constraints
+-  Lead executive-level governance forums, including steering committees and program reviews
+-  Communicate complex program status, risks, and strategic implications in a clear, business focused manner
 
-This is a unique opportunity to influence system-wide change, enable digital health transformation, and contribute to improving access, quality, and experiences for patients and providers across Ontario.
+Execution Excellence at Scale
+-  Own delivery of large, complex, interdependent programs across globally distributed teams
+-  Manage scope, timelines, budgets, resource planning, and release coordination
+-  Proactively identify and manage cross-program dependencies, risks, and systemic constraints
+-  Establish program structures, cadences, and operating rhythms that enable predictable delivery
 
-Here is what you would be doing:
+Value Realization & Operational Readiness
+-  Ensure solutions are not only built, but adopted and operationalized
+-  Partner with business stakeholders on: o Change management o Process redesign o Go-to-market readiness o Go/No-Go release decisions
+-  Define and track KPIs and success metrics tied to business value
 
-Lead the development and execution of program strategy, including business plans, operating models, and funding proposals
+Governance & Continuous Improvement
+-  Establish scalable program management practices, tools, and standards across the DX organization
+-  Drive continuous improvement in delivery models, cross-team collaboration, and execution efficiency
+-  Mentor junior program/project managers and elevate program management maturity across the organization
 
-Provide thought leadership to drive program direction and ensure alignment with Ontario Health’s strategic priorities
+​Honesty, trustworthiness and ethical conduct are material requirements for the responsibilities outlined above
 
-Engage and collaborate with senior stakeholders across Ontario Health, Ministry partners, and the broader health system
 
-Lead change management initiatives, including the development of frameworks and practices to support adoption and behavioural change
+QUALIFICATIONS FOR POSITION
 
-Drive province-wide program outcomes, ensuring stakeholders are informed, engaged, and supported in delivering initiatives
 
-Establish performance measurement approaches to evaluate program success and outcomes
+Your qualifications and experience should include:
 
-Provide strategic advice and client service to internal teams and external partners, including government stakeholders
 
-Coach and influence executives, program stakeholders, and partners to support effective program execution
+EXPERIENCE
 
-Build strong, collaborative relationships to align multiple stakeholders and drive consensus
+-  10+ years of progressive program management experience, including leading large-scale, complex digital or technology programs
+-  Proven success track in PMO roles at a top tech organization
+-  Direct program management experience in AI initiatives, cloud, data, commerce and/or identity management strongly preferred
+-  Proven track record managing: o Cross-functional, cross-regional programs o Multi-team dependencies o High-visibility, business-critical initiatives
+-  Experience working directly with senior executives and steering committees
 
-Lead complex decision-making with significant organizational impact, ensuring sustainable, long-term outcomes
+Program & Delivery Expertise
+-  Deep expertise in: o Program governance o Risk and dependency management o Financial and resource planning o Release and operational readiness planning
+-  Strong understanding of the software development lifecycle, release management, and iterative delivery models
+-  Experience integrating modern technologies (data platforms, analytics, digital platforms, automation, etc.) into business processes
 
-Here is what you will need to be successful:
+Business & Strategic Acumen
+-  Ability to connect technical delivery to business strategy and financial impact
+-  Experience supporting go-to-market planning, product launches, or business model enablement
+-  Strong decision-making capability in ambiguous, fast-changing environments
+Communication & Leadership
+-  Exceptional ability to influence without authority across diverse teams
+-  Executive-level communication and storytelling skills
+-  Strong facilitation, negotiation, and conflict resolution capabilities
+-  High integrity, professionalism, and ethical conduct
 
-Education and Experience
+Education
+-  Bachelor’s degree required
+-  Top-tier MBA or equivalent business-related advanced degree strongly preferred
 
-Bachelor’s or Master’s degree, in Business, Health Studies, Public Administration or related field, or equivalent experience
+Tools
+-  Experience with collaboration and program tools such as Jira, Confluence, MS Project, SharePoint, Teams, or equivalent.
 
-Project Management, or related professional designation as asset
+PREFERRED SKILLS:
+-  Experience working in global, multicultural environments
+-  Experience across both Agile and Waterfall methodologies
+-  Domain experience in one or more areas:
+-  Data & analytics
+-  Digital commerce
+-  Fraud prevention, risk management, or trust & safety systems
+-  Familiarity with Japanese language and/or business culture
 
-10+ years of project and/or program management experience in the healthcare sector, managing complex, large-scale, matrixed, high-profile programs
+We are committed to creating an inclusive employee experience for you to thrive as part of Sony’s purpose to “fill the world with emotion through the power of creativity and technology.”
 
-Broad experience overseeing large, complex initiatives at the intersection of health and technology
+Benefits:
 
-Comprehensive understanding of Ontario’s healthcare system, provincial strategy, and healthcare environment
+SCA offers benefits-eligible employees (generally regular employees scheduled to work 20 or more hours a week) a comprehensive benefits program that offers coverage and support for employees and their family’s physical, emotional, and financial well-being.
 
-Experience in health system planning and performance evaluation
+What we offer you:
 
-Understanding of the digital health landscape in Ontario is an asset
+Comprehensive medical, prescription drug, dental, and vision coverage with coverage for spouses/domestic partners and child dependents, including access to a Health Savings Account (HSA) and Flexible Spending Account (FSA)
+Employee assistance plan and comprehensive behavioral health benefits
+Fertility benefits, including surrogacy, and adoption assistance programs
+Basic and supplemental life insurance for employees as well as supplemental life insurance coverage for their spouses/domestic partners and children
+Voluntary benefits such as group legal, identity theft protection, accident, and hospital indemnity insurance
+Short-term & long-term disability plans · Paid parental and caregiver leave
+401(k) Plan with pre-tax, Roth, and after-tax options and company match with immediate vesting
+Education assistance and student loan programs
+Other Programs:
 
-Strong knowledge of Project Management LifeCycle and Software Development LifeCycle, including Agile/Scrum methodologies
+Flexible Work Arrangements, including remote and hybrid work schedules
+Time off to include vacation, paid holidays, sick leave, Summer Fridays (early release), and a winter break between Christmas and New Year’s Day (based on business needs)
+Referral bonuses (subject to eligibility)
+Matching gift program
+A wide variety of employee business resource groups (EBRGs)
+Special discounts on Sony products, offered exclusively to Sony employees
+Employee stock purchase plan (Sony covers commissions and fees for your Sony stock purchases made through after-tax payroll deductions) · Annual incentive bonus
+The anticipated annual base salary for this position is $150,000 to $170,000. In addition to the annual base salary, this role has an annual bonus target of 17%. This range does not include any other compensation components or other benefits that an individual may be eligible for. The actual base salary offered depends on a variety of factors, which may include as applicable, the qualifications of the individual applicant for the position, years of relevant experience, specific and unique skills, level of education attained, certifications or other professional licenses held, and the location in which the applicant lives and/or from which they will be performing the job.
 
-Knowledge and skills
+#LI-BC1
 
-Excellent critical thinking, analytical, and decision-making skills in complex, high-pressure environments
+SCA will consider qualified applicants with arrest or conviction records in accordance with applicable law.
 
-Strong communication and presentation skills, with the ability to engage diverse audiences effectively
+All qualified applicants will receive consideration for employment without regard to any basis protected by applicable federal, state, or local law, ordinance, or regulation.
 
-Ability to build and maintain strategic relationships with government, healthcare leaders, and key stakeholders
+Disability Accommodation for Applicants to Sony Corporation of America
 
-Strong leadership, interpersonal, and change management skills, with the ability to work independently
+Sony Corporation of America provides reasonable accommodation for qualified individuals with disabilities and disabled veterans in job application procedures. For reasonable accommodation requests, please contact us by email at careers@sonyusa.com or by mail to: Sony Corporation of America, People Experience Department, 25 Madison Avenue, New York, NY 10010. Please indicate the position you are applying for.
 
-Ability to lead effective meetings and drive productive outcomes
+We are aware that unauthorized individuals or organizations may attempt to solicit personal information or payments from job applicants by impersonating our company through fraudulent job postings. We take these matters seriously but cannot control third-party websites. To protect your personal information, please verify that any job posting you respond to also appears on our official Careers page: www.sonyjobs.com. Please also be advised that we never request personal identifying information (such as Social Security numbers, bank details, or copies of identification documents) during the initial stages of our application process. If you have any doubts about the authenticity of a job posting or communication, please contact careers@sonyusa.com before submitting any information.
 
-Strategic mindset with a strong systems-level perspective
+Right to Work (English/Spanish)
 
-Results-oriented with a strong sense of accountability and ownership
-
-High emotional intelligence, with the ability to navigate complex stakeholder environments and diverse perspectives
-
-Ability to communicate complex concepts clearly to large and varied audiences
-
-Ability to remain composed and effective under pressure
-
-Strong political acuity and ability to navigate government environments
-
-Advanced proficiency in computer applications, including project management tools, MS Office, and collaboration platforms
-
-#LI-MB1
-
-Location: Toronto, Ontario
-
-Employment Type:
-
-Permanent Full time
-Contract Length:
-
-N/A
-Salary Band:
-
-Band 8
-External Application Deadline Date:
-
-July 2, 2026
-All applicants must be a resident of Ontario to be considered for roles at Ontario Health.
-
-Ontario Health encourages applications from candidates who are First Nations, Métis, Inuit, and urban Indigenous; Francophone; members of Black and racialized groups; 2SLGBTQIA+ communities; trans and nonbinary individuals; and people living with disabilities.
-
-Ontario Health is an accessible employer, and we offer accommodation in all aspects of employment, including the recruitment process. If you require a disability related accommodation in order to participate in the recruitment process, please email careers@ontariohealth.ca and a member of the team will connect with you within 48 hours.
+E-Verify Participation (English/Spanish)
 
 ---
 
-# RESUME VARIANTS (20 total)
+# RESUME VARIANTS (21 total)
 
+
+### VARIANT: Nanditha_Murthy_Resume.md
+NANDITHA S MURTHY
+
+Senior Technical Program Manager | Cross-Functional Platform Delivery | Privacy, Security & AI-Enabled Execution
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Senior Technical Program Manager with 13+ years driving end-to-end technical programs from inception to delivery across matrixed organizations, defining roadmaps, gathering requirements, and aligning cross-functional engineering, product, and business teams to ship measurable impact at scale, from large-scale enterprise platforms to pre-seed startup delivery. Deep experience in privacy and security product delivery: built HIPAA/GDPR/PHIPA-governed AI systems with human-in-the-loop safety gates, multi-agent orchestration, and consent enforcement. Hands-on software engineering background (Java, Spring Boot, distributed systems) underpins technical credibility with engineering teams.
+
+CORE COMPETENCIES
+
+Technical Program Management · End-to-End Product Delivery (Inception to Launch) · Privacy & Security Product Adoption · Cross-
+Functional Matrix Org Execution · Roadmap & Requirements Definition · Dependency Management & Risk Mitigation · AI Agent
+Orchestration & Prompt Engineering · Multi-Timezone Distributed Team Coordination · Metrics & Impact Measurement
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2, Step Functions), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, Kafka, JMS, Redis
+AI & Automation: Amazon Bedrock, Azure AI Foundry, RAG Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM), Multi-Agent Orchestration (AWS Step Functions)
+Methods & Tools: Jira, Confluence, Postman, Swagger, Agile / Scrum / SAFe
+
+CAREER HIGHLIGHTS
+
+End-to-End Delivery Ownership: Drove technical programs from inception through production across 8+ lines of business, delivering
+99.99%uptime platforms supporting $1B+ daily transactions.
+Privacy & Security Product Adoption: Architected HIPAA/GDPR/PHIPA-governed multi-agent AI systems with human-in-the-loop safety gates —no output reaches users without passing all safety stages.
+AI Agent Orchestration: Built and deployed production multi-agent orchestration on AWS Step Functions integrating Bedrock for intent classification, tool-use, and human-in-the-loop callbacks.
+Cross-Functional Execution: Led globally distributed engineering teams across multiple time zones, sustaining 95% sprint predictability and zero rollbacks across 15+ concurrent initiatives.
+Requirements to Roadmap: Defined product requirements, scope, and phased roadmaps across 79+ user stories with measurable safety/ quality exit criteria.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform)
+Remote | Dec 2025 – Present
+Define product roadmap and long-term strategy for a privacy-first, AI-enabled healthcare platform, gathering requirements and scoping features from concept through production in partnership with CTO/CEO.
+Designed human-in-the-loop (HITL) review and approval workflows ensuring no AI output reaches users without passing safety and compliance gates, directly addressing privacy/security product adoption challenges.
+Built multi-agent AI orchestration architecture (data isolation, auditability, HIPAA/GDPR compliance) coordinating AI agents, human reviewers, and automated systems across end-to-end workflows.
+Use AI tools daily for prompt engineering, agent orchestration, and requirements drafting, integrating AI to optimize and redesign delivery workflows for measurable efficiency gains .
+Technical Lead / Technical Program Manager - TD Bank (via Wipro)
+Mississauga, ON | Aug 2021 – Apr 2025
+Defined, planned, and executed large-scale technical programs from inception to delivery for a mission-critical platform serving 8+ lines of business, establishing roadmap, scope, and requirements across matrixed stakeholders.
+Led a globally distributed team of 7 engineers across multiple time zones, delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks.
+Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; identified cross-team dependencies and built mitigation strategies for platform-wide initiatives.
+Established metrics and program health indicators tracked against quarterly OKRs, providing ongoing status, risk, and issue communication to senior stakeholders.
+Led change impact analysis across 8+ teams during major platform transformations, achieving zero Sev-1 incidents through proactive dependency and risk management.
+
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi
+Mississauga, ON | Feb 2020 – Jul 2021
+Owned execution and reliability for global futures and options platforms with hands-on technical ownership (Java, Spring Boot, JMS,
+MongoDB); established work relationships across multi-disciplinary teams and external partners.
+Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20%.
+Established quality standards through code reviews and test strategy; coordinated consultants and vendor partners for predictable backlog delivery.
+Technology Analyst - Apple Inc (via Infosys)
+Bangalore, India | Jul 2016 – Sep 2019
+Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST) processing millions of subscription transactions daily, owning requirements elicitation and end-to-end solution design.
+Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom
+San Diego, CA | Nov 2014 – Sep 2015
+Developed and validated the Bluetooth Low Energy interface for the G-series Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Participated in verification and validation (V&V) activities aligned with FDA medical-device workflows, strengthening data integrity, defect detection, and audit readiness.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform
+Feb 2025 – Present
+Architected and deployed a production multi-agent safety pipeline on AWS Step Functions (crisis detection, OPA consent enforcement,
+LLM inference via Bedrock, governed self-improvement) — no output reaches users without passing all safety stages.
+Built supervisor agent pattern with synchronous child state machine execution, HITL via task-token callbacks, and CloudFormation IaC deployment; defined 79 user stories with safety invariants as measurable exit criteria.
+
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) | 2005 – 2009
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile, 2024) AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google Project
+Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (New York, NY)
+
+---
 
 ### VARIANT: Nanditha_Murthy_Resume_ Anthropic.md
 NANDITHA S MURTHY

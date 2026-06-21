@@ -1,0 +1,48 @@
+### File-Level Edit Recommendations
+
+---
+
+**FILE: Resume Structure & Readability (Deloitte 2)**  
+- **Issue:** Use of all caps for job titles and roles can make text harder to read.  
+  - **Recommendation:** Change "TECHNICAL DIRECTOR" to "Technical Director".  
+
+- **Issue:** Lack of consistent spacing between sections.  
+  - **Recommendation:** Add line breaks or section headers (e.g., **Professional Experience**, **Education**) for better readability.
+
+---
+
+**FILE: Resume Structure & Readability (Deloitte 1)**  
+- **Issue:** Job titles and companies are not consistently formatted (some italicized, some bolded).  
+  - **Recommendation:** Align all job titles and companies with consistent formatting (e.g., bold text or italics).  
+
+---
+
+**FILE: Professional Experience (Deloitte 2)**  
+- **Issue:** Dense blocks of text without clear separation between different roles.  
+  - **Recommendation:** Break down the content into smaller, digestible chunks with proper spacing and section headings.  
+
+---
+
+**FILE: Professional Experience (Deloitte 1)**  
+- **Issue:** Dates are placed after company names in some cases but not others (e.g., "Wipro | Aug 2021 – Present").  
+  - **Recommendation:** Standardize date placement by moving dates to the end of each line.  
+
+---
+
+**FILE: Professional Experience (Deloitte 3)**  
+- **Issue:** Bullet points are inconsistently formatted and overly dense.  
+  - **Recommendation:** Shorten bullet points for readability and ensure consistent formatting across all entries.  
+
+---
+
+**FILE: Education & Certifications (Deloitte)**  
+- **Issue:** "MSc." is redundant after "Master of Science".  
+  - **Recommendation:** Remove "MSc." from education entries for conciseness.  
+
+---
+
+**FILE: AI Platform Project (Deloitte)**  
+- **Issue:** Dense text without clear separation between different aspects of the project.  
+  - **Recommendation:** Break down the content into shorter, bullet-pointed sections with subheadings.  
+
+---

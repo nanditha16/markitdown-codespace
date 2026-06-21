@@ -54,70 +54,14 @@ echo "     3. ./scripts/smart_chunk.sh"
 echo "     4. rm -f chunks/<jd_basename>_part_*.md          # ← the manual step: drop JD chunks before Stage 2/3"
 echo "     5. ./scripts/ats_optimize.sh \"<jd>\" \"output/<chosen>.md\""
 echo "     6. ./scripts/ats_recommend.sh \"<jd>\" \"<variant_name>\""
+echo "   All generated prompt files (ats_prompt.txt, cover_letter_prompt.txt,"
+echo "   variant_rank_prompt.txt, ats_recommend_prompt.txt, semantic_prompt.txt)"
+echo "   are saved under prompts/, not the project root."
+echo ""
 echo "   NOTE: point these at output/*.md (post-clean), not input/*.txt —"
 echo "   the input/ version hasn't had encoding/mojibake cleanup applied yet."
-# ./scripts/cover_letter.sh "output/JD1.md" "output/Nanditha_Murthy_Resume.md"
-
-
 echo "   Convert and md file to pdf"
-#./scripts/md_to_pdf.sh "output/cover/JD1_cover.md"
-
-
-#./scripts/variant_rank.sh  "output/JD1.md" "output/resume"
-
-
-# computes cosine similarity between just two of your resumes and prints the raw value,
-#
-#docker exec markitdown python3 -c "
-#from sentence_transformers import SentenceTransformer
-#import numpy as np
-#import re
-#
-#BOILERPLATE_HEADINGS = ['core competencies', 'technical stack', 'education', 'certifications', 'work authorization']
-#HEADING_PATTERN = re.compile(r'^([A-Z][A-Z ]+)\$|^#{1,6}\s+(.+)\$')
-#
-#def extract_role_specific_sections(text):
-#    lines = text.split('\n')
-#    sections = []
-#    current_heading = None
-#    current_body = []
-#    for line in lines:
-#        stripped = line.strip()
-#        match = HEADING_PATTERN.match(stripped) if stripped else None
-#        if match:
-#            if current_heading is not None:
-#                sections.append((current_heading, current_body))
-#            current_heading = (match.group(1) or match.group(2)).strip()
-#            current_body = []
-#        else:
-#            current_body.append(line)
-#    if current_heading is not None:
-#        sections.append((current_heading, current_body))
-#    if not sections:
-#        return text
-#    kept = []
-#    for heading, body in sections:
-#        if not any(b in heading.lower() for b in BOILERPLATE_HEADINGS):
-#            kept.append(heading)
-#            kept.extend(body)
-#    result = '\n'.join(kept).strip()
-#    return result if result else text
-#
-#model = SentenceTransformer('all-MiniLM-L6-v2')
-#
-#jd = open('/app/output/JD1.md', encoding='utf-8').read()
-#r1_full = open('/app/output/resume/Nanditha_Murthy_Resume_PM_Oakville_RBC.md', encoding='utf-8').read()
-#r2_full = open('/app/output/resume/Nanditha_Murthy_Resume_TPM_grow_therapy.md', encoding='utf-8').read()
-#
-#r1 = extract_role_specific_sections(r1_full)
-#r2 = extract_role_specific_sections(r2_full)
-#
-#print('RBC: original', len(r1_full), 'chars -> filtered', len(r1), 'chars')
-#print('Grow Therapy: original', len(r2_full), 'chars -> filtered', len(r2), 'chars')
-#print()
-#
-#emb = model.encode([jd, r1, r2], normalize_embeddings=True)
-#print('JD vs RBC (filtered):', np.dot(emb[0], emb[1]))
-#print('JD vs Grow Therapy (filtered):', np.dot(emb[0], emb[2]))
-#print('RBC vs Grow Therapy (filtered, resume-to-resume):', np.dot(emb[1], emb[2]))
-#"
+echo ""
+echo "   Or run all 6 stages automatically (local Ollama, swappable model,"
+echo "   warns before auto-running multi-document stages):"
+echo "     ./scripts/ats_workflow.sh \"output/JD.md\" \"output/resume\" --model llama3.1:8b"

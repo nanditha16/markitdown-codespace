@@ -1,0 +1,29 @@
+Based on the provided text, I will perform the initial Stage 0 evaluation to determine the fit between Nanditha Murthy's qualifications and the requirements for a Senior Technical Program Manager position at eBay.
+
+**Stage 0 Evaluation**
+
+Nanditha Murthy has over 13 years of experience in technical program management, with expertise in areas such as DevOps, platform scalability and reliability, security process, and AI-native agentic systems. The provided text highlights her achievements in:
+
+* Achieving 99.99% uptime for API platforms supporting $1B+ daily transactions
+* Zero audit violations across four consecutive quarters
+* Increasing release velocity 5× through CI/CD and governance pipeline automation
+* Reducing onboarding time by 60%
+* Defining project governance frameworks for PCI-compliant deployment strategies
+
+Considering these achievements, the Stage 0 evaluation yields a:
+
+**GOOD FIT**
+
+Reasoning: Nanditha Murthy's extensive experience in technical program management, combined with her success in achieving high uptime, reducing audit violations, and improving release velocity, suggests that she has the necessary skills and expertise to excel as a Senior Technical Program Manager at eBay.
+
+Since Stage 0 indicates a GOOD FIT, I will proceed to provide an abbreviated ranking for Stage 1. Please note that this ranking is based solely on the provided text and may not reflect the full scope of Nanditha Murthy's qualifications or the specific requirements of the position.
+
+**Stage 1 Abbreviated Ranking (GOOD FIT)**
+
+Based on the Stage 0 evaluation, I rank Nanditha Murthy as follows:
+
+1. **Strong Technical Program Management Skills**: Demonstrated expertise in DevOps, platform scalability and reliability, security process, and AI-native agentic systems.
+2. **High Achievements**: Consistently achieved high uptime, reduced audit violations, and improved release velocity.
+3. **Experience with Key Tools**: Proficient in tools such as AWS, Azure, Docker, Jenkins, GitHub Actions, and Terraform.
+
+Please note that this ranking is abbreviated due to the GOOD FIT result from Stage 0. If you would like a more comprehensive ranking or additional details, please let me know.
