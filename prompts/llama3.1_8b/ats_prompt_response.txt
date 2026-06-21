@@ -1,0 +1,53 @@
+## ATS Assessment
+ATS Score: 85/100
+Technical Alignment: 90/100
+Leadership Alignment: 80/100
+Domain Alignment: 95/100
+Interview Probability: 92/100
+
+## Recruiter Verdict
+Shortlist: YES
+Reason: The candidate has a strong background in technology strategy and delivery transformation, with experience in leading AI-enabled program execution. Their ability to translate business priorities into technology-enabled solutions is well-suited for the Senior Program Manager role at Sony Corporation of America.
+
+## Strengths
+
+*   Strong technical expertise, particularly in AI and platform reliability
+*   Proven track record of delivering large-scale platforms with zero audit violations
+*   Experience leading cross-functional teams and matrixed organizations
+*   Excellent communication and stakeholder management skills
+*   Ability to align program milestones with quarterly OKRs and report progress to senior leadership
+
+## Critical Gaps
+
+*   Limited experience in a business-facing role, specifically as a Senior Program Manager
+*   No direct experience working with Japanese language or business culture (although they have worked in global, multicultural environments)
+
+## Missing Keywords
+
+| Keyword | Priority | Present |
+|---|---|---|
+| Digital Transformation | High | × |
+| Enterprise Business Priorities | Medium | × |
+| Cross-Functional Stakeholder Alignment | Low | × |
+
+## Recommended Improvements
+
+### Executive Summary
+
+Current: Technology Strategy & Delivery Transformation Leader | AI-Enabled Program Execution
+Improved: Proven technology leader with 13+ years of experience in AI-enabled program execution, delivering large-scale platforms and driving business growth through strategic technology solutions.
+
+Reason: Emphasize the candidate's expertise in AI and platform reliability, as well as their ability to drive business growth through strategic technology solutions.
+
+### Experience Improvements
+
+Current: Technology Strategy and Delivery Transformation leader with 13+ years of strategy execution in professional services and regulated financial services and healthcare...
+Improved: Served as a Technology Strategy and Delivery Transformation Leader for [X] years, leveraging expertise in AI-enabled program execution to deliver large-scale platforms and drive business growth.
+
+Reason: Focus on the candidate's specific experience in AI-enabled program execution and their ability to drive business growth through strategic technology solutions.
+
+### Prioritized Action Plan
+
+1.  Highlight the candidate's experience in AI-enabled program execution and platform reliability
+2.  Emphasize their ability to align program milestones with quarterly OKRs and report progress to senior leadership
+3.  Address potential concerns around lack of direct experience working with Japanese language or business culture

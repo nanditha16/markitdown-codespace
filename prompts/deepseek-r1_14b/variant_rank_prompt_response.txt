@@ -1,0 +1,11 @@
+**Stage 0 Assessment: Resume Fit Analysis**
+
+Based on the analysis of the three resume variants provided for Nanditha Murthy, the following conclusions can be drawn:
+
+1. **Wipro/TD Bank Resume**: This variant highlights extensive experience in banking and financial services, focusing on API platforms, CI/CD pipelines, and compliance. It is suitable for roles requiring expertise in DevOps and cloud technologies within a financial context.
+
+2. **eBay Resume 1**: This version emphasizes large-scale platform reliability, DevOps leadership, and cross-functional teamwork. It aligns well with roles that require managing complex technical projects and leading diverse teams.
+
+3. **eBay Resume 2**: Similar to the first eBay resume but with additional details on AI enablement projects, this variant is ideal for positions that value experience in AI/LLM governance and technical innovation.
+
+**Conclusion**: All three resumes are considered a **GOOD FIT** for roles requiring technical expertise in DevOps, cloud platforms, or AI/LLM governance. They demonstrate strong technical skills and leadership experience, making them suitable candidates for various technical management or engineering positions. However, the specific fit would depend on the exact job requirements provided by the employer.
