@@ -1,21 +1,43 @@
-Based on your input, I will provide a response that adheres to your specified requirements.
+════════════════════════════════════════════════════════════
+TRUST LEVEL: unsafe — Do not use without review
+Stage: stage_3_ats_recommend | Model: llama3.1:8b | Generated: 2026-06-22T20:44:14Z
+════════════════════════════════════════════════════════════
 
-**File-level Edit Recommendations:**
+## Edits by File
 
-1. **Consistency in formatting**: Ensure that headings and subheadings are consistently formatted throughout the document.
-2. **Proofreading for grammar and punctuation**: Review the text for grammatical errors and inconsistencies in punctuation usage.
-3. **Standardizing bullet points**: Use a consistent style for bullet points, such as using dashes (-) or asterisks (\*) instead of bullets (•).
-4. **Consistent use of abbreviations**: Define and consistently apply abbreviations throughout the document.
-5. **Correcting minor errors**: Address minor typos, punctuation errors, and grammatical inconsistencies.
+### FILE: Nanditha_Murthy_Resume_eBay_part_2.md
+Current: Engineering leader with 13+ years building commercial Java platform software and 4+ years leading distributed engineering teams in agile environments.
+Paraphrase: Technical leader with 13+ years of experience in building scalable distributed systems and internet-scale applications, including 4+ years of hands-on leadership experience in agile environments.
+Why: Aligns with the JD's requirement for "12+ years of software engineering experience" and emphasizes technical expertise.
 
-**Detailed Edits:**
+### FILE: Nanditha_Murthy_Resume_eBay_part_3.md
+Current: Technical Director - Divinity Science (AI-enabled digital health platform)
+Paraphrase: Senior Technical Leader in AI and Digital Health, driving the development and implementation of a comprehensive AI platform for healthcare.
+Why: Emphasizes senior-level experience and expertise in AI and digital health.
 
-1. Replace \* with \* for bullet points in "CORE COMPETENCIES."
-2. In "TECHNICAL STACK," replace "Program & Delivery: JIRA" with a consistent format (e.g., "JIRA: Program & Delivery").
-3. In "CAREER HIGHLIGHTS," use consistent formatting for headings and subheadings.
-4. Replace \* with \* for bullet points in "PROFESSIONAL EXPERIENCE."
-5. In "AI PLATFORM PROJECT," define the abbreviation "LLM" (Large Language Model) or replace it with a consistent format.
+### FILE: Nanditha_Murthy_Resume_eBay_part_4.md
+Current: TECHNICAL STACK
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift (Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Paraphrase: Cloud and DevOps expertise in leading cloud platforms including AWS, Azure, and Kubernetes, with experience in containerization, automation, and continuous integration.
+Why: Aligns with the JD's requirement for "cloud and devops skills" and emphasizes breadth of experience.
 
-Please note that these edits are minor suggestions to improve the document's consistency and readability.
+### FILE: Nanditha_Murthy_Resume_eBay_part_5.md
+Current: CAREER HIGHLIGHTS -  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+Paraphrase: Delivered high-availability and reliability for mission-critical APIs, ensuring 99.99% uptime and scalability for large-scale businesses.
+Why: Emphasizes platform reliability and scalability expertise.
 
-Let me know if you'd like me to expand on any of these recommendations!
+### FILE: Nanditha_Murthy_Resume_eBay_part_6.md
+Current: Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+Paraphrase: Led the development of a cutting-edge AI-enabled healthcare platform, driving technical direction and ensuring compliance with regulatory requirements.
+Why: Emphasizes senior-level experience in AI and digital health.
+
+### FILE: Nanditha_Murthy_Resume_eBay_part_7.md
+Current: AI PLATFORM PROJECT Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+Paraphrase: Designed and implemented a secure, multi-agent AI pipeline for the zero-trust EmoConnect platform, ensuring safety and compliance with regulatory requirements.
+Why: Emphasizes expertise in AI development and implementation.
+
+## Additional Recommendations
+
+* Consider adding a summary or professional overview to the top of the resume to provide context and highlight key experience and skills.
+* Ensure that language throughout the resume aligns with industry standards and is concise and clear.
+* Consider removing some of the technical jargon and focusing on key accomplishments and results rather than technical details.

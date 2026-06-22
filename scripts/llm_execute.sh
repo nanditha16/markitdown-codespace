@@ -5,46 +5,129 @@
 # regardless of whether this runs; if Ollama isn't running or this fails,
 # the prompt file is still there to upload manually to Claude.ai.
 #
-# Model is fully swappable — pass any model name you have pulled via
-# `ollama pull <model>`. Context window is queried LIVE from Ollama's
-# /api/tags for whichever model you specify, never hardcoded — verified
-# against a real instance across multiple models (llama3:8b → 8192,
-# llama3.1:8b → 131072).
+# POLICY-GATED: every call now goes through policy/policy_check.py before
+# anything runs. This replaced the previous filename-pattern matching
+# (checking if BASENAME started with "variant_rank_prompt" etc.) which
+# hardcoded the same rules independently of policy/execution_policy.json —
+# meaning editing the policy file wouldn't have changed this script's
+# actual behavior. Now there is exactly one place execution rules live.
 #
 # Usage:
-#   ./scripts/llm_execute.sh <prompt_file> <model> [--force]
+#   ./scripts/llm_execute.sh <prompt_file> <stage_key> <model> [--override] [--force]
+#
+#   stage_key: must match a key in policy/execution_policy.json "stages"
+#              (e.g. stage_2_ats_optimize, stage_0_1_variant_rank)
+#   --override: required to run a manual_only/untested stage locally.
+#               Without it, the script refuses before ever contacting
+#               Ollama. This is enforced by policy_check.py, not by this
+#               script re-implementing the logic.
+#   --force: separate flag, only affects the context-window size check
+#            below (unrelated to the trust-policy override).
 #
 #   Examples:
-#     ./scripts/llm_execute.sh prompts/ats_prompt.txt llama3.1:8b
-#     ./scripts/llm_execute.sh prompts/ats_prompt.txt qwen2.5:14b
-#
-# KNOWN LIMITATION (confirmed via real testing, not theoretical): even
-# when a prompt fits within a model's context window, multi-document
-# reasoning tasks (variant_rank_prompt.txt, ats_recommend_prompt.txt) have
-# shown unreliable results on 8B-class models — wrong task entirely
-# ignored, hallucinated content, lost output format. This script WARNS on
-# those filenames but does not block, per design choice — you decide.
+#     ./scripts/llm_execute.sh prompts/ats_prompt.txt stage_2_ats_optimize llama3.1:8b
+#     ./scripts/llm_execute.sh prompts/variant_rank_prompt.txt stage_0_1_variant_rank llama3.1:8b --override
 #
 set -e
 
 PROMPT_FILE="$1"
-MODEL="$2"
-FORCE_FLAG="$3"
+STAGE_KEY="$2"
+MODEL="$3"
+shift 3 2>/dev/null || true
+OVERRIDE_FLAG=""
+FORCE_FLAG=""
+for arg in "$@"; do
+  [ "$arg" == "--override" ] && OVERRIDE_FLAG="--override"
+  [ "$arg" == "--force" ] && FORCE_FLAG="--force"
+done
 
 OLLAMA_URL="${OLLAMA_URL:-http://localhost:11434}"
 
-if [ -z "$PROMPT_FILE" ] || [ -z "$MODEL" ]; then
-  echo "❌ Usage: ./scripts/llm_execute.sh <prompt_file> <model_name> [--force]"
-  echo "   Example: ./scripts/llm_execute.sh prompts/ats_prompt.txt llama3.1:8b"
+if [ -z "$PROMPT_FILE" ] || [ -z "$STAGE_KEY" ] || [ -z "$MODEL" ]; then
+  echo "❌ Usage: ./scripts/llm_execute.sh <prompt_file> <stage_key> <model_name> [--override] [--force]"
+  echo "   Example: ./scripts/llm_execute.sh prompts/ats_prompt.txt stage_2_ats_optimize llama3.1:8b"
   echo ""
-  echo "   --force sends the prompt even if it exceeds the model's context"
-  echo "   window (response quality is not guaranteed in that case)."
+  echo "   stage_key must match policy/execution_policy.json. Known stages:"
+  python3 "$(dirname "$0")/../policy/policy_check.py" __list_stages__ 2>/dev/null | python3 -c "
+import json, sys
+try:
+    data = json.loads(sys.stdin.read())
+    for s in data.get('known_stages', []):
+        print('     -', s)
+except Exception:
+    pass
+" 2>/dev/null
   exit 1
 fi
 
 if [ ! -f "$PROMPT_FILE" ]; then
   echo "❌ Prompt file not found: $PROMPT_FILE"
   exit 1
+fi
+
+# ─────────────────────────────────────────────────────────────────────
+# POLICY CHECK — must pass before anything else happens
+# ─────────────────────────────────────────────────────────────────────
+echo "🔒 Checking execution policy for stage '$STAGE_KEY' ..."
+POLICY_SCRIPT="$(dirname "$0")/../policy/policy_check.py"
+if [ "$OVERRIDE_FLAG" == "--override" ]; then
+  POLICY_RESULT=$(python3 "$POLICY_SCRIPT" "$STAGE_KEY" --override) || true
+else
+  POLICY_RESULT=$(python3 "$POLICY_SCRIPT" "$STAGE_KEY") || true
+fi
+# Re-run to get the actual exit code — $() with set -e swallows it above.
+# This is a deliberate two-call pattern: first captures output safely,
+# second gets the real exit code. The output is identical both times.
+if [ "$OVERRIDE_FLAG" == "--override" ]; then
+  python3 "$POLICY_SCRIPT" "$STAGE_KEY" --override > /dev/null 2>&1
+else
+  python3 "$POLICY_SCRIPT" "$STAGE_KEY" > /dev/null 2>&1
+fi
+POLICY_EXIT=$?
+
+# Stage-key / prompt-file consistency check — catches the case where
+# the user passes a wrong stage_key (e.g. stage_1_5_prepare_variant
+# for an ats_prompt.txt), which would succeed with the wrong trust label.
+# stage_1_5_prepare_variant is local_always (no LLM), so it should never
+# be used to run a prompt file at all.
+PROMPT_BASENAME=$(basename "$PROMPT_FILE")
+if [ "$STAGE_KEY" == "stage_1_5_prepare_variant" ]; then
+  echo "❌ stage_1_5_prepare_variant involves no LLM — it's a file-move"
+  echo "   operation. It cannot be used as a stage_key for running a prompt."
+  echo "   Did you mean stage_2_ats_optimize?"
+  exit 1
+fi
+
+if [ $POLICY_EXIT -eq 2 ] || [ $POLICY_EXIT -eq 3 ]; then
+  echo "❌ Policy check failed:"
+  echo "$POLICY_RESULT" | python3 -m json.tool 2>/dev/null || echo "$POLICY_RESULT"
+  exit 1
+fi
+
+if [ $POLICY_EXIT -eq 1 ]; then
+  echo ""
+  echo "🛑 BLOCKED by execution policy."
+  echo "$POLICY_RESULT" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+print('   Reason:', d.get('reason', 'unknown'))
+print('   Evidence:', d.get('evidence', 'n/a'))
+"
+  echo ""
+  echo "   To proceed anyway, re-run with --override. Output will be"
+  echo "   labeled 'unsafe' / 'Do not use without review' per policy."
+  exit 1
+fi
+
+TRUST_LEVEL=$(echo "$POLICY_RESULT" | python3 -c "import json,sys; print(json.load(sys.stdin).get('trust_level') or 'none')")
+TRUST_LABEL=$(echo "$POLICY_RESULT" | python3 -c "import json,sys; print(json.load(sys.stdin).get('trust_label') or 'N/A')")
+
+echo "✅ Policy allows execution. Trust level: $TRUST_LEVEL ($TRUST_LABEL)"
+
+if [ "$TRUST_LEVEL" == "unsafe" ]; then
+  echo ""
+  echo "⚠️  This output will be UNSAFE per policy — proceeding only because"
+  echo "   --override was given. Do not treat the result as reliable."
 fi
 
 echo "🔍 Checking Ollama is reachable at $OLLAMA_URL ..."
@@ -103,21 +186,6 @@ if [ "$ESTIMATED_TOKENS" -gt "$CONTEXT_LENGTH" ]; then
   else
     echo "   ⚠️  --force given, sending anyway. Output quality not guaranteed."
   fi
-fi
-
-# Warn (don't block) on multi-document reasoning prompts — confirmed via
-# real testing to be unreliable on 8B-class local models even when they
-# technically fit the context window.
-BASENAME=$(basename "$PROMPT_FILE")
-if [[ "$BASENAME" == variant_rank_prompt* || "$BASENAME" == ats_recommend_prompt* ]]; then
-  echo ""
-  echo "⚠️  WARNING: $BASENAME is a multi-document reasoning task."
-  echo "   Real testing showed local 8B models can fit this in context but"
-  echo "   still fail the task (no variant named, hallucinated content,"
-  echo "   lost output format). STRONGLY RECOMMENDED: upload $PROMPT_FILE"
-  echo "   to Claude.ai manually instead."
-  echo "   Proceeding anyway in 3 seconds (Ctrl+C to cancel)..."
-  sleep 3
 fi
 
 echo "🧠 Sending to $MODEL via Ollama (this may take a while on CPU)..."
@@ -201,7 +269,15 @@ RESPONSE_DIR="prompts/${MODEL_DIR}"
 mkdir -p "$RESPONSE_DIR"
 
 OUTPUT_FILE="${RESPONSE_DIR}/$(basename "${PROMPT_FILE%.txt}")_response.txt"
-echo "$RESPONSE" > "$OUTPUT_FILE"
+
+{
+  echo "════════════════════════════════════════════════════════════"
+  echo "TRUST LEVEL: $TRUST_LEVEL — $TRUST_LABEL"
+  echo "Stage: $STAGE_KEY | Model: $MODEL | Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  echo "════════════════════════════════════════════════════════════"
+  echo ""
+  echo "$RESPONSE"
+} > "$OUTPUT_FILE"
 
 echo "✅ Response saved to $OUTPUT_FILE"
 echo "👉 The original prompt file ($PROMPT_FILE) is still there if you want"
