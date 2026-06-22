@@ -1,53 +1,48 @@
+════════════════════════════════════════════════════════════
+TRUST LEVEL: advisory — Draft (local model — may be incorrect)
+Stage: stage_2_ats_optimize | Model: llama3.1:8b | Generated: 2026-06-22T20:28:15Z
+════════════════════════════════════════════════════════════
+
 ## ATS Assessment
-ATS Score: 85/100
-Technical Alignment: 90/100
+ATS Score: 84/100
+Technical Alignment: 88/100
 Leadership Alignment: 80/100
-Domain Alignment: 95/100
-Interview Probability: 92/100
+Domain Alignment: 85/100
+Interview Probability: 82/100
 
 ## Recruiter Verdict
 Shortlist: YES
-Reason: The candidate has a strong background in technology strategy and delivery transformation, with experience in leading AI-enabled program execution. Their ability to translate business priorities into technology-enabled solutions is well-suited for the Senior Program Manager role at Sony Corporation of America.
+Reason: The candidate has a strong background in software engineering, technical leadership, and team management. Their experience in building commercial Java platform software and leading distributed teams is highly relevant to the role.
 
 ## Strengths
-
-*   Strong technical expertise, particularly in AI and platform reliability
-*   Proven track record of delivering large-scale platforms with zero audit violations
-*   Experience leading cross-functional teams and matrixed organizations
-*   Excellent communication and stakeholder management skills
-*   Ability to align program milestones with quarterly OKRs and report progress to senior leadership
+- Proven track record of contributing to and leading the development of highly used web applications.
+- Strong execution skills with the ability to drive work through influence, collaboration, and ownership.
+- Excellent communication skills and ability to work effectively across technical and cross-functional teams.
+- Deep hands-on experience with Java, Spring framework, GraphQL services, REST APIs, JSON, and internet protocols.
 
 ## Critical Gaps
-
-*   Limited experience in a business-facing role, specifically as a Senior Program Manager
-*   No direct experience working with Japanese language or business culture (although they have worked in global, multicultural environments)
+- The candidate has 13+ years of software engineering experience, but it's unclear if they have 12+ years of team leadership experience as required by the job description.
+- The resume doesn't explicitly mention experience with banking or FDA-regulated medical devices, which is mentioned in the job description.
 
 ## Missing Keywords
-
 | Keyword | Priority | Present |
 |---|---|---|
-| Digital Transformation | High | × |
-| Enterprise Business Priorities | Medium | × |
-| Cross-Functional Stakeholder Alignment | Low | × |
+| AI-native healthcare platform | High | No |
+| Agile development process (Scrum/Kanban/SAFe) | Medium | Yes |
+| Kubernetes | Medium | Yes |
+| Terraform | Low | Yes |
 
 ## Recommended Improvements
 
 ### Executive Summary
-
-Current: Technology Strategy & Delivery Transformation Leader | AI-Enabled Program Execution
-Improved: Proven technology leader with 13+ years of experience in AI-enabled program execution, delivering large-scale platforms and driving business growth through strategic technology solutions.
-
-Reason: Emphasize the candidate's expertise in AI and platform reliability, as well as their ability to drive business growth through strategic technology solutions.
+"Results-driven engineering leader with 13+ years of experience building commercial Java platform software and leading distributed teams in agile environments. Proven track record of delivering high-quality, scalable systems at internet scale while driving team growth and development."
 
 ### Experience Improvements
+Current: "Engineering leader with 13+ years building commercial Java platform software and 4+ years leading distributed engineering teams in agile environments."
+Improved: "Led the development of an AI-native healthcare platform as a team lead, delivering high-quality, scalable systems at internet scale while driving team growth and development. This involved mentoring and coaching engineers to advance their skills, instituting code-review and quality standards, and driving accountability through sprint discipline."
+Reason: The recruiter wants to highlight the candidate's experience in leading distributed teams and developing AI-native healthcare platforms.
 
-Current: Technology Strategy and Delivery Transformation leader with 13+ years of strategy execution in professional services and regulated financial services and healthcare...
-Improved: Served as a Technology Strategy and Delivery Transformation Leader for [X] years, leveraging expertise in AI-enabled program execution to deliver large-scale platforms and drive business growth.
-
-Reason: Focus on the candidate's specific experience in AI-enabled program execution and their ability to drive business growth through strategic technology solutions.
-
-### Prioritized Action Plan
-
-1.  Highlight the candidate's experience in AI-enabled program execution and platform reliability
-2.  Emphasize their ability to align program milestones with quarterly OKRs and report progress to senior leadership
-3.  Address potential concerns around lack of direct experience working with Japanese language or business culture
+## Prioritized Action Plan
+1. Emphasize team leadership experience and specific achievements in leading distributed teams.
+2. Highlight experience with banking or FDA-regulated medical devices if possible.
+3. Include more details about the AI-native healthcare platform project, such as technical accomplishments and team growth.

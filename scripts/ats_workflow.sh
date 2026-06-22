@@ -121,10 +121,12 @@ echo "⚠️  STAGE 0/1 RECOMMENDATION: this is a multi-document reasoning task"
 echo "   (all resume variants embedded in one prompt). Real testing in this"
 echo "   project showed local 8B models fail this task even when it fits"
 echo "   their context window — Claude.ai is strongly recommended instead."
+echo "   Policy classification: manual_only (3/3 tested models failed this"
+echo "   stage). Running locally requires explicit override."
 echo ""
 read -p "   Auto-run on Ollama ($MODEL) anyway? [y/N] " RUN_STAGE_0
 if [[ "$RUN_STAGE_0" =~ ^[Yy]$ ]]; then
-  ./scripts/llm_execute.sh prompts/variant_rank_prompt.txt "$MODEL" --force
+  ./scripts/llm_execute.sh prompts/variant_rank_prompt.txt stage_0_1_variant_rank "$MODEL" --override --force
   echo ""
   echo "📄 Result: prompts/variant_rank_prompt_response.txt"
   echo "   Read it before choosing a variant below — given the warning above,"
@@ -180,10 +182,12 @@ echo "▶ STAGE 2 — ATS evaluation"
 ./scripts/ats_optimize.sh "$JD_PATH" "output/$CHOSEN_VARIANT"
 
 echo ""
-echo "✅ Single-resume task — Ollama tested reliably for this stage."
+echo "✅ Single-resume task — policy classification: local_allowed (advisory"
+echo "   trust — 2/3 tested models fabricated one Critical Gap each; spot-"
+echo "   check that section specifically)."
 read -p "   Auto-run on Ollama ($MODEL)? [Y/n] " RUN_STAGE_2
 if [[ ! "$RUN_STAGE_2" =~ ^[Nn]$ ]]; then
-  ./scripts/llm_execute.sh prompts/ats_prompt.txt "$MODEL"
+  ./scripts/llm_execute.sh prompts/ats_prompt.txt stage_2_ats_optimize "$MODEL"
   echo "📄 Result: prompts/ats_prompt_response.txt"
 else
   echo "   Skipped. Upload prompts/ats_prompt.txt to Claude.ai manually."
@@ -201,10 +205,11 @@ echo "⚠️  STAGE 3 RECOMMENDATION: this prompt embeds ALL chunks of the"
 echo "   chosen resume — a multi-section reasoning task. Same caveat as"
 echo "   Stage 0/1 applies; Claude.ai is recommended for precision-critical"
 echo "   gap analysis (distinguishing fixable wording from real experience"
-echo "   gaps)."
+echo "   gaps). Policy classification: manual_only (3/3 tested models"
+echo "   ignored the actual task and audited formatting/dates instead)."
 read -p "   Auto-run on Ollama ($MODEL) anyway? [y/N] " RUN_STAGE_3
 if [[ "$RUN_STAGE_3" =~ ^[Yy]$ ]]; then
-  ./scripts/llm_execute.sh prompts/ats_recommend_prompt.txt "$MODEL" --force
+  ./scripts/llm_execute.sh prompts/ats_recommend_prompt.txt stage_3_ats_recommend "$MODEL" --override --force
   echo "📄 Result: prompts/ats_recommend_prompt_response.txt"
 else
   echo "   Skipped. Upload prompts/ats_recommend_prompt.txt to Claude.ai."

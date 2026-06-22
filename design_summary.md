@@ -1,234 +1,3 @@
-# Session Summary — markitdown-codespace ATS Tooling Build
-
-## What this session built
-
-Starting from a basic PDF→Markdown conversion pipeline (MarkItDown +
-pdfplumber + Docker), this session added a full prompt-generation toolchain
-for resume/JD evaluation: ATS scoring, cover letter drafting, multi-variant
-resume ranking, file-level edit recommendations, and PDF export. Every tool
-is **prompt-only** — scripts assemble structured prompts and save them to
-`prompts/`; nothing calls an LLM API. The person uploads the generated file
-to Claude.ai (or any LLM) to get the actual analysis.
-
-## Final architecture
-
-```
-input/{pdf,docx,html,image,other}/  → router.sh → output/*.md
-                                                  → clean.sh (perl, in-container)
-                                                  → smart_chunk.sh → chunks/*.md
-                                                  → retrieve.py (embeddings, in-container)
-                                                  → {ats_optimize,cover_letter,
-                                                     variant_rank,ats_recommend}.sh
-                                                  → prompts/*.txt
-                                                  → [human uploads to Claude.ai]
-```
-
-Two execution contexts, chosen deliberately per script:
-- **In-container** (`docker exec`): anything doing text transformation
-  (clean.sh, smart_chunk.sh, retrieve.py, router.sh's conversions) — host
-  vs. container OS differences (BSD vs GNU tools, locale defaults) caused
-  real bugs when this wasn't enforced consistently.
-- **Host-side**: pure file concatenation with no transformation logic
-  (ask.sh, prompt.sh — also because they use `pbcopy`, Mac-only) and
-  JD-loading/path-validation logic in the prompt-builder scripts.
-
-## Full list of bugs found and fixed this session
-
-1. **`sed -i` cross-platform incompatibility** — BSD sed (Mac host) and
-   GNU sed (Linux container) have incompatible `-i` flag syntax. Fixed by
-   switching `clean.sh` to `perl -pi`, which is identical on both — then
-   later moved the whole script to run in-container anyway, removing the
-   host/container split that caused this class of bug in the first place.
-
-2. **`wkhtmltopdf` unavailable on Debian Trixie** — added to the
-   Dockerfile based on availability in an unrelated sandbox (Ubuntu
-   24.04), never verified against the actual base image
-   (`python:3.12-slim`, Trixie). Failed on real build. Lesson: **a
-   sandbox is not a reliable proxy for the target container** — package
-   availability must be verified with `docker exec` against the real
-   image, not assumed from wherever code happens to be tested.
-
-3. **`reportlab` missing despite being "obviously" a dependency** —
-   assumed `markitdown[all]` pulled it in because it was present in the
-   sandbox. It wasn't (`pip show markitdown` lists actual deps —
-   reportlab isn't one). Same root cause as #2: sandbox presence ≠
-   container presence. This led to an explicit standing rule from the
-   user: **never assume package availability — always provide a verification
-   command and wait for real output before editing the Dockerfile.**
-
-4. **HuggingFace model cache not persisting** — diagnosed (incorrectly,
-   twice) as a Docker volume-mount issue requiring `--force-recreate`.
-   The actual explanation: "Loading weights" is the model loading into
-   memory (a per-process, unavoidable cost), not a re-download from HF
-   Hub. The cache was working the whole time; `docker exec markitdown du
-   -sh /root/.cache/huggingface` (88M, populated) proved it. Two rounds
-   of unnecessary fixes happened before checking this directly.
-
-5. **Mojibake (`‚Äî` instead of `—`) chased through 5 wrong theories**
-   before being correctly diagnosed: it wasn't `clean.sh`'s perl, not
-   Python locale handling, not the markitdown CLI, not file encoding at
-   all. Direct file uploads of the exact same content rendered perfectly;
-   only `pbcopy`-then-paste-into-chat corrupted it. Root cause:
-   **`pbcopy`/clipboard round-trip corrupts non-ASCII characters.** Fix:
-   removed `pbcopy` from every script; all scripts now instruct
-   "upload as file attachment, never paste."
-
-6. **Embedding-based variant ranking didn't discriminate between
-   resumes.** Two real resume variants for different companies measured
-   0.81–0.82 cosine similarity to *each other* (even after excluding
-   boilerplate sections like Skills/Certifications), while either was
-   only 0.27–0.37 similar to the actual JD — and a 6-way tie within
-   0.0002 appeared among clearly different variants. Root cause: the
-   resumes share too much invariant content (same employers, same hard
-   metrics) for `all-MiniLM-L6-v2` whole-document embeddings to separate
-   the small JD-tailored differences that matter. **Replaced embedding
-   scoring entirely with an LLM-judgment prompt** (`variant_rank.sh`) —
-   this is the one case in the project where "fix the math" was abandoned
-   in favor of "use a fundamentally different tool for this job."
-
-7. **`np.dot()` without `normalize_embeddings=True`** — a real, separate
-   bug (magnitude-dominated dot product instead of cosine similarity)
-   found and fixed in both `retrieve.py` and the now-deleted
-   `variant_rank.py`, even though it turned out not to be the cause of
-   bug #6 (proven by re-testing after the fix — scores were unchanged).
-   Kept as a correctness fix regardless, since it was still wrong math.
-
-8. **Stage 0/1 (`variant_rank.sh`) needed a relevance gate, not just a
-   ranking.** A real run against a government-healthcare JD (Ontario
-   Health) showed all 19 resume variants share the identical
-   disqualifying gap (no government/Ministry stakeholder experience).
-   Ranking them against each other implied false differentiation. Added
-   an explicit **GOOD FIT / PARTIAL FIT / POOR FIT** gate that runs
-   before any scoring, with instructions to say "not worth pursuing"
-   plainly when that's the honest answer rather than always producing a
-   polished-looking top pick.
-
-9. **`ats_recommend.sh` mixed chunks from multiple resume variants** —
-   `smart_chunk.sh` chunks *every* `.md` file in `output/`, so if more
-   than one resume variant was ever present there, `chunks/` accumulated
-   all of them with no separation. Fixed two ways: (a) added
-   `prepare_variant.sh` (Stage 1.5) to clear `output/` down to one
-   variant + the JD before chunking, archiving (not deleting) everything
-   else; (b) made `ats_recommend.sh`'s variant-name argument **required**
-   and validated — it now refuses to run if the name matches zero or
-   multiple variants, rather than silently guessing.
-
-10. **(Found in this final session, NOT YET FIXED)** `retrieve.py` globs
-    *all* of `chunks/*.md` as retrieval candidates with no exclusion for
-    the JD's own chunk file. Since `prepare_variant.sh` correctly leaves
-    the JD `.md` in `output/` (so `ats_optimize.sh` can read it),
-    `smart_chunk.sh` then chunks the JD too, and JD boilerplate
-    (French-translation notice, benefits intro, accessibility notice)
-    ends up in the "resume sections retrieved as most relevant" list —
-    because the JD is being matched against itself. **Needs a fix**:
-    `retrieve.py` (or the scripts calling it) should exclude any chunk
-    file matching the JD's filename from the candidate pool.
-
-## Workflow as it stands today
-
-```bash
-./run.sh                                                          # build/route/clean/chunk everything in input/
-./scripts/variant_rank.sh "<jd>" "output/resume"                  # Stage 0/1: fit gate + LLM ranking
-./scripts/prepare_variant.sh "output/resume/<chosen>.md" "output/<jd>.md"  # Stage 1.5: isolate one variant
-./scripts/smart_chunk.sh                                          # re-chunk, now single-variant
-./scripts/ats_optimize.sh "<jd>" "output/<chosen>.md"             # Stage 2: full ATS score
-./scripts/ats_recommend.sh "<jd>" "<variant_name>"                # Stage 3: file-level edits
-./scripts/cover_letter.sh "<jd>" "output/<chosen>.md"             # cover letter draft
-./scripts/md_to_pdf.sh "prompts/some_output.md"                   # → PDF (Liberation Serif)
-```
-
-All generated prompts land in `prompts/`. Upload (never paste) to Claude.ai.
-
-## Hard-won principles for future extension
-
-These came from real failures in this session, not abstract best
-practices — useful as guardrails for whoever (human or agent) extends
-this next:
-
-1. **Verify, don't infer, environment state.** A sandbox/test environment
-   is not the target environment. Before claiming a package, file, or
-   config is "definitely there," provide a verification command and wait
-   for real output.
-
-2. **An LLM prompt and a numeric algorithm are different tools — pick
-   based on what's actually being measured.** Embedding similarity is
-   good at "is this text generally about the same topic." It is bad at
-   "does this specific resume satisfy this specific structured
-   requirement set," especially when comparing near-duplicate documents.
-   Requirement-matching, gap analysis, and fit judgment are LLM-prompt
-   problems, not vector-math problems — this session learned that the
-   hard way (twice) before accepting it.
-
-3. **A ranking implies meaningful differentiation; don't produce one when
-   it doesn't exist.** If every option shares the same disqualifying
-   gap, say so before ranking, not after.
-
-4. **A required, validated argument beats a smart default.**
-   `ats_recommend.sh`'s variant-name argument was made required (not
-   optional-with-a-default) specifically because a default would have
-   silently picked the wrong scope when multiple variants were present —
-   the same failure mode the script exists to prevent.
-
-5. **Distinguish presentation gaps from structural gaps, always.** A
-   resume's wording can be fixed; a resume's underlying experience
-   cannot be invented. Every evaluation prompt in this project now makes
-   this distinction explicit, because conflating them produces
-   confident-sounding advice that sets the candidate up to misrepresent
-   themselves in an interview.
-
-6. **The clipboard is not a reliable data channel.** Any future
-   chat-bot/agent UI built on this should default to file-based handoffs
-   (upload/download) over copy-paste, given the confirmed corruption
-   issue — or, if building a true integrated UI (not relying on
-   Claude.ai's upload), ensure the data path between script output and
-   LLM input never round-trips through an OS clipboard at all.
-
-## Roadmap: evolving this into an agent / UI / chatbot system
-
-The current design is intentionally "prompt factory + human in the loop
-to paste/upload into Claude.ai." To evolve toward something more
-integrated, in rough order of effort:
-
-### Near-term (still prompt-only, easier UX)
-- **Fix bug #10** (JD self-retrieval) — quick, isolated fix.
-- **Single entrypoint script** (`./ats_workflow.sh <jd> <variant_dir>`)
-  that chains Stage 0→1.5→2→3 automatically, stopping at Stage 0 if
-  POOR FIT, prompting for variant choice after ranking.
-- **A `manifest.json` per resume variant** (company, role, date tailored,
-  last Stage 2 score) so the system has structured metadata instead of
-  parsing filenames.
-
-### Medium-term (light agentic layer)
-- **Wire the Anthropic API directly into the scripts** (the
-  `anthropic_api_in_artifacts` pattern this environment already
-  supports) so `ats_optimize.sh` etc. can optionally *call* Claude and
-  write the actual evaluation to a file, instead of only producing a
-  prompt for manual upload. Keep the prompt-only mode as a fallback/audit
-  trail.
-- **A lightweight local web UI** (could be a single HTML+JS file using
-  the project's existing Docker container as a backend) that lists
-  variants, shows Stage 0/1/2/3 results, and lets the person trigger each
-  stage with a button instead of remembering CLI arguments.
-
-### Longer-term (full agent/chatbot)
-- **An orchestrating agent** that, given a JD URL or pasted text, runs
-  the full pipeline autonomously: fetch/save JD → Stage 0 fit gate →
-  (if GOOD/PARTIAL) auto-select top variant → Stage 1.5→2→3 → draft
-  cover letter → flag for human review before anything is sent anywhere.
-  The structural-vs-presentation gap distinction (principle #5 above)
-  becomes even more important here — an autonomous agent must not
-  "smooth over" a POOR FIT verdict just to produce a complete-looking
-  output.
-- **Persistent state/history**: which JDs were evaluated, which variant
-  was used, what the score was, whether the person applied — enabling
-  the agent to learn which variants tend to score well for which JD
-  types over time, without re-deriving everything from scratch each run.
-- **Human approval gate before any external action** (sending an
-  application, posting a cover letter) — this project never sends
-  anything anywhere today; any future agent version should preserve that
-  boundary explicitly, generating drafts for review rather than acting
-  autonomously on the person's behalf.
-
 # Orchestration Layer — Summary
 
 ## Tree: what changed and why
@@ -380,3 +149,197 @@ necessary — not a generic feature wishlist:
    backend needs the same shell/Docker access the CLI does. This is a
    real architectural fork to decide explicitly before writing UI code,
    not something to default into.
+
+---
+
+## Policy as Code — Design, Definition, and Execution
+
+### Why a policy layer exists
+
+Before this layer was built, execution rules were scattered across three
+different scripts, each re-implementing its own version of "should I run
+this locally?":
+
+- `ats_workflow.sh` had hardcoded filename patterns (`variant_rank_prompt*`,
+  `ats_recommend_prompt*`) to decide when to print a warning
+- `llm_execute.sh` had a separate, identical hardcoded filename check
+- Both scripts had their own concept of what "blocked" meant
+
+This meant editing the policy in one place didn't change behavior in
+another. The policy layer replaced all of this with a single source of
+truth: `policy/execution_policy.json` defines the rules; `policy/policy_check.py`
+enforces them; every script reads the enforcer, never re-implements the rules.
+
+### What is defined — `policy/execution_policy.json`
+
+The file has five top-level sections:
+
+**`trust_levels`** — defines the three possible output classifications:
+- `authoritative`: human-verified Claude.ai output. Nothing in this system
+  marks output authoritative automatically — this label only applies after
+  a human confirms it.
+- `advisory`: local model output on a stage with confirmed-adequate
+  reliability. Directionally useful; spot-check before acting on it.
+- `unsafe`: local model output on a stage with confirmed unreliable
+  behavior. 3/3 tested models failed these stages. Never present as a
+  final answer.
+
+**`stages`** — one entry per pipeline stage, each containing:
+- `execution_policy`: one of `manual_only`, `local_allowed`,
+  `local_always`, `untested`
+- `local_execution_allowed`: boolean, derived from the policy value
+- `default_action_on_run_click`: what happens when a user clicks "Run"
+  — `generate_prompt_file_only`, `execute_immediately`, or
+  `prompt_user_local_or_cloud`
+- `evidence`: exact text of what was observed in real testing. Not
+  prose — a specific description of what the model did or didn't do.
+- `ui_must_show`: list of things the UI is required to surface for this
+  stage, regardless of what the user has already seen
+
+Current stage classifications:
+
+| Stage | `execution_policy` | `local_execution_allowed` | Evidence basis |
+|---|---|---|---|
+| `stage_0_1_variant_rank` | `manual_only` | false | 3/3 models: named wrong variants, hallucinated content, lost output format |
+| `stage_1_5_prepare_variant` | `local_always` | true | No LLM — deterministic file ops, tested against mock and real data |
+| `stage_2_ats_optimize` | `local_allowed` | true | 3/3 models: directionally OK, 2/3 fabricated one Critical Gap |
+| `stage_3_ats_recommend` | `manual_only` | false | 3/3 models: ignored the actual task, produced formatting audits instead |
+| `cover_letter` | `untested` | false | Never run against a local model — defaults to manual until evidence exists |
+
+**`model_recommendations`** — tested model results per stage. Currently
+only populated for `stage_2_ats_optimize` (the only stage with local
+execution allowed). `deepseek-r1:14b` is listed as `best_observed` —
+accurate, no fabricated claims — though 3x slower than `llama3.1:8b`.
+
+**`cost_and_limits`** — provider-level metadata. Ollama is fully
+populated (no cost, context limit queried live). Cloud provider fields
+(`claude_api`, `openai_api`) exist as placeholder schema only, explicitly
+marked `"integrated": false` with a warning not to display cost estimates
+until actually wired in. This was a deliberate decision: no fake numbers
+for APIs that don't exist yet in this system.
+
+**`default_behavior`** — the principle: clicking "Run" must never
+silently execute on an unverified path. Documents what each
+`default_action_on_run_click` value means in concrete terms.
+
+### How it works — `policy/policy_check.py`
+
+The enforcer is a standalone Python script that reads the JSON and answers
+exactly one question: "is this stage allowed to run locally, and if so,
+what trust label does its output get?"
+
+```
+python3 policy/policy_check.py <stage_key> [--override]
+```
+
+Exit codes are machine-readable:
+- `0` = allowed (also JSON to stdout with `trust_level`, `trust_label`,
+  `evidence`, `ui_must_show`)
+- `1` = blocked (`manual_only`/`untested`, no override given)
+- `2` = `stage_key` not found in policy
+- `3` = policy file missing or invalid JSON
+
+Output is always valid JSON to stdout — never prose — so a UI backend can
+parse it directly without scraping text.
+
+The script fails **closed**, not open: an unrecognized `execution_policy`
+value in the JSON blocks execution rather than allowing it. A typo in the
+policy file should never silently permit a stage.
+
+`--override` is the explicit opt-in for `manual_only`/`untested` stages.
+The script doesn't decide whether override is appropriate — that's the
+caller's responsibility. It only reports what the policy says and whether
+override was requested, then sets `trust_level` to `unsafe` and includes
+a warning in the JSON output.
+
+### What happens when executed — `llm_execute.sh` integration
+
+Every call to `llm_execute.sh` now runs `policy_check.py` before
+contacting Ollama:
+
+```
+llm_execute.sh <prompt_file> <stage_key> <model> [--override] [--force]
+```
+
+The execution sequence:
+
+1. Validate `stage_key` is not `stage_1_5_prepare_variant` (that stage
+   has no LLM — using it is a user error, now caught immediately with a
+   hint).
+
+2. Call `policy_check.py <stage_key>` (with `--override` if given):
+   - Uses `|| true` pattern to safely capture stdout regardless of exit
+     code (a confirmed `set -e` bug was found where the `$()` subshell's
+     non-zero exit killed the script before the BLOCKED message printed —
+     fixed in this session).
+   - Then calls the script again silently to get the real exit code.
+
+3. On exit code 1 (blocked): print the full BLOCKED message including the
+   `reason` and `evidence` fields from the JSON — not a generic "this is
+   blocked." Exit without contacting Ollama.
+
+4. On exit code 0 (allowed): extract `trust_level` and `trust_label` from
+   the JSON. If `trust_level == "unsafe"` (override was used), print an
+   explicit warning before proceeding.
+
+5. Proceed with the Ollama call (context-window check, request, timeout
+   handling).
+
+6. Write response to `prompts/<sanitized_model_name>/<prompt_name>_response.txt`
+   with a trust-level header baked into the file itself:
+   ```
+   ════════════════════════════════════════════════════════════
+   TRUST LEVEL: advisory — Draft (local model — may be incorrect)
+   Stage: stage_2_ats_optimize | Model: llama3.1:8b | Generated: 2026-06-22T17:48:46Z
+   ════════════════════════════════════════════════════════════
+   ```
+   This means any future UI (or human) opening the raw file immediately
+   sees its classification without needing to re-run the policy check.
+
+### What the policy guarantees
+
+These are concrete, code-enforced guarantees — not aspirational claims:
+
+1. A stage cannot run locally and produce output unless `policy_check.py`
+   returns exit code 0.
+2. `manual_only` stages (Stage 0/1, Stage 3) require `--override` at the
+   call site. The `ats_workflow.sh` orchestrator uses `read -p` as the
+   human confirmation before passing `--override` — so user consent is
+   both required and explicit.
+3. Every locally-generated response file is permanently labeled with its
+   trust level at the top. It cannot be mistaken for a Claude.ai result
+   later, even if someone opens the file weeks after it was created.
+4. Policy changes propagate everywhere automatically — editing
+   `execution_policy.json` changes behavior in `llm_execute.sh`,
+   `ats_workflow.sh`, and any future UI backend that calls
+   `policy_check.py`, without touching any script.
+
+### What the policy does NOT guarantee
+
+Also important to state explicitly:
+
+1. It does not guarantee output quality — `advisory` trust still means
+   the model may be wrong. The trust level classifies reliability based
+   on observed testing, not mathematical proof.
+2. It does not prevent a user from always choosing `--override` on every
+   blocked stage. The system makes this deliberate and visible; it cannot
+   make it impossible.
+3. It does not cover the cover letter stage — `untested` classification
+   means "we haven't run this against a local model; we don't know if it
+   works." The default is conservative (blocked), but no evidence either
+   way exists yet.
+
+### Final test validation (eBay/JD2 run, 2026-06-22)
+
+Both manual and agent runs were validated against this policy:
+
+- Stage 2 `ats_prompt_response.txt` carried correct `advisory` trust label,
+  model name, stage key, and timestamp in the header.
+- Stage 0/1 and Stage 3 response files carried `unsafe` trust labels
+  (override was used by the user knowingly). Stage 3 content confirmed
+  the known failure pattern — formatting audit instead of paraphrase edits.
+- Policy BLOCKED message now prints correctly (silent exit bug was
+  confirmed fixed: `🔒 Checking...` and `✅ Policy allows...` appeared
+  correctly in the workflow output for all three stage calls).
+- JD self-retrieval confirmed clean on both runs: no JD boilerplate
+  appeared in the RETRIEVED SECTIONS of `ats_prompt.txt`.
