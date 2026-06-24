@@ -1,9 +1,0 @@
-Stage 0: Is This Worth Pursuing With This Resume Bank?
-POOR FIT.  US security clearance required
-
-Three compounding disqualifiers — any one alone would be sufficient:
-1. US security clearance required. The candidate must be a US Citizen and hold or be able to obtain a US government security clearance. The candidate is Canadian (Oakville, ON). Canadian citizens are not eligible for US security clearances. This is a binary, non-waivable eligibility requirement.
-2. Role type mismatch. This is a hands-on DevOps/Platform Engineer Level II IC role — building pipelines, automating infrastructure, fixing delivery problems close to the code. It is explicitly not a program management role. The bank is a TPM/Technical Director profile. Applying would represent a fundamental role-type change, not just a domain pivot.
-3. Compensation. $105K–$150K USD is materially below the candidate's apparent target range based on all prior JDs in this session.
-Do not pursue. Citizenship/clearance requirement is a hard legal disqualifier. Nothing else matters.
-No ranking produced — the clearance eligibility gap makes scoring all 20 variants academic.
