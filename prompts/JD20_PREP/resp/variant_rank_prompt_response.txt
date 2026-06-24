@@ -1,0 +1,97 @@
+I have enough to execute the full analysis. Let me now scan for the remaining variant headers to complete the list.I now have sufficient depth on all variants. Executing the full analysis.
+
+---
+
+`Length: DEEP`
+`Confidence: Likely`
+
+---
+
+## Stage 0: Is This Worth Pursuing With This Resume Bank?
+
+**PARTIAL FIT**
+
+The bank's collective profile: private-sector regulated financial services TPM (banking/capital markets/healthcare), 13+ years, platform delivery, growing AI/ML program execution. No consulting pedigree and no fintech-specific domain.
+
+Genuine overlaps with the JD:
+- Regulated financial services delivery is real (TD Bank, Citi) — the "regulated industry" hard requirement is met
+- Azure cloud experience is present across the bank, directly matching the JD's Azure preference
+- AI program delivery (model deployment, HITL governance, AzureML-adjacent tooling) is present in recent experience
+- Technical fluency (API integrations, cloud orchestration) is authentic
+
+The structural gap: **no lending, credit risk, underwriting, or fintech experience anywhere in the bank.** The JD explicitly calls credit risk/underwriting a "strong differentiator" and lending a domain signal for the role. Citi experience is capital markets / derivatives middle-office — not consumer or SMB credit. TD Bank experience is API platform reliability, not financial decisioning systems. No variant has touched a decision engine, loan origination system, Salesforce CRM in a lending context, or anything resembling pre-underwriting AI workflows.
+
+The candidate will be competing against people who have shipped AI into lending pipelines. Even the best variant needs real reframing, not keyword insertion, to close that gap.
+
+---
+
+## Stage 1: Ranking
+
+The variants fall into clearly differentiated clusters based on how they frame domain and scope. I will score all 21, grouping the closely similar ones.
+
+**Key scoring notes:**
+- Domain Fit: fintech/lending is the target; banking (regulated) = partial credit; capital markets = adjacent; healthcare/medical device/consulting = lower
+- Seniority/Scope Fit: the role is execution lead within an AI pod, cross-functional TPM, not people manager or strategy consultant
+- Requirement Coverage: AzureML, Salesforce, AI-to-production delivery, fintech/lending, API/workflow orchestration
+
+---
+
+### Ranking
+
+| Rank | Variant | Domain Fit | Seniority/Scope Fit | Requirement Coverage | Overall |
+|---|---|---|---|---|---|
+| 1 | Anthropic.md | 62 | 78 | 72 | 72 |
+| 2 | Dexcom.md | 62 | 78 | 70 | 70 |
+| 3 | Goldman.md | 68 | 68 | 62 | 67 |
+| 4 | Humana.md | 55 | 75 | 68 | 66 |
+| 5 | TPM_grow_therapy.md | 55 | 75 | 65 | 65 |
+| 6 | Thumbtack.md | 55 | 73 | 65 | 64 |
+| 7 | Walmart_Distinguished.md | 55 | 72 | 65 | 63 |
+| 8 | Walmart_Principal.md | 55 | 72 | 65 | 63 |
+| 9 | Walmart_staff.md | 55 | 70 | 63 | 62 |
+| 10 | PM_Oakville_RBC.md | 60 | 65 | 62 | 62 |
+| 11 | Canada_Life.md | 50 | 68 | 62 | 60 |
+| 12 | Pfizer.md | 45 | 70 | 58 | 58 |
+| 13 | Sony.md | 40 | 65 | 55 | 52 |
+| 14 | Meta.md | 38 | 68 | 55 | 52 |
+| 15 | Camunda.md | 45 | 65 | 55 | 52 |
+| 16 | Audible.md | 38 | 65 | 52 | 50 |
+| 17 | JD5.md | 45 | 62 | 55 | 50 |
+| 18 | Deloitte.md | 42 | 55 | 50 | 48 |
+| 19 | Deloitte_2.md | 42 | 55 | 50 | 48 |
+| 20 | Valon.md | 35 | 48 | 45 | 40 |
+| 21 | Veeva.md | 35 | 48 | 45 | 40 |
+
+---
+
+### Top Pick
+
+**Nanditha_Murthy_Resume_Anthropic.md**
+
+This is the top pick because it has the strongest combination of AI deployment framing (AzureML-adjacent, HITL governance, model launch readiness) and cross-functional TPM execution scope. Its domain framing — "Cloud Inference & AI Model Deployment" — sits closest to "AI transformation execution lead" without veering into strategy consulting (Deloitte variants) or IC engineering (Valon/Veeva). It explicitly names Azure AI Foundry and Bedrock with deployment ownership language, which is directly relevant to the JD's AzureML requirement. Dexcom.md is nearly identical in score; the Anthropic variant edges it slightly because its Divinity Science bullets are framed around model deployment and launch readiness rather than hardware/medical device validation.
+
+---
+
+### Gaps Even in the Top Pick
+
+These JD requirements are absent or weakly represented in the Anthropic variant and will need active development in Stage 2/3:
+
+- **No lending, underwriting, or credit risk content** — nothing in the bank covers SMB lending or decision engines
+- **No Salesforce** — JD explicitly asks for Salesforce or similar CRM; zero mention in this variant
+- **AzureML specifically** — the variant names Azure AI Foundry, which is adjacent but not identical; needs a direct bridge or acknowledgment
+- **Data science coordination** — the JD requires managing dependencies with data science teams; current bullets don't name this as an explicit workstream
+- **"Fintech" framing in the summary** — the summary doesn't signal fintech readiness; it will read as a healthcare/banking TPM applying sideways
+
+---
+
+### Variants With No Real Fit
+
+Do not route these to Stage 2 for this JD — the framing mismatch is too large to reframe without fabricating experience:
+
+**Valon.md and Veeva.md** — both are Engineering Lead / Java software variants, not TPM execution. Wrong job function entirely for this JD.
+
+**Deloitte.md and Deloitte_2.md** — strategy/transformation consulting framing. The JD explicitly says "this is not a coordination role." These variants position the candidate as a strategic advisor, not an execution lead.
+
+**JD5.md** — Developer Experience framing is irrelevant to a fintech AI transformation pod.
+
+**Audible.md and Meta.md** — consumer tech platform framing with no financial services signal; lowest domain relevance in the bank.

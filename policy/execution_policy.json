@@ -74,6 +74,19 @@
         "If user overrides: explicit confirmation step naming the specific failure modes observed, not a generic warning"
       ]
     },
+    "stage_3_5_evidence_gap": {
+      "script": "ats_evidence_gap.sh",
+      "description": "Cross-references JD gaps from Stage 2/3 against the evidence corpus (Career_Wealth.xlsx, project notes, employer-specific PDFs) to find real experience that was never captured in any resume variant",
+      "task_shape": "multi-document — resume chunks + evidence corpus + gap list + JD in one prompt. Token count scales with evidence corpus size; observed range 8K–60K depending on corpus.",
+      "execution_policy": "manual_only",
+      "local_execution_allowed": false,
+      "default_action_on_run_click": "generate_prompt_file_only",
+      "evidence": "Not yet tested against local models. Evidence attribution (cite exact filename + verbatim text for each gap closure) is the same failure mode that broke Stage 3 on all 3 local models — those models invented filenames and ignored the citation format entirely. This stage adds MORE source files than Stage 3, making local failure more likely. Defaults to manual_only until evidence exists to the contrary.",
+      "ui_must_show": [
+        "Stage requires manual Claude.ai review — local execution is disabled by default",
+        "Evidence attribution is critical: every gap closure must cite exact source file and verbatim text — do not accept output that generalizes without citing"
+      ]
+    },
     "cover_letter": {
       "script": "cover_letter.sh",
       "description": "Cover letter draft for one resume against one JD",

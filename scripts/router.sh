@@ -71,7 +71,12 @@ if ls input/other/* 1> /dev/null 2>&1; then
     filename=$(basename -- "$f")
     name="${filename%.*}"
 
-    docker exec markitdown markitdown "/input/other/$filename" -o "/output/$name.md"
+    echo "➡️ Processing $filename"
+
+    # ✅ Plain text → no need for MarkItDown (prevents encoding crash)
+    cp "$f" "output/$name.md"
+
+    echo "✅ Saved: output/$name.md"
   done
 fi
 

@@ -54,6 +54,13 @@ markitdown-codespace/
 ---
 
 ## Workflows
+### One time data set building
+```
+# Stage -1 - (One Time Activity) — file-level edits Enhance based on evidence
+# → (converts evidence to output/career_wealth_chunk/*.md")
+./scripts/ingest_evidence.sh
+
+```
 
 ### Single resume, manual
 
@@ -68,7 +75,7 @@ markitdown-codespace/
 # → output/cover/cover_letter.pdf
 ```
 
-### Multi-variant, manual (recommended path)
+### Multi-variant, manual (recommended path - per round)
 
 ```bash
 # Stage 0/1 — fit gate + ranking
@@ -85,14 +92,33 @@ rm -f chunks/<jd_basename>_part_*.md   # drop JD chunks from retrieval pool
 # → upload prompts/ats_prompt.txt to Claude.ai
 # → or run locally: ./scripts/llm_execute.sh prompts/ats_prompt.txt stage_2_ats_optimize <model>
 
+"
 # Stage 3 — file-level edits
 ./scripts/ats_recommend.sh "output/JD.md" "<variant_name_without_extension>"
 # → upload prompts/ats_recommend_prompt.txt to Claude.ai (manual_only per policy)
 
-# Cover letter
+# Stage 4 - Run the gap pass:
+./scripts/ats_evidence_gap.sh \"output/JD.md\" \"<variant_name>\""
+# → prompts/ats_evidence_gap_prompt.txt  [UPLOAD TO CLAUDE.AI]"
+# Surfaces real experience never captured in any resume variant"
+
+# Stage 5 - Convert the updated resume PDF inside the container
+docker exec markitdown markitdown "/output/Nanditha_Murthy_Resume_JD5.pdf" \
+  -o "/output/Nanditha_Murthy_Resume_JD5.md"
+
+# Verify it produced content
+wc -c output/Nanditha_Murthy_Resume_JD5.md
+
+# Stage 6 - Cover letter for the updated file
 ./scripts/cover_letter.sh "output/JD.md" "output/<chosen>.md"
+
+./scripts/cover_letter.sh "output/JD5.md" "output/Nanditha_Murthy_Resume_JD5.md"
+
+"
 # → upload prompts/cover_letter_prompt.txt to Claude.ai
 ./scripts/md_to_pdf.sh "output/cover/cover_letter.md"
+
+
 ```
 
 ### Agent workflow (Ollama)

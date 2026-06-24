@@ -1,0 +1,48 @@
+Length: DEEP
+
+Confidence: Certain
+
+Edits by File
+FILE: Nanditha_Murthy_Resume_Dexcom_part_2.md
+Current: "Senior Technical Program Manager with 13+ years defining, planning, and executing large-scale technical programs across regulated environments (medical devices, banking, healthcare)..."
+Paraphrase: "Senior Technical Program Manager with 13+ years driving end-to-end cross-functional program delivery across regulated environments (medical devices, banking, healthcare), including platform programs that accelerated developer velocity and enabled seamless development of intelligent digital services. Prior hands-on development of Dexcom's G5 CGM platform."
+Why: JD's primary frame is "Digital Platform" and "speed of innovation through platforms that enable seamless development." Summary must mirror this, not just "executing programs."
+
+FILE: Nanditha_Murthy_Resume_Dexcom_part_3.md
+Current: "Cross-Functional Execution Without Direct Authority · Change Management & Impact Analysis · Agile / Scrum / Kanban / SAFe"
+Paraphrase: Add "Developer Experience (DevEx) · Platform Adoption & Enablement · Developer Productivity" to the competencies list.
+Why: "Developer Experience" appears in the job title. Zero mention in competencies is an ATS gap. The onboarding reduction and reusable delivery assets bullets are the factual basis for this claim.
+
+FILE: Nanditha_Murthy_Resume_Dexcom_part_5.md
+Current: "Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment."
+Paraphrase: "Improved developer onboarding experience 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks), directly reducing time-to-productivity for engineering teams; accelerated time-to-market 35% through cross-functional stakeholder alignment."
+Why: "Developer Experience" and "speed of innovation" are core JD themes. Reframing this as a DevEx outcome rather than a delivery efficiency metric is a presentation fix — the underlying fact is real.
+
+FILE: Nanditha_Murthy_Resume_Dexcom_part_6.md (TD Bank block)
+Current: "Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents."
+Paraphrase: "Reduced developer onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks), enabling faster engineering team ramp-up; led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 platform transformations with zero Sev-1 incidents."
+Why: Same DevEx reframing. "Engineering team ramp-up" and "platform transformations" connect directly to JD's Digital Platform language.
+
+FILE: Nanditha_Murthy_Resume_Dexcom_part_9.md
+Current: No PMP, no PSM/CSM listed.
+Note: SAFe DevOps Practitioner is present and valid — that partially covers the preferred agile certifications. No change needed here, but see gaps below.
+
+Chunks Requiring No Change
+
+part_1.md — header, leave as-is
+part_4.md — AWS (EKS, Lambda, S3, EC2) is explicitly listed; cloud-native AWS requirement is covered
+part_7.md — AI platform project; not relevant to this JD, leave as-is
+part_8.md — education, leave as-is
+
+
+GAPS — NO MATCHING CHUNK
+Presentational gaps (fixable by paraphrase above):
+
+"Developer Experience" terminology missing from summary and competencies — addressed above
+
+Structural gaps (cannot be closed by paraphrase):
+
+PMP certification — JD lists as desirable. No PMP in any chunk. Do not imply it.
+PSM or CSM certification — JD lists as preferred. SAFe PO/PM and SAFe DevOps are present but are not PSM/CSM equivalents. Do not conflate them.
+Quality Management System (QMS) experience — JD specifically mentions "ResMed Quality Management System." Dexcom V&V experience is the closest analog but is from 2014-2015 and framed as engineering, not program management in a QMS context. This is a weak structural match — do not stretch it.
+Budget tracking — JD explicitly lists "tracking budget" as a key deliverable. No budget ownership metric appears in any chunk. This is a structural gap.

@@ -1,0 +1,50 @@
+
+Ran 2 commands, viewed a file
+Length: DEEP
+Confidence: Certain
+
+Stage 0: Is This Worth Pursuing With This Resume Bank?
+GOOD FIT. Proceed to full ranking.
+
+The bank's core profile — private-sector enterprise tech TPM, 13+ years, SaaS-adjacent platform delivery (banking, cloud APIs, cross-functional multi-team programs), IC leadership role — maps cleanly to what Okta is hiring for. The JD's sector is private enterprise SaaS; the bank's sector is private enterprise regulated tech. The stakeholder type required is internal engineering/product/design leadership, which is precisely what this candidate navigated at TD Bank and Citi. The required scope is multi-team, cross-functional, multi-quarter SaaS product delivery at Staff IC level — the bank has clear evidence of this. No structural sector gap exists.
+
+Stage 1: Ranking
+Okta's JD priorities distilled: (1) large-scale multi-team SaaS product delivery, inception to GA, (2) Staff/IC leadership with no direct authority, (3) risk management and executive communication, (4) process innovation and coaching. It explicitly says "Product Engineering team" delivering "next generation security solutions" — this is SaaS product delivery, not professional services delivery.
+
+Variants that should be grouped out immediately:
+Canada_Life, Valon, Veeva — framed as Engineering Lead / Java developer roles, wrong positioning entirely for a Staff TPM JD.
+Camunda, Deloitte, Deloitte_2, Pfizer, Goldman — framed as PS delivery, change management, or strategy/transformation consulting. Okta is not hiring a PS practitioner or change consultant; it's hiring a Staff TPM for internal Product Engineering.
+
+Ranking (with scores)
+| Rank | Variant | Domain Fit | Seniority/Scope Fit | Requirement Coverage | Overall |
+|------|---------|------------|----------------------|----------------------|----------|
+| 1 | Anthropic.md | 82 | 85 | 80 | 83 |
+| 2 | Meta.md | 80 | 85 | 80 | 82 |
+| 3 | Sony.md | 80 | 85 | 78 | 81 |
+| 4 | JD5.md | 78 | 82 | 78 | 80 |
+| 5 | Humana.md | 75 | 80 | 76 | 78 |
+| 6 | Dexcom.md | 75 | 80 | 76 | 78 |
+| 7 | TPM_grow_therapy.md | 74 | 80 | 74 | 77 |
+| 8 | Walmart_Distinguished.md | 74 | 78 | 74 | 76 |
+| 9 | Walmart_Principal.md | 72 | 78 | 72 | 75 |
+| 10 | Walmart_staff.md | 72 | 78 | 72 | 75 |
+| 11 | Audible.md | 70 | 76 | 72 | 73 |
+| 12 | PM_Oakville_RBC.md | 68 | 74 | 70 | 71 |
+| 13 | Thumbtack.md | 68 | 74 | 68 | 70 |
+
+
+Ranks 1-3 are genuinely close; score gaps are minimal and honest.
+Top Pick
+Anthropic.md by a narrow margin. It leads with "Cloud Inference & AI Model Deployment" framing most aligned to Okta's "next generation security solutions" in SaaS, includes the strongest AI/ML inference governance language (which signals familiarity with the kind of platform engineering Okta does), and positions the candidate as an IC TPM driving cross-functional programs — matching the Staff IC framing of the JD precisely. Meta.md and Sony.md are nearly identical alternatives worth considering if you want to foreground the privacy/security angle.
+
+Gaps Even in the Top Pick
+These JD requirements are not currently addressed in Anthropic.md and will need active attention in tailoring:
+
+"Driving programs from code complete to General Availability (end-to-end go-to-market phases)" — the bank has delivery lifecycle evidence but it's not framed as code-complete-to-GA/GTM explicitly. Okta explicitly calls this out as a required proof point.
+Identity/security product domain — nothing in the bank maps to identity, IAM, or access management at product level. The Thumbtack variant has a thin NPID/IAM thread but it's too niche and the variant framing is wrong for Okta. This is a gap that cannot be manufactured; it can only be acknowledged or deemphasized.
+"Fast-paced SaaS environment" + customer-first mindset — the bank's SaaS evidence is cloud platform delivery, not SaaS product cycles with external customers. The summary needs one sentence making the SaaS delivery claim explicit.
+PMP or Agile certification preference — SAFe certs are present and relevant; this is effectively covered, but the JD names PMP and CSM/CSPO specifically. Worth noting SAFe DevOps Practitioner + SASM in the certs section more visibly.
+
+
+Variants With No Real Fit
+Skip Stage 2 evaluation entirely for: Canada_Life, Valon, Veeva (wrong role type), and Goldman, Camunda, Deloitte, Deloitte_2, Pfizer (PS/strategy framing that signals the wrong value proposition to an internal SaaS product engineering hiring team).

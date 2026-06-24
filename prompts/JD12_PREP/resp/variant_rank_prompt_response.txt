@@ -1,0 +1,66 @@
+I have enough to work with. Let me now read the variant list to confirm all 21 names before scoring.I now have enough across all key variants to produce the full analysis. The variants are structurally very similar in their underlying experience; the differences are framing emphasis. Let me produce the output.
+
+`Length: DEEP`
+`Confidence: Likely`
+
+---
+
+## Stage 0: Is This Worth Pursuing With This Resume Bank?
+
+**GOOD FIT.**
+
+The JD's core requirements: (1) **Healthcare sector** — NYU Langone is an academic medical center, EPMO context; (2) **Internal enterprise IT stakeholders** — IT leadership, business stakeholders, EPMO PMs; (3) **Cloud/AI/Databricks portfolio PM** — program management over Cloud, AI/ML, and data platform initiatives. The bank's profile — regulated healthcare experience (Dexcom FDA device, Divinity Science HIPAA/AI platform, Harvard Medical School AI cert), 13+ years enterprise TPM, cloud platforms (AWS/Azure), and active AI/ML program delivery — maps directly to all three axes. No structural sector gap exists. The Databricks gap is real but is a keyword gap, not a domain gap; it's addressable in tailoring.
+
+---
+
+## Stage 1: Ranking
+
+| Rank | Variant | Domain Fit | Seniority/Scope Fit | Requirement Coverage | Overall |
+|---|---|---|---|---|---|
+| 1 | Humana.md | 88 | 85 | 72 | 84 |
+| 2 | TPM_grow_therapy.md | 82 | 83 | 68 | 79 |
+| 3 | JD5.md | 80 | 83 | 68 | 78 |
+| 4 | Walmart_Principal_R-2506205.md | 75 | 80 | 65 | 75 |
+| 5 | Walmart_Distinguished_R-2479383.md | 74 | 80 | 64 | 74 |
+| 6 | Walmart_staff_R-2506210.md | 73 | 78 | 63 | 73 |
+| 7 | Anthropic.md | 72 | 75 | 66 | 72 |
+| 8 | Audible.md | 68 | 74 | 62 | 69 |
+| 9 | Deloitte.md | 65 | 72 | 60 | 67 |
+| 10 | Deloitte_2.md | 64 | 71 | 59 | 66 |
+| 11 | Camunda.md | 62 | 70 | 58 | 65 |
+| 12 | Pfizer.md | 63 | 65 | 57 | 63 |
+| 13 | Veeva.md | 62 | 68 | 56 | 63 |
+| 14 | Meta.md | 60 | 65 | 54 | 61 |
+| 15 | Thumbtack.md | 58 | 64 | 52 | 59 |
+| 16 | Valon.md | 56 | 62 | 50 | 57 |
+| 17 | Sony.md | 54 | 60 | 48 | 55 |
+| 18 | Goldman.md | 52 | 65 | 50 | 55 |
+| 19 | PM_Oakville_RBC.md | 50 | 62 | 48 | 53 |
+| 20 | Canada_Life.md | 42 | 55 | 42 | 46 |
+| 21 | Dexcom.md | 40 | 42 | 38 | 40 |
+
+*Note: Ranks 4–6 (Walmart variants) are genuine near-ties; score gaps are not meaningful. Ranks 9–11 are also effectively tied.*
+
+---
+
+### Top Pick
+
+**Humana.md** is the clear starting point. Its summary already leads with "regulated healthcare and banking," the Divinity Science bullets explicitly call out HIPAA/AI platform governance and HITL workflows, and the framing is portfolio/cloud/AI TPM — matching all three of NYU Langone's core requirements. It outscores the others on Domain Fit because healthcare is front-loaded in the summary rather than buried, which matters for an ATS and for the EPMO hiring manager reading variant #1 of many.
+
+---
+
+### Gaps Even in the Top Pick
+
+1. **Databricks** — not mentioned anywhere in the bank. This is the JD's third named technology pillar. Need a truthful bridge sentence: e.g., data lakehouse delivery, Spark-based pipelines, or at minimum framing enterprise data platform governance in a way that signals readiness to manage Databricks programs.
+2. **PMP certification** — listed as *required* in the JD. The bank only shows SAFe, Google PM cert, and MS CS. This is a hard gate risk; address it in a cover letter or flag it explicitly.
+3. **People management of PMs** — the JD calls for leading *a team of specialized project managers*, not just engineers. The Humana variant shows managing 7 engineers, not PMs. Needs a reframe or addition that shows PM coaching/mentoring (the Walmart variants actually surface this better — worth pulling that language in).
+4. **Budget ownership** — the JD explicitly names "maintain program budgets." No variant surfaces this prominently; it needs to be added with concrete evidence.
+5. **Healthcare IT / EHR-adjacent context** — the Dexcom and Divinity Science experience is there but framed as AI governance, not healthcare IT delivery. NYU Langone's EPMO world is Epic, clinical systems, EMR integrations. A sentence acknowledging healthcare IT workflow context (even aspirationally scoped) would help.
+
+---
+
+### Variants With No Real Fit for Stage 2
+
+**Canada_Life.md** and **Dexcom.md** — both are framed as engineering/technical lead roles (Java platform delivery, firmware engineering). Wrong job family entirely for this PM Director-level EPMO role. Do not run these through Stage 2.
+
+**Goldman.md**, **PM_Oakville_RBC.md**, **Valon.md** — financial services sector framing with no healthcare emphasis. Domain mismatch is significant enough that even strong tailoring would read as a stretch against a healthcare-system EPMO role.

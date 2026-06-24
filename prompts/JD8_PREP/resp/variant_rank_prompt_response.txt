@@ -1,0 +1,55 @@
+I have enough to execute the full assessment. Let me now look at the JD5 and PM_Oakville_RBC variants which are most likely to be banking-targeted.I now have enough to execute the full analysis. Let me check the Deloitte variant title quickly.`Length: DEEP`
+`Confidence: Likely`
+
+---
+
+## Stage 0: Is This Worth Pursuing With This Resume Bank?
+
+**PARTIAL FIT**
+
+The bank's core profile: private-sector financial services TPM/delivery lead, 13+ years, platform/API delivery focus, banking-adjacent (TD Bank internal platform, Citi derivatives execution). The overlap is real: TD Bank experience is genuine Canadian banking, Citi is capital markets, both are regulated financial services with audit/compliance rigor, and delivery credibility at scale ($1B+/day, zero audit violations) directly maps to EY's accountability expectations.
+
+The structural gap: the JD requires demonstrated **core banking domain delivery** — lending, deposits, origination, servicing, cards, payments, retail/commercial banking platforms, and ideally core banking vendor ecosystems (Temenos, Finastra, FIS, Fiserv, Mambu, etc.). The bank's experience is in **infrastructure and API platform delivery inside a bank**, not in core banking product/domain delivery. TD Bank work was backend modernization (Java/Kafka API platform), not a core banking implementation or migration. Citi work was derivatives/futures middle-office, not retail/commercial banking. Neither surfaces core banking domain knowledge. No variant names a core banking vendor or a retail/commercial banking product delivery.
+
+The candidate can credibly claim: banking-sector execution, regulated delivery, stakeholder management in a large bank, PCI/audit compliance. The candidate cannot credibly claim: core banking domain expertise, end-to-end production implementation of a banking product (loans, deposits, origination), or vendor-led core banking SI experience. That gap will be visible to any EY Banking Technology hiring manager who reads the JD carefully.
+
+Proceed to ranking. The best variant will need genuine reframing toward the banking delivery execution angle — not just paraphrasing.
+
+---
+
+## Stage 1: Ranking
+
+| Rank | Variant | Domain Fit | Seniority/Scope Fit | Requirement Coverage | Overall |
+|---|---|---|---|---|---|
+| 1 | Nanditha_Murthy_Resume_Goldman.md | 65 | 78 | 62 | 70 |
+| 2 | Nanditha_Murthy_Resume_PM_Oakville_RBC.md | 62 | 75 | 60 | 67 |
+| 3 | Nanditha_Murthy_Resume_Audible.md | 60 | 72 | 62 | 65 |
+| 4 | Nanditha_Murthy_Resume_Deloitte.md | 58 | 70 | 55 | 63 |
+| 5 | Nanditha_Murthy_Resume_Deloitte_2.md | 58 | 70 | 55 | 63 |
+| 6 | Nanditha_Murthy_Resume_Camunda.md | 52 | 65 | 52 | 58 |
+| 7 | Nanditha_Murthy_Resume_Canada_Life.md | 55 | 60 | 52 | 57 |
+| 8–21 (grouped — wrong domain/sector): | Anthropic, Audible\*, Dexcom, Humana, JD5, Meta, Pfizer, Sony, TPM_grow_therapy, Thumbtack, Valon, Veeva, Walmart variants | 25–45 | 45–65 | 35–50 | 35–52 |
+
+*Audible ranked separately at #3 because the financial transaction framing is stronger than the AI/LLM-forward variants.
+
+---
+
+### Top Pick
+
+**Goldman.md** is the strongest starting point. Its framing — "Senior Program Manager | Change Management & Digital Transformation | Global Banking & Markets" — positions the candidate in a capital markets/financial services delivery leadership context rather than a TPM/platform engineer context, which better matches EY's "delivery manager who speaks to banking executives" expectation. The Citi bullets in this variant are developed with more stakeholder and governance language (MD/CIO-level, FINRA consent order, audit-ready evidence packs) than other variants, which directly maps to EY's client advisory and executive-credibility requirements.
+
+---
+
+### Gaps Even in the Top Pick
+
+1. **Core banking domain** — no lending, deposits, origination, servicing, cards, or payments delivery experience anywhere in the bank. This is the JD's primary requirement and cannot be addressed through reframing; it must be explicitly acknowledged in any cover material.
+2. **Core banking vendor ecosystem** — zero mention of Temenos, Finastra, FIS, Fiserv, Mambu, Thought Machine, or comparable platforms. EY explicitly names these as differentiators.
+3. **Consulting/SI delivery model** — the TD Bank role was as an embedded practitioner, not an external SI delivery lead accountable to a client. EY is hiring for external consulting delivery. The Camunda/Deloitte variants partially address this framing; Goldman does not.
+4. **Retail/commercial banking production cutover** — the JD specifically asks for a "complex banking production implementation" track record. No variant surfaces this directly.
+5. **Business development contribution** — no variant shows RFP/proposal support experience; required for the BD & Practice Support section of the JD.
+
+---
+
+### Variants With No Real Fit
+
+Skip Stage 2 evaluation entirely for: **Anthropic, Dexcom, Humana, JD5, Meta, Pfizer, Sony, TPM_grow_therapy, Thumbtack, Valon, Veeva, all three Walmart variants**. These are framed for AI model delivery, healthcare, tech-product TPM, or consumer-facing roles — none of which map to EY Banking Technology's sector, stakeholder type, or scope requirements.

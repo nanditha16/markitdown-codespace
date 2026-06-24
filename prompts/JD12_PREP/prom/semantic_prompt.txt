@@ -1,0 +1,113 @@
+You are analyzing relevant document sections.
+Answer using ONLY the context below.
+
+QUESTION:
+Job Search
+Job Listing
+Program Manager – Strategic Cloud & AI Portfolio
+Job ID: 1155742_RR00115463
+
+Facility: NYU Langone Health
+
+Position Type: Full-Time/Regular
+
+Shift: Day
+
+Schedule: 9am-5pm
+
+Department: IT/Health IT/Informatics, MCIT-EPMO-Applications (C947), NYU Langone Health
+
+Apply for This Position
+ 
+Apply as Current Employee
+
+A male staff member at NYU Langone looks at a computer screen while sitting in a room with other computer-focused staff.
+NYU Langone Health is a fully integrated health system that consistently achieves the best patient outcomes through a rigorous focus on quality that has resulted in some of the lowest mortality rates in the nation. Vizient Inc. has ranked NYU Langone the No. 1 comprehensive academic medical center in the country for three years in a row, and U.S. News & World Report recently placed nine of its clinical specialties among the top five in the nation. NYU Langone offers a comprehensive range of medical services with one high standard of care across 6 inpatient locations, its Perlmutter Cancer Center, and over 320 outpatient locations in the New York area and Florida. With $14.2 billion in revenue this year, the system also includes two tuition-free medical schools, in Manhattan and on Long Island, and a vast research enterprise with over $1 billion in active awards from the National Institutes of Health.
+
+For more information, go to NYU Langone Health, and interact with us on LinkedIn, Glassdoor, Indeed, Facebook, Twitter, YouTube and Instagram.
+
+Position Summary:
+We have an exciting opportunity to join our team as a Program Manager – Strategic Cloud & AI Portfolio.
+
+The Program Manager, Strategic Cloud & AI Portfolio, will lead a newly created team of specialized project managers focused on high impact Cloud, AI, and Databricks initiatives. This role is responsible for shaping and driving an optimized project management framework for these strategic programs, overseeing the full project lifecycle. 
+You will coordinate cross functional teams, vendors, and business stakeholders to deliver innovative technology solutions that advance the organizations strategic goals. In addition to leading a portfolio of complex initiatives, you will mentor and optimize project management capabilities across the EPMO.
+
+Job Responsibilities:
+
+Strategic Leadership & Portfolio Ownership
+
+Lead a dedicated team of project managers delivering Cloud, AI, and Databricks projects across the entire lifecycle (discovery, planning, execution, launch, and optimization). 
+Partner with leadership and strategy teams to execute projects in the roadmap for Cloud, AI, and Databricks. 
+Design, implement, and continuously refine the project management framework, including standards, templates, and best practices. 
+Serve as the primary point of contact for executives and stakeholders for the strategic Cloud/AI/Databricks program portfolio, providing clear visibility into status, risks, and outcomes.
+Program & Project Delivery Excellence
+
+Plan, manage, and lead complex programs spanning infrastructure, data, analytics, and application teams. 
+Oversee endtoend delivery: create program plans, define milestones, manage dependencies, and guide teams to successful outcomes. 
+Proactively identify resource needs, drive quality reviews, perform risk management, and escalate functional, quality, or timeline issues appropriately across projects and business areas. 
+Track key milestones and outcomes, present options to meet evolving business needs. 
+Maintain program budgets and optimize resource utilization across the portfolio.
+Framework, Governance & Performance
+
+Develop and maintain program governance structures for Cloud, AI, and Databricks projects, including steering committees, decision rights, and escalation paths. 
+Manage program critical paths, interproject dependencies, risks, and issues, ensuring timely mitigation and transparent communication. 
+Perform impact analysis on change requests and make datadriven recommendations to optimize scope, schedule, and value delivery. 
+Define and manage program objectives and key performance indicators (KPIs), leveraging analytics to measure and communicate program and experience success metrics. 
+Create and present executivelevel program status updates and steering committee presentations that are insightful, actionable, and aligned with strategic goals.
+Team Leadership & PMO Enablement
+
+Lead, coach, and inspire a specialized team of Cloud/AI/Databricks project managers, fostering a culture of accountability, innovation, and continuous improvement. 
+Mentor project managers across the broader PMO, helping them build skills and confidence in managing advanced Cloud, AI, and data platforms. 
+Promote and implement best practices delivery models where appropriate for Cloud and AI initiatives. 
+Encourage knowledge sharing, reusable patterns, and playbooks that raise the maturity of the entire PMO.
+Stakeholder Partnership & Experience Management
+
+Collaborate with business stakeholders to define overall program goals, scope, and success criteria for Cloud, AI, and Databricks initiatives. 
+Lead discussions on analytics and experience metrics in partnership with Experience Leads. 
+Monitor the planning and execution of product delivery, with particular attention to operational training, readiness, adoption, and support. 
+Maintain open, proactive dialogue with leads on product delivery timelines and risks, supporting escalation and mitigation.
+Minimum Qualifications:
+To qualify you must have a Advanced knowledge and proficiency in project and program management methodologies, tools, financial management, and resource management practices.
+Demonstrated success managing large, complex IT programs using formal methodologies such as the PMI Project Management Body of Knowledge (PMBOK) or equivalent.
+Proven experience leading technology programs in at least one of the following areas (multiple areas strongly preferred): o Cloud platforms (e.g., AWS, Azure, GCP) o AI/ML initiatives (e.g., data science, ML models, generative AI solutions) o Data platforms and analytics (e.g., Databricks, data lakes, enterprise data warehouses)
+Strong time management, prioritization, and organizational skills, with a track record of delivering under compressed timelines and high visibility.
+Exceptional executive communication and presentation skills; able to synthesize complex information into clear, compelling narratives.
+Highly analytical and process oriented, with the ability to apply structure to complex, ambiguous problems.
+Strong leadership, team building, and mentoring skills, with demonstrated ability to develop high performing teams.
+
+Preferred Qualifications:
+BA/BS degree in Information Systems, Computer Science, Business, or a related field.
+10+ years of experience in project and/or program management.
+Experience leading strategic technology programs in complex environments; healthcare industry experience highly desired.
+PMP certification required; additional certifications (e.g., PgMP, SAFe, Agile, Cloud or Databricks certifications) are a plus.
+
+Qualified candidates must be able to effectively communicate with all levels of the organization.
+
+NYU Langone Health provides its staff with far more than just a place to work. Rather, we are an institution you can be proud of, an institution where you’ll feel good about devoting your time and your talents.
+
+At NYU Langone Health, we are committed to supporting our workforce and their loved ones with a comprehensive benefits and wellness package. Our offerings provide a robust support system for any stage of life, whether it’s developing your career, starting a family, or saving for retirement. The support employees receive goes beyond a standard benefit offering, where employees have access to financial security benefits, a generous time-off program and employee resources groups for peer support. Additionally, all employees have access to our holistic employee wellness program, which focuses on seven key areas of well-being: physical, mental, nutritional, sleep, social, financial, and preventive care. The benefits and wellness package is designed to allow you to focus on what truly matters. Join us and experience the extensive resources and services designed to enhance your overall quality of life for you and your family.
+
+NYU Langone Health is an equal opportunity employer and committed to inclusion in all aspects of recruiting and employment. All qualified individuals are encouraged to apply and will receive consideration. We require applications to be completed online.
+
+View Know Your Rights: Workplace discrimination is illegal.
+
+NYU Langone Health provides a salary range to comply with the New York state Law on Salary Transparency in Job Advertisements. The salary range for the role is $121,792.21 – $189,189.00 Annually. Actual salaries depend on a variety of factors, including experience, specialty, education, and hospital need. The salary range or contractual rate listed does not include bonuses/incentive, differential pay or other forms of compensation or benefits.
+
+To view the Pay Transparency Notice, please click here
+
+Salaries shown on independent jobs related websites reflect market averages and do not represent information obtained directly from NYU Langone. We invite and encourage each candidate to discuss salary/hourly specifics during the application and hiring process.
+
+RELEVANT CONTEXT:
+
+- NYU Langone Health is a fully integrated health system that consistently achieves the best patient outcomes through a rigorous focus on quality that has resulted in some of the lowest mortality rates in the nation. Vizient Inc. has ranked NYU Langone the No. 1 comprehensive academic medical center in the country for three years in a row, and U.S. News & World Report recently placed nine of its clinical specialties among the top five in the nation. NYU Langone offers a comprehensive range of medical services with one high standard of care across 6 inpatient locations, its Perlmutter Cancer Center, and over 320 outpatient locations in the New York area and Florida. With $14.2 billion in revenue this year, the system also includes two tuition-free medical schools, in Manhattan and on Long Island, and a vast research enterprise with over $1 billion in active awards from the National Institutes of Health.
+- NYU Langone Health provides its staff with far more than just a place to work. Rather, we are an institution you can be proud of, an institution where you’ll feel good about devoting your time and your talents.
+- NYU Langone Health is an equal opportunity employer and committed to inclusion in all aspects of recruiting and employment. All qualified individuals are encouraged to apply and will receive consideration. We require applications to be completed online.
+- At NYU Langone Health, we are committed to supporting our workforce and their loved ones with a comprehensive benefits and wellness package. Our offerings provide a robust support system for any stage of life, whether it’s developing your career, starting a family, or saving for retirement. The support employees receive goes beyond a standard benefit offering, where employees have access to financial security benefits, a generous time-off program and employee resources groups for peer support. Additionally, all employees have access to our holistic employee wellness program, which focuses on seven key areas of well-being: physical, mental, nutritional, sleep, social, financial, and preventive care. The benefits and wellness package is designed to allow you to focus on what truly matters. Join us and experience the extensive resources and services designed to enhance your overall quality of life for you and your family.
+- For more information, go to NYU Langone Health, and interact with us on LinkedIn, Glassdoor, Indeed, Facebook, Twitter, YouTube and Instagram.
+- Senior Technical Program Manager with 13+ years defining, planning, and executing large-scale technical programs spanning cloud operations, reliability, and AI-driven automation in regulated healthcare and banking. Led cross- functional programs spanning 8+ lines of business, delivering 99.99% uptime platforms supporting $1B+ daily transactions with zero audit violations. Currently leading AI/ML program delivery: LLM evaluation and inference stacks
+- Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+- -  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+- -  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment with AIOps, log summarization, incident triage.
+- Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+- Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+- (Ollama, vLLM), model-selection benchmarking, human-in-the-loop (HITL) review processes, and AI governance under

@@ -1,0 +1,315 @@
+# Role
+You are continuing an ATS resume evaluation. In a prior pass, this resume
+was scored against the job description below (ATS Match, Technical
+Alignment, Leadership Alignment, Domain Alignment, gaps, missing
+keywords) and the resume bank was already gated for fundamental fit
+(domain/sector/stakeholder type) — this step assumes that gate passed.
+Your job now is narrower and more concrete: turn remaining findings into
+file-level, line-level edit instructions for this ONE chosen variant
+(Nanditha_Murthy_Resume_Sony).
+
+# Boundary — what paraphrasing CAN and CANNOT fix
+Paraphrasing can close PRESENTATION gaps: a real fact exists in the
+resume but isn't phrased in the JD's terminology, isn't emphasized, or is
+buried. Paraphrasing CANNOT close STRUCTURAL gaps: the JD requires a
+type of experience (a sector, a stakeholder type, a scale of
+responsibility, a credential) that has no genuine counterpart anywhere
+in the chunks below. If you encounter a structural gap while doing this
+task, do not stretch a loosely-related chunk to cover it — name it under
+"GAPS — NO MATCHING CHUNK" instead. Stretching a chunk to imply
+experience that isn't there is worse than leaving the gap visible,
+because it sets up a claim the candidate can't actually back up in an
+interview.
+
+# Task
+For each recommendation you would make to improve this resume's match to
+the JD:
+1. Identify the SPECIFIC chunk file (from the inventory below) that
+   contains the relevant section.
+2. Quote the exact current text from that file.
+3. Propose a minimal paraphrase — reword/reorder/re-emphasize using the
+   JD's terminology where the underlying fact genuinely matches. Do not
+   add any skill, tool, metric, employer, or outcome not already present
+   in that chunk.
+4. If a JD requirement has no corresponding fact in ANY chunk below, say
+   so explicitly under "GAPS — NO MATCHING CHUNK" rather than inventing
+   one or forcing a weak chunk to stand in for it.
+
+# Constraints — DO NOT BREAK THESE
+- Every edit must cite the exact filename it applies to.
+- Every edit must preserve all numbers exactly (years, percentages,
+  dollar amounts, team sizes).
+- Minimal paraphrase only — this is not a rewrite-everything pass. If a
+  chunk already matches the JD's language well, say so and leave it alone
+  rather than changing it for the sake of changing it.
+- Do not propose a paraphrase for a structural gap (see Boundary above).
+  A reworded sentence that implies experience the candidate doesn't have
+  is a worse outcome than an honestly named gap.
+
+# Output Format
+
+## Edits by File
+For each chunk file that needs a change:
+
+### FILE: [filename]
+Current: [exact quoted text]
+Paraphrase: [minimal reworded version]
+Why: [which JD requirement/keyword this addresses]
+
+## Chunks Requiring No Change
+List filenames that already match the JD well — explicitly confirming
+"leave as-is" prevents unnecessary edits.
+
+## GAPS — NO MATCHING CHUNK
+JD requirements with no supporting fact in any chunk below, including
+any that are structural (not fixable by paraphrase) rather than
+presentational. Distinguish the two explicitly if both types appear.
+
+---
+
+# JOB DESCRIPTION
+Jobs search
+Senior Technical Program Manager, Prime Video Ads
+Amazon
+- 
+Full-time
+- 
+Toronto, Ontario, Canada
+- 
+C$ 128.10k - C$ 214k / year
+- 
+1w ago
+Description
+Join our mission to create the world's most customer-centric advertising platform while protecting user privacy! This is a young and evolving business within Amazon where creativity and drive can have a lasting impact on the way video is enjoyed worldwide. You will be encouraged to see the big picture, be creative, and positively impact millions of customers. We’re building the future of advertising — yes, it’s challenging, but it’s also a lot of fun. 
+
+
+
+We're seeking a Sr. Technical Program Manager (TPM) to manage programs spanning innovative advertising formats, Ad measurement and Ad privacy on Prime Video.
+
+
+
+As a Prime Video technologist, you’ll have end-to-end ownership of the product, user experience, design, and technology required to deliver state-of-the-art experiences for our customers. You’ll get to work on projects that are fast-paced, challenging, and varied. You'll have the unique opportunity to shape the technical vision for Prime Video Advertising across multiple organizations and domains. This role offers the chance to make a lasting impact on one of the world's largest streaming advertising platforms during a period of rapid growth. You’ll also be able to experiment with new possibilities, take risks, and collaborate with remarkable people. 
+
+
+
+Key job responsibilities
+
+Program Leadership & Strategy
+
+* Drive end-to-end delivery of complex, cross-functional technical programs spanning multiple teams and organizations
+
+* Define program vision, strategy, and roadmap aligned with business objectives and technical requirements
+
+* Own program-level decision-making, trade-offs, and prioritization across competing demands
+
+
+
+Planning & Cross-Functional Coordination
+
+* Partner with engineering, product, design, operations, and business teams to align on goals and deliverables
+
+* Build strong relationships with stakeholders at all levels, including senior leadership
+
+* Develop comprehensive program plans including scope, timelines, milestones, resource requirements, and success metrics
+
+* Track program health through metrics, dashboards, and regular status reporting
+
+
+
+Technical Acumen
+
+* Understand system architecture, technical dependencies, and integration points across services
+
+* Evaluate technical proposals and design documents for feasibility, scalability, and alignment with program goals
+
+* Partner with engineering leaders to make informed technical trade-off decisions
+
+
+
+Stakeholder Management
+
+* Communicate program status, risks, and decisions to executive leadership and key stakeholders
+
+* Manage expectations and negotiate scope, timelines, and resources with stakeholders
+
+* Present program updates, business cases, and recommendations to leadership forums
+
+
+
+Delivery & Impact
+
+* Ensure on-time, high-quality delivery of program milestones and launches
+
+* Define and track success metrics; measure business impact and customer outcomes
+
+* Own post-launch analysis and iteration based on customer feedback and metrics
+
+
+
+Process & Operational Excellence
+
+* Establish and optimize program management processes, tools, and best practices
+
+* Drive continuous improvement in team velocity, quality, and delivery predictability
+
+* Lead retrospectives and implement learnings across programs
+
+* Mentor junior TPMs and contribute to the broader TPM community 
+
+Basic Qualifications
+- 5+ years of technical product or program management experience
+
+- 3+ years of software development experience
+
+- 5+ years of technical program management working directly with software engineering teams experience
+
+- Experience managing programs across cross functional teams, building processes and coordinating release schedules
+
+- Experience building and evaluating system-level technical design
+
+- Experience developing and executing/delivering product and technical roadmaps
+
+Preferred Qualifications
+- 5+ years of project management disciplines including scope, schedule, budget, quality, along with risk and critical path management experience
+
+- Experience defining KPI's/SLA's used to drive multi-million dollar businesses and reporting to senior leadership
+
+
+
+Amazon is an equal opportunity employer and does not discriminate on the basis of protected veteran status, disability, or other legally protected status.
+
+
+
+Our inclusive culture empowers Amazonians to deliver the best results for our customers. If you have a disability and need a workplace accommodation or adjustment during the application and hiring process, including support for the interview or onboarding process, please visit https://amazon.jobs/content/en/how-we-hire/accommodations for more information. If the country/region you’re applying in isn’t listed, please contact your Recruiting Partner.
+
+
+
+The base salary range for this position is listed below. As a total compensation company, Amazon's package may include other elements such as sign-on payments and restricted stock units (RSUs). Final compensation will be determined based on factors including experience, qualifications, and location. Amazon offers comprehensive benefits including health insurance (medical, dental, vision, prescription, basic life & AD&D insurance), Registered Retirement Savings Plan (RRSP), Deferred Profit Sharing Plan (DPSP), paid time off, and other resources to improve health and well-being. We thank all applicants for their interest, however only those interviewed will be advised as to hiring status.
+
+
+
+CAN, ON, Toronto - 128,100.00 - 214,000.00 CAD annually
+
+---
+
+# CHUNK INVENTORY — variant: Nanditha_Murthy_Resume_Sony (built by smart_chunk.sh)
+
+
+### FILE: Nanditha_Murthy_Resume_Sony_part_1.md
+NANDITHA S MURTHY
+Senior Technical Program Manager | Cross-Functional Platform Delivery | Privacy, Security & AI-Enabled Execution
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+### FILE: Nanditha_Murthy_Resume_Sony_part_2.md
+SUMMARY
+Senior Technical Program Manager with 13+ years driving end-to-end technical programs from inception to delivery across matrixed
+organizations, defining roadmaps, gathering requirements, and aligning cross-functional engineering, product, and business teams to ship
+measurable impact at scale. Deep experience in privacy and security product delivery: built HIPAA/GDPR/PHIPA-governed AI systems
+with human-in-the-loop safety gates, multi-agent orchestration, and consent enforcement. Hands-on software engineering background (Java,
+Spring Boot, distributed systems) underpins technical credibility with engineering teams. Currently translating business strategy into
+executable roadmaps and driving value realization through governance, risk management, and operational readiness across matrixed global
+organizations
+
+### FILE: Nanditha_Murthy_Resume_Sony_part_3.md
+CORE COMPETENCIES
+Technical Program Management · End-to-End Product Delivery (Inception to Launch) · Privacy & Security Product Adoption · Cross-
+Functional Matrix Org Execution · Roadmap & Requirements Definition · Dependency Management & Risk Mitigation · AI Agent
+Orchestration & Prompt Engineering · Multi-Timezone Distributed Team Coordination · Metrics & Impact Measurement
+
+### FILE: Nanditha_Murthy_Resume_Sony_part_4.md
+TECHNICAL STACK
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2, Step Functions), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, Kafka, JMS, Redis
+AI & Automation: Amazon Bedrock, Azure AI Foundry, RAG Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama,
+vLLM), Multi-Agent Orchestration (AWS Step Functions)
+Methods & Tools: Jira, Confluence, Postman, Swagger, Agile / Scrum / SAFe
+
+### FILE: Nanditha_Murthy_Resume_Sony_part_5.md
+CAREER HIGHLIGHTS
+End-to-End Delivery Ownership: Drove technical programs from inception through production across 8+ lines of business, delivering
+99.99%uptime platforms supporting $1B+ daily transactions.
+Privacy & Security Product Adoption: Architected HIPAA/GDPR/PHIPA-governed multi-agent AI systems with human-in-the-loop
+safety gates —no output reaches users without passing all safety stages.
+AI Agent Orchestration: Built and deployed production multi-agent orchestration on AWS Step Functions integrating Bedrock for intent
+classification, tool-use, and human-in-the-loop callbacks.
+Cross-Functional Execution: Led globally distributed engineering teams across multiple time zones, sustaining 95% sprint predictability
+and zero rollbacks across 15+ concurrent initiatives.
+Requirements to Roadmap: Defined product requirements, scope, and phased roadmaps across 79+ user stories with measurable safety/
+quality exit criteria.
+
+### FILE: Nanditha_Murthy_Resume_Sony_part_6.md
+PROFESSIONAL EXPERIENCE
+Technical Director - Divinity Science (AI-enabled digital health platform)
+Remote | Dec 2025 – Present
+Define product roadmap and long-term strategy for a privacy-first, AI-enabled healthcare platform, gathering requirements and
+scoping features from concept through production in partnership with CTO/CEO.
+Designed human-in-the-loop (HITL) review and approval workflows ensuring no AI output reaches users without passing safety and
+compliance gates — directly addressing privacy/security product adoption challenges.
+Built multi-agent AI orchestration architecture (data isolation, auditability, HIPAA/GDPR compliance) coordinating AI agents, human
+reviewers, and automated systems across end-to-end workflows.
+Use AI tools daily for prompt engineering, agent orchestration, and requirements drafting — integrating AI to optimize and redesign
+delivery workflows for measurable efficiency gains.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro)
+Mississauga, ON | Aug 2021 – Apr 2025
+Defined, planned, and executed large-scale technical programs from inception to delivery for a mission-critical platform serving 8+ lines
+of business, establishing roadmap, scope, and requirements across matrixed stakeholders.
+Led a globally distributed team of 7 engineers across multiple time zones, delivering 15+ mission-critical initiatives with 95% sprint
+predictability and zero rollbacks.
+Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; identified cross-team
+dependencies and built mitigation strategies for platform-wide initiatives.
+Established metrics and program health indicators tracked against quarterly OKRs, providing ongoing status, risk, and issue
+communication to senior stakeholders.
+Led change impact analysis across 8+ teams during major platform transformations, achieving zero Sev-1 incidents through proactive
+dependency and risk management.
+
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi
+Mississauga, ON | Feb 2020 – Jul 2021
+Owned execution and reliability for global futures and options platforms with hands-on technical ownership (Java, Spring Boot, JMS,
+MongoDB); established work relationships across multi-disciplinary teams and external partners.
+Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery
+efficiency 20%.
+Established quality standards through code reviews and test strategy; coordinated consultants and vendor partners for predictable
+backlog delivery.
+Technology Analyst - Apple Inc (via Infosys)
+Bangalore, India | Jul 2016 – Sep 2019
+Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST) processing
+millions of subscription transactions daily, owning requirements elicitation and end-to-end solution design.
+Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and
+production support across finance and engineering stakeholders.
+Software Engineer - Dexcom
+San Diego, CA | Nov 2014 – Sep 2015
+Developed and validated the Bluetooth Low Energy interface for the G-series Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and
+data-stream parsing.
+Participated in verification and validation (V&V) activities aligned with FDA medical-device workflows, strengthening data integrity,
+defect detection, and audit readiness.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E
+telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+### FILE: Nanditha_Murthy_Resume_Sony_part_7.md
+AI PLATFORM PROJECT
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform
+Feb 2025 – Present
+Architected and deployed a production multi-agent safety pipeline on AWS Step Functions (crisis detection, OPA consent enforcement,
+LLM inference via Bedrock, governed self-improvement) — no output reaches users without passing all safety stages.
+Built supervisor agent pattern with synchronous child state machine execution, HITL via task-token callbacks, and CloudFormation IaC
+deployment; defined 79 user stories with safety invariants as measurable exit criteria.
+
+### FILE: Nanditha_Murthy_Resume_Sony_part_8.md
+EDUCATION
+Master of Science, Computer Science - San Diego State University | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) | 2005 – 2009
+
+### FILE: Nanditha_Murthy_Resume_Sony_part_9.md
+CERTIFICATIONS
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile, 2024) AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google Project
+Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (New York, NY)
+
+---
+Now produce the file-level edit recommendations following the format
+above.

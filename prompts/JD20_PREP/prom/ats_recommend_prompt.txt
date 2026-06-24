@@ -1,0 +1,230 @@
+# Role
+You are continuing an ATS resume evaluation. In a prior pass, this resume
+was scored against the job description below (ATS Match, Technical
+Alignment, Leadership Alignment, Domain Alignment, gaps, missing
+keywords) and the resume bank was already gated for fundamental fit
+(domain/sector/stakeholder type) — this step assumes that gate passed.
+Your job now is narrower and more concrete: turn remaining findings into
+file-level, line-level edit instructions for this ONE chosen variant
+(Nanditha_Murthy_Resume_Anthropic).
+
+# Boundary — what paraphrasing CAN and CANNOT fix
+Paraphrasing can close PRESENTATION gaps: a real fact exists in the
+resume but isn't phrased in the JD's terminology, isn't emphasized, or is
+buried. Paraphrasing CANNOT close STRUCTURAL gaps: the JD requires a
+type of experience (a sector, a stakeholder type, a scale of
+responsibility, a credential) that has no genuine counterpart anywhere
+in the chunks below. If you encounter a structural gap while doing this
+task, do not stretch a loosely-related chunk to cover it — name it under
+"GAPS — NO MATCHING CHUNK" instead. Stretching a chunk to imply
+experience that isn't there is worse than leaving the gap visible,
+because it sets up a claim the candidate can't actually back up in an
+interview.
+
+# Task
+For each recommendation you would make to improve this resume's match to
+the JD:
+1. Identify the SPECIFIC chunk file (from the inventory below) that
+   contains the relevant section.
+2. Quote the exact current text from that file.
+3. Propose a minimal paraphrase — reword/reorder/re-emphasize using the
+   JD's terminology where the underlying fact genuinely matches. Do not
+   add any skill, tool, metric, employer, or outcome not already present
+   in that chunk.
+4. If a JD requirement has no corresponding fact in ANY chunk below, say
+   so explicitly under "GAPS — NO MATCHING CHUNK" rather than inventing
+   one or forcing a weak chunk to stand in for it.
+
+# Constraints — DO NOT BREAK THESE
+- Every edit must cite the exact filename it applies to.
+- Every edit must preserve all numbers exactly (years, percentages,
+  dollar amounts, team sizes).
+- Minimal paraphrase only — this is not a rewrite-everything pass. If a
+  chunk already matches the JD's language well, say so and leave it alone
+  rather than changing it for the sake of changing it.
+- Do not propose a paraphrase for a structural gap (see Boundary above).
+  A reworded sentence that implies experience the candidate doesn't have
+  is a worse outcome than an honestly named gap.
+
+# Output Format
+
+## Edits by File
+For each chunk file that needs a change:
+
+### FILE: [filename]
+Current: [exact quoted text]
+Paraphrase: [minimal reworded version]
+Why: [which JD requirement/keyword this addresses]
+
+## Chunks Requiring No Change
+List filenames that already match the JD well — explicitly confirming
+"leave as-is" prevents unnecessary edits.
+
+## GAPS — NO MATCHING CHUNK
+JD requirements with no supporting fact in any chunk below, including
+any that are structural (not fixable by paraphrase) rather than
+presentational. Distinguish the two explicitly if both types appear.
+
+---
+
+# JOB DESCRIPTION
+About the job
+Lead Technical Program Manager, AI Transformation – Fintech / Credit Risk 
+
+San Diego OR San Francisco (Hybrid) 
+
+$250-350k base + bonus + equity
+
+
+
+
+
+We're partnered exclusively with a fast-growing San Diego-based fintech lender on a critical hire within their newly formed AI Transformation team. This is a rare opportunity to join at the ground floor of a multi-year AI programme that is fundamentally reshaping how small business lending works, from pre-underwriting through to sales.
+
+
+
+This is not a coordination role. This is an execution leadership position for someone who can translate AI product vision into production-ready delivery, operate confidently in a regulated environment, and hold their own in technical design conversations.
+
+
+
+The Opportunity
+
+As Technical Program Manager, you'll serve as the execution lead within the AI Transformation Pod, partnering directly with the AI Program Lead, engineering, data science, and operations teams to ship AI-enabled workflows at scale.
+
+
+
+The company is deploying AI across underwriting, pre-underwriting, and sales workflows, with the goal of improving operating efficiency, unit economics, and the customer experience for small businesses. You'll be the person who makes that happen.
+
+
+
+What You'll Own
+
+Translating AI-driven business opportunities into detailed, phased technical execution plans with clear scope, dependencies, timelines, and success metrics
+Coordinating system architecture, orchestration patterns, and integration decisions with engineering teams
+Managing dependencies across Data Engineering, Data Science, Salesforce, and external vendors
+Owning release plans, rollout strategies, logging, auditability, and version control across initiatives
+Coordinating model deployment cycles with AzureML and applied AI engineers, ensuring monitoring and performance tracking frameworks are in place.
+Serving as the primary liaison between the AI Program Lead, engineering, operations, and senior leadership
+
+
+What We're Looking For
+
+5–10 years in Technical Program Management or Engineering Program Management
+Proven track record delivering AI, ML, or data-driven systems into production
+Strong technical fluency across API integrations, workflow orchestration, cloud environments (Azure preferred), and Salesforce or similar CRM platforms
+Experience in fintech, lending, or another regulated industry — this is a hard requirement
+Background in credit risk, underwriting principles, or decision engine implementation is a strong differentiator
+Comfortable managing ambiguity and structuring complex, cross-functional initiatives into executable plans
+Degree in Computer Science, Engineering, or a related technical field; Master's preferred
+
+---
+
+# CHUNK INVENTORY — variant: Nanditha_Murthy_Resume_Anthropic (built by smart_chunk.sh)
+
+
+### FILE: Nanditha_Murthy_Resume_Anthropic_part_1.md
+NANDITHA S MURTHY
+
+Senior Technical Program Manager | Cloud Inference & AI Model Deployment | Partner Engineering Coordination
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+### FILE: Nanditha_Murthy_Resume_Anthropic_part_2.md
+SUMMARY
+
+Senior Technical Program Manager with 13+ years defining, planning, and executing large-scale technical programs across regulated environments (medical devices, banking, healthcare), including prior hands-on development of Dexcom’s G5 CGM platform. Led cross-functional programs spanning 8+ lines of business, delivering 99.99% uptime platforms supporting $1B+ daily transactions with zero audit violations. Currently leading AI/ML program delivery on Amazon Bedrock and Azure AI Foundry:
+LLM evaluation, inference stack governance, model-selection benchmarking, launch readiness, and HITL processes across HIPAA/
+GDPR-regulated environments.
+
+### FILE: Nanditha_Murthy_Resume_Anthropic_part_3.md
+CORE COMPETENCIES
+
+Technical Program Management · AI/ML Program Delivery (Model Evaluation, Inference Stacks, HITL Governance) · Program
+Governance · Roadmap Planning · Risk Identification & Mitigation · Stakeholder Alignment · Cross-Functional Execution Without
+Direct Authority · Cloud Partner Engineering Coordination · AI Model Launch Readiness & Deployment Pipelines
+
+### FILE: Nanditha_Murthy_Resume_Anthropic_part_4.md
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, Jenkins pipelines, n8n, Webhooks, Feature Flagging
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG Architectures,
+Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+### FILE: Nanditha_Murthy_Resume_Anthropic_part_5.md
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  AI Model Deployment at Scale: Owned launch readiness and inference stack governance for LLM deployments on Amazon
+Bedrock and Azure AI Foundry, coordinating partner engineering alignment, blocker tracking, and post-launch stability across regulated healthcare environments.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+### FILE: Nanditha_Murthy_Resume_Anthropic_part_6.md
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Designed human-in-the-loop (HITL) review and approval workflows for AI model changes and outputs, ensuring compliant, production-ready AI deployment in a regulated healthcare environment.
+-  Evaluated and deployed open-weight LLMs (LLaMA variants) on Amazon Bedrock and Azure AI Foundry; coordinated inference stack deployment across dev/staging/production, owned launch readiness checklists, blocker tracking, and go/no-go decisions with engineering and compliance stakeholders.
+-  Acted as primary technical interface between engineering, clinical, and external stakeholders, owning the shared AI deployment roadmap, day-to-day coordination on model changes, and incident follow-through ensuring production stability.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Defined, planned, and executed large-scale technical programs for a mission-critical API platform serving 8+ lines of business, spanning DevOps automation, security process, and platform scalability and reliability, achieving zero audit violations across four consecutive quarters.
+
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks, driving continuous improvement across delivery workflows.
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+-  Automated CI/CD and deployment pipelines (Jenkins, GitHub Actions, Terraform) shipping to multiple cloud targets (AWS,
+Azure) simultaneously, increasing release velocity 5× while maintaining compliance; owned launch readiness gates and post- launch stability tracking.
+-  Provided clear executive reporting on program status, risks, schedule trends vs. baseline, and recovery actions to VP/Director- level stakeholders across product, risk, and architecture.
+-  Reduced compliance and roadmap risk 25% through data/consent service POCs and proactive risk assessment across program milestones; accelerated time-to-market 35% through stakeholder alignment across product, risk, and architecture.
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100%audit compliance.
+-  Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 – Jul
+2021
+-  Owned execution and reliability for global futures and options platforms; led change management for business-critical enhancements, accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+-  Participated in verification and validation (V&V) activities aligned with FDA medical-device workflows, strengthening data integrity, defect detection, and audit readiness.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+### FILE: Nanditha_Murthy_Resume_Anthropic_part_7.md
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+-  Architected and owned end-to-end launch readiness for a multi-agent AI inference platform (Ollama, vLLM, RAG, prompt orchestration), defined deployment pipeline from model evaluation through production, established go/no-go criteria, and built
+HITL governance ensuring no model output reaches users without passing all safety stages.
+-  Coordinated cross-functional dependencies across engineering, compliance (GDPR/HIPAA/PHIPA), and UX teams — tracked 79 user stories with safety invariants as exit criteria, managed blocker resolution, and maintained joint roadmap across internal and external stakeholders.
+
+### FILE: Nanditha_Murthy_Resume_Anthropic_part_8.md
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) Bangalore, KA | 2005 – 2009
+
+### FILE: Nanditha_Murthy_Resume_Anthropic_part_9.md
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile, 2024) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google Project
+Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (San Francisco, CA / New York,
+NY)
+
+---
+Now produce the file-level edit recommendations following the format
+above.
