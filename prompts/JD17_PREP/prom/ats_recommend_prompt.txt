@@ -1,0 +1,225 @@
+# Role
+You are continuing an ATS resume evaluation. In a prior pass, this resume
+was scored against the job description below (ATS Match, Technical
+Alignment, Leadership Alignment, Domain Alignment, gaps, missing
+keywords) and the resume bank was already gated for fundamental fit
+(domain/sector/stakeholder type) — this step assumes that gate passed.
+Your job now is narrower and more concrete: turn remaining findings into
+file-level, line-level edit instructions for this ONE chosen variant
+(Nanditha_Murthy_Resume_Meta).
+
+# Boundary — what paraphrasing CAN and CANNOT fix
+Paraphrasing can close PRESENTATION gaps: a real fact exists in the
+resume but isn't phrased in the JD's terminology, isn't emphasized, or is
+buried. Paraphrasing CANNOT close STRUCTURAL gaps: the JD requires a
+type of experience (a sector, a stakeholder type, a scale of
+responsibility, a credential) that has no genuine counterpart anywhere
+in the chunks below. If you encounter a structural gap while doing this
+task, do not stretch a loosely-related chunk to cover it — name it under
+"GAPS — NO MATCHING CHUNK" instead. Stretching a chunk to imply
+experience that isn't there is worse than leaving the gap visible,
+because it sets up a claim the candidate can't actually back up in an
+interview.
+
+# Task
+For each recommendation you would make to improve this resume's match to
+the JD:
+1. Identify the SPECIFIC chunk file (from the inventory below) that
+   contains the relevant section.
+2. Quote the exact current text from that file.
+3. Propose a minimal paraphrase — reword/reorder/re-emphasize using the
+   JD's terminology where the underlying fact genuinely matches. Do not
+   add any skill, tool, metric, employer, or outcome not already present
+   in that chunk.
+4. If a JD requirement has no corresponding fact in ANY chunk below, say
+   so explicitly under "GAPS — NO MATCHING CHUNK" rather than inventing
+   one or forcing a weak chunk to stand in for it.
+
+# Constraints — DO NOT BREAK THESE
+- Every edit must cite the exact filename it applies to.
+- Every edit must preserve all numbers exactly (years, percentages,
+  dollar amounts, team sizes).
+- Minimal paraphrase only — this is not a rewrite-everything pass. If a
+  chunk already matches the JD's language well, say so and leave it alone
+  rather than changing it for the sake of changing it.
+- Do not propose a paraphrase for a structural gap (see Boundary above).
+  A reworded sentence that implies experience the candidate doesn't have
+  is a worse outcome than an honestly named gap.
+
+# Output Format
+
+## Edits by File
+For each chunk file that needs a change:
+
+### FILE: [filename]
+Current: [exact quoted text]
+Paraphrase: [minimal reworded version]
+Why: [which JD requirement/keyword this addresses]
+
+## Chunks Requiring No Change
+List filenames that already match the JD well — explicitly confirming
+"leave as-is" prevents unnecessary edits.
+
+## GAPS — NO MATCHING CHUNK
+JD requirements with no supporting fact in any chunk below, including
+any that are structural (not fixable by paraphrase) rather than
+presentational. Distinguish the two explicitly if both types appear.
+
+---
+
+# JOB DESCRIPTION
+Senior Staff Technical Program Manager for Safety and Privacy, GeminiApp, DeepMind corporate_fare
+DeepMind place
+Mountain View, CA, USA
+; New York, NY, USA info_outline
+
+X
+
+Note: By applying to this position you will have an opportunity to share your preferred working location from the following: Mountain View, CA, USA; New York, NY, USA.
+
+Minimum qualifications:
+Bachelor's degree in a technical field or equivalent practical experience.
+10 years of experience in technical program or project management.
+7 years of experience in leadership roles with/without direct reports.
+
+Preferred qualifications:
+Experience in evaluating or fine-tuning LLMs for specific product use cases.
+Track record in trust and safety, privacy, data governance, or cybersecurity within a high-scale consumer tech or enterprise SaaS environment.
+Deep understanding of modern data privacy frameworks (GDPR, CCPA) and complex data architecture.
+Understanding of Large Language Models (LLMs), Natural Language Processing (NLP), conversational AI principles, and model evaluation techniques.
+Strong ability to translate complex legal and ethical requirements into clear engineering specifications.
+About the job
+Our team, GeminiApp, is on a mission to build a universal AI assistant that will empower billions of people. We are creating a personal, proactive, and powerful life assistant that will be used multiple times a day to increase productivity and creativity by 10 to 100-fold. Our work is shaping how humanity interacts with AI at scale. As a high-velocity, startup mindset organization, we are constantly shipping and iterating.
+
+As the Senior Staff Technical Program Manager for Safety and Privacy, you will lead the cross-functional execution, alignment, and approach required for a product that is deeply trustworthy, compliant, and secure. This role requires a unique blend of deep technical understanding, regulatory awareness, and empathetic leadership. You will drive the effort to co-design safety mitigations directly with modeling teams, ensuring all features are responsible-by-design from the base model harness to the final App UI, while synthesizing safety, privacy, and security into a unified, multi-modal monitoring flywheel.
+Artificial intelligence will be one of humanity’s most transformative inventions. At Google DeepMind, we are a pioneering AI lab with exceptional interdisciplinary teams focused on advancing AI development to solve complex global challenges and accelerate high-quality product innovation for billions of users. We use our technologies for widespread public benefit and scientific discovery, ensuring safety and ethics are always our highest priority.
+
+We are pushing the boundaries across multiple domains. Our global teams offer diverse learning opportunities and varied career pathways for those driven to achieve exceptional results through collective effort.
+Individual pay is determined by factors including job-related skills, experience, and relevant education or training.
+
+US: $300000 - $334000 (USD) + 25% bonus target + equity + benefits
+
+Learn more about benefits at Google.
+Responsibilities
+Lead the execution of a high-velocity virtual team to co-design safety mitigations directly with modeling teams, ensuring all features are responsible-by-design from the base model harness to the final App UI.
+Translate ambiguous, open-ended business priorities into structured and executable programs. Proactively identify and mitigate risks, implementing solutions to keep projects on velocity.
+Mechanize critical parts of the business to generate predictable outputs. Guide critical programs, driving progress from conception to delivery.
+Forge close partnerships with Product Manager, Engineering, Legal, Safety, Privacy, and other cross-functional leads on approach. Navigate and resolve complex dependencies across workstreams, functions, and organizations.
+Deliver clear, consistent updates on progress, risks, and plans to executive leadership. Guide cross-functional teams in identifying, prioritizing, and tracking tasks to meet key deadlines. Excel at managing multiple, time-sensitive projects concurrently.
+Information collected and processed as part of your Google Careers profile, and any job applications that you choose to submit are subject to Google's applicant and candidate privacy policy.
+
+Google is proud to be an equal opportunity and affirmative action employer. We are committed to building a workforce that is representative of the users we serve, creating a culture of belonging and providing an equal employment opportunity regardless of race, creed, colour, religion, gender, sexual orientation, gender identity/expression, national origin, disability, age, genetic information, veteran status, marital status, pregnancy or related condition (including breastfeeding), expecting or parents-to-be, criminal histories consistent with legal requirements or any other basis protected by law. See also Google's EEO Policy, Know your rights: workplace discrimination is illegal, Belonging at Google and How we hire.
+
+If you have a need that requires accommodation, please let us know by completing our Accommodations for Applicants form.
+
+Google is a global company and, in order to facilitate efficient collaboration and communication globally, English proficiency is a requirement for all roles unless stated otherwise in the job posting.
+
+To all recruitment agencies: Google does not accept agency CVs. Please do not forward CVs to our jobs alias, Google employees or any other organisation location. Google is not responsible for any fees related to unsolicited CVs.
+
+Equity is granted exclusively and discretionarily by Alphabet Inc. on the basis of an agreement concluded between you and Alphabet Inc. Alphabet Inc. is your sole contractual partner with respect to equity grants. GSU grants are not guaranteed, are discretionary, are subject to approval by the Alphabet Inc. board of directors or its delegate, the terms of the relevant Alphabet Inc. stock plan and your grant agreement. They have no impact on statutory payments. Current or past grants do not confer an acquired right.
+
+---
+
+# CHUNK INVENTORY — variant: Nanditha_Murthy_Resume_Meta (built by smart_chunk.sh)
+
+
+### FILE: Nanditha_Murthy_Resume_Meta_part_1.md
+NANDITHA S MURTHY
+
+Senior Technical Program Manager | Cross-Functional Platform Delivery | Privacy, Security & AI-Enabled Execution
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+### FILE: Nanditha_Murthy_Resume_Meta_part_2.md
+SUMMARY
+
+Senior Technical Program Manager with 13+ years driving end-to-end technical programs from inception to delivery across matrixed organizations, defining roadmaps, gathering requirements, and aligning cross-functional engineering, product, and business teams to ship measurable impact at scale. Deep experience in privacy and security product delivery: built HIPAA/GDPR/PHIPA-governed AI systems with human-in-the-loop safety gates, multi-agent orchestration, and consent enforcement. Hands-on software engineering background (Java,
+Spring Boot, distributed systems) underpins technical credibility with engineering teams. Currently defining roadmaps, gathering requirements, and aligning cross-functional engineering, product, and business teams.
+
+### FILE: Nanditha_Murthy_Resume_Meta_part_3.md
+CORE COMPETENCIES
+
+Technical Program Management · End-to-End Product Delivery (Inception to Launch) · Privacy & Security Product Adoption · Cross-
+Functional Matrix Org Execution · Roadmap & Requirements Definition · Dependency Management & Risk Mitigation · AI Agent
+Orchestration & Prompt Engineering · Multi-Timezone Distributed Team Coordination · Metrics & Impact Measurement
+
+### FILE: Nanditha_Murthy_Resume_Meta_part_4.md
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2, Step Functions), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, Kafka, JMS, Redis
+AI & Automation: Amazon Bedrock, Azure AI Foundry, RAG Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM), Multi-Agent Orchestration (AWS Step Functions)
+Methods & Tools: Jira, Confluence, Postman, Swagger, Agile / Scrum / SAFe
+
+### FILE: Nanditha_Murthy_Resume_Meta_part_5.md
+CAREER HIGHLIGHTS
+
+End-to-End Delivery Ownership: Drove technical programs from inception through production across 8+ lines of business, delivering
+99.99%uptime platforms supporting $1B+ daily transactions.
+Privacy & Security Product Adoption: Architected HIPAA/GDPR/PHIPA-governed multi-agent AI systems with human-in-the-loop safety gates —no output reaches users without passing all safety stages.
+AI Agent Orchestration: Built and deployed production multi-agent orchestration on AWS Step Functions integrating Bedrock for intent classification, tool-use, and human-in-the-loop callbacks.
+Cross-Functional Execution: Led globally distributed engineering teams across multiple time zones, sustaining 95% sprint predictability and zero rollbacks across 15+ concurrent initiatives.
+Requirements to Roadmap: Defined product requirements, scope, and phased roadmaps across 79+ user stories with measurable safety/ quality exit criteria.
+
+### FILE: Nanditha_Murthy_Resume_Meta_part_6.md
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform)
+Remote | Dec 2025 – Present
+Define product roadmap and long-term strategy for a privacy-first, AI-enabled healthcare platform, gathering requirements and scoping features from concept through production in partnership with CTO/CEO.
+Designed human-in-the-loop (HITL) review and approval workflows ensuring no AI output reaches users without passing safety and compliance gates — directly addressing privacy/security product adoption challenges.
+Built multi-agent AI orchestration architecture (data isolation, auditability, HIPAA/GDPR compliance) coordinating AI agents, human reviewers, and automated systems across end-to-end workflows.
+Use AI tools daily for prompt engineering, agent orchestration, and requirements drafting — integrating AI to optimize and redesign delivery workflows for measurable efficiency gains.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro)
+Mississauga, ON | Aug 2021 – Apr 2025
+Defined, planned, and executed large-scale technical programs from inception to delivery for a mission-critical platform serving 8+ lines of business, establishing roadmap, scope, and requirements across matrixed stakeholders.
+Led a globally distributed team of 7 engineers across multiple time zones, delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks.
+Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; identified cross-team dependencies and built mitigation strategies for platform-wide initiatives.
+Established metrics and program health indicators tracked against quarterly OKRs, providing ongoing status, risk, and issue communication to senior stakeholders.
+Led change impact analysis across 8+ teams during major platform transformations, achieving zero Sev-1 incidents through proactive dependency and risk management.
+
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi
+Mississauga, ON | Feb 2020 – Jul 2021
+Owned execution and reliability for global futures and options platforms with hands-on technical ownership (Java, Spring Boot, JMS,
+MongoDB); established work relationships across multi-disciplinary teams and external partners.
+Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20%.
+Established quality standards through code reviews and test strategy; coordinated consultants and vendor partners for predictable backlog delivery.
+Technology Analyst - Apple Inc (via Infosys)
+Bangalore, India | Jul 2016 – Sep 2019
+Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST) processing millions of subscription transactions daily, owning requirements elicitation and end-to-end solution design.
+Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom
+San Diego, CA | Nov 2014 – Sep 2015
+Developed and validated the Bluetooth Low Energy interface for the G-series Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Participated in verification and validation (V&V) activities aligned with FDA medical-device workflows, strengthening data integrity, defect detection, and audit readiness.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+### FILE: Nanditha_Murthy_Resume_Meta_part_7.md
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform
+Feb 2025 – Present
+Architected and deployed a production multi-agent safety pipeline on AWS Step Functions (crisis detection, OPA consent enforcement,
+LLM inference via Bedrock, governed self-improvement) — no output reaches users without passing all safety stages.
+Built supervisor agent pattern with synchronous child state machine execution, HITL via task-token callbacks, and CloudFormation IaC deployment; defined 79 user stories with safety invariants as measurable exit criteria.
+
+### FILE: Nanditha_Murthy_Resume_Meta_part_8.md
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) | 2005 – 2009
+
+### FILE: Nanditha_Murthy_Resume_Meta_part_9.md
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile, 2024) AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google Project
+Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (New York, NY)
+
+---
+Now produce the file-level edit recommendations following the format
+above.

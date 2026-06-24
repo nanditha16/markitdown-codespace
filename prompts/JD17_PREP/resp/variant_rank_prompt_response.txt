@@ -1,0 +1,74 @@
+Now I have enough to execute the full analysis. Let me produce the output.
+
+`Length: DEEP`
+`Confidence: Likely`
+
+---
+
+## Stage 0: Is This Worth Pursuing With This Resume Bank?
+
+**PARTIAL FIT**
+
+Genuine overlap: The bank has real LLM evaluation experience (Ollama/vLLM benchmarking, RAG, multi-agent safety pipelines), hands-on safety/privacy program delivery (HIPAA/GDPR/PHIPA governance, consent enforcement, HITL), and cross-functional TPM execution in high-scale environments. The Bumblebee Beats project directly parallels the JD's "safety mitigations co-designed with modeling teams" requirement.
+
+Structural gap: Every role in the bank is private-sector or healthcare startup. Google DeepMind wants a TPM who has operated *inside a consumer AI product organization* at scale — specifically someone who has embedded with modeling teams (not just governed from the outside), managed safety red-teaming programs, and shipped trust & safety features for a billion-user product. The bank's AI safety work is project-level and self-directed, not embedded inside a high-velocity consumer AI org with real-time safety/policy enforcement. That context gap cannot be paraphrased away; it must be addressed by framing what does exist as close a proxy as possible.
+
+---
+
+## Stage 1: Ranking
+
+| Rank | Variant | Domain Fit | Seniority/Scope Fit | Req. Coverage | Overall |
+|---|---|---|---|---|---|
+| 1 | Meta.md | 72 | 75 | 68 | 73 |
+| 2 | Sony.md | 70 | 73 | 65 | 70 |
+| 3 | Anthropic.md | 68 | 72 | 67 | 69 |
+| 4 | Dexcom.md | 65 | 70 | 64 | 67 |
+| 5 | Humana.md | 62 | 68 | 63 | 65 |
+| 6 | JD5.md | 60 | 67 | 62 | 63 |
+| 7 | Thumbtack.md | 58 | 65 | 60 | 62 |
+| 8 | TPM_grow_therapy.md | 55 | 63 | 58 | 59 |
+| 9 | Deloitte.md | 54 | 62 | 58 | 58 |
+| 10 | Deloitte_2.md | 53 | 61 | 57 | 57 |
+| 11 | Pfizer.md | 52 | 60 | 56 | 57 |
+| 12 | Walmart_Distinguished.md | 50 | 62 | 55 | 56 |
+| 13 | Walmart_Principal.md | 50 | 61 | 55 | 55 |
+| 14 | Walmart_staff.md | 49 | 60 | 54 | 54 |
+| 15 | PM_Oakville_RBC.md | 48 | 58 | 52 | 52 |
+| 16 | Goldman.md | 45 | 56 | 48 | 50 |
+| 17 | Valon.md | 44 | 55 | 47 | 49 |
+| 18 | Veeva.md | 44 | 54 | 46 | 48 |
+| 19 | Camunda.md | 42 | 52 | 45 | 46 |
+| 20 | Audible.md | 40 | 50 | 44 | 44 |
+| 21 | Canada_Life.md | 35 | 45 | 38 | 39 |
+
+*Note: Top 4 scores are clustered (73-67) — the differentiation is real but not large. Meta and Sony edge ahead because their framing centers privacy/safety product delivery in a cross-functional consumer tech context, which is the JD's core ask.*
+
+---
+
+### Top Pick
+
+**Meta.md** — its headline ("Privacy, Security & AI-Enabled Execution") and summary language most directly mirrors the JD's safety-and-privacy-as-product framing. It has the highest domain fit because it positions delivery within a consumer-scale, matrixed product org. Seniority/scope framing (cross-functional without direct authority, inception to launch) matches the GeminiApp model.
+
+---
+
+### Gaps Even in the Top Pick
+
+The Meta variant does NOT currently address:
+
+- **LLM fine-tuning or red-teaming for a specific product** — the JD explicitly asks for evaluating/fine-tuning LLMs for product use cases; current framing is governance/oversight, not hands-on model evaluation embedded with a modeling team
+- **Consumer-facing trust & safety at scale** — experience is healthcare/banking regulated, not billion-user consumer product safety (no CSAM, abuse detection, policy enforcement pipeline references)
+- **GDPR/CCPA as data architecture** — current variants cite GDPR compliance operationally; the JD wants architectural understanding of complex data privacy frameworks
+- **"Monitoring flywheel" / multi-modal safety** — the JD's phrase is specific; Bumblebee Beats is the closest proxy but needs to be foregrounded and reframed aggressively in Stage 2
+
+---
+
+### Variants With No Real Fit
+
+Do not spend Stage 2 cycles on these:
+
+- **Canada_Life.md** — framed as Java/cloud platform software engineer; wrong identity entirely
+- **Audible.md** — financial transaction systems focus; no safety/privacy signal
+- **Camunda.md** — PS implementation framing; wrong scope and stakeholder type
+- **Goldman.md** — change management/digital transformation in global banking; safety/privacy absent
+- **Valon.md / Veeva.md** — domain signals are fintech/pharma delivery; no consumer AI safety angle
+- **Walmart variants (all 3)** — data governance/retail platform framing; no alignment to consumer AI safety

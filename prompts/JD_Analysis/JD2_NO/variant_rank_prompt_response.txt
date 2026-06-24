@@ -1,0 +1,33 @@
+Stage 0: Is This Worth Pursuing With This Resume Bank?
+PARTIAL FIT.
+Genuine overlap: regulated industry (healthcare), 7+ years engineering background, cross-functional stakeholder partnership, infrastructure delivery at scale, CI/CD automation, cloud (AWS/Azure present throughout). The seniority framing — senior IC technical lead, mentoring engineers, owning infrastructure decisions — is achievable from this bank.
+Structural gap: This is a hands-on DevOps/SRE individual contributor role. The JD wants someone who builds and owns GCP infrastructure with Terraform and Kubernetes day-to-day, leads incident response, writes runbooks, and serves as a technical escalation point for infrastructure problems. The resume bank is anchored in program/delivery management — coordinating teams, governance, roadmaps, stakeholder alignment. Even the most technical variants (Dexcom, Anthropic) frame infrastructure experience as oversight and coordination, not IC implementation ownership. No variant demonstrates GCP hands-on experience at all (AWS/Azure only).
+This is worth pursuing only if the candidate can genuinely claim hands-on Kubernetes/Terraform/GCP ownership — not coordination of engineers who did it. If that's real, the Dexcom or Anthropic variant is the starting point and Stage 2 reframing is significant but not impossible.
+
+Stage 1: Ranking
+RankVariantDomain FitSeniority/Scope FitReq CoverageOverall1Dexcom.md524845492Anthropic.md454542443TPM_grow_therapy.md404238404Humana.md423838405Pfizer.md383836386–10Walmart variants, Goldman, Canada_Life, RBC25–3535–4028–3530–3611–20Deloitte x2, Camunda, Sony, Valon, Veeva, Thumbtack, Meta, Audible20–3030–4025–3225–33
+Scores across all variants are honest-low — this is a structural reframe, not a keyword swap.
+
+Top Pick
+Dexcom.md — it is the only variant with an explicit FDA-regulated engineering execution context and the most technically grounded framing in the bank. It scores highest on domain fit (healthcare-regulated, IC engineering) and requirement coverage because it leads with hands-on platform/reliability work rather than governance. The Anthropic variant is a close second but leans AI/ML inference rather than infrastructure reliability.
+Gaps Even in the Top Pick
+
+No GCP experience anywhere (JD strongly prefers GCP; AWS/Azure present but not preferred)
+No Kubernetes ownership framing — current variants mention K8s in tech stack but show no IC implementation evidence
+No incident response / post-mortem leadership evidence
+No observability platform build evidence (Datadog/Grafana listed in stack, not owned)
+No runbook authorship or DevOps standards-setting evidence
+Title is "Senior TPM / Technical Director" — must be reframed toward "Technical Lead, DevOps" credibly
+
+Variants With No Real Fit
+Deloitte, Deloitte_2, Goldman, Sony, Valon, Camunda, Thumbtack — these lean strategy/consulting/product framing with minimal technical infrastructure grounding. Using any of these as a base would require rewriting them from scratch, at which point you're not tailoring a variant, you're writing a new resume.
+
+The document says 85–90% match and "Very High." My Stage 0 assessment said PARTIAL FIT with significant structural gaps. Those are contradictory. Here's who's wrong and why:
+The document is inflating the score. It's doing exactly what the ranking prompt warns against: treating keyword overlap as domain fit. Specific problems with its logic:
+
+"Terraform scaled from 10% to 70%" — that's a program governance metric (adoption tracking), not evidence of writing Terraform yourself. The JD wants an IC who authors infrastructure code.
+"Deep expertise in Kubernetes (AKS/EKS/OpenShift)" — every variant lists these in the tech stack section. None show IC implementation ownership. Listing tools ≠ owning them as a hands-on engineer.
+"Easily bridge the GCP gap" — the JD says strongly preferred, not preferred. For a role where you're the technical escalation point for infrastructure problems, cloud-platform-specific knowledge (IAM, networking, GKE vs EKS behavior) is not trivially transferable. This is a real gap, not a minor one.
+85–90% overall while acknowledging zero GCP experience — that math doesn't work. GCP is the primary infrastructure platform for this role. Not knowing it is a top-3 disqualifier for an IC DevOps lead position.
+
+My assessment stands: PARTIAL FIT, not Very High. The document was written to motivate pursuit, not to honestly assess fit. Trust the rubric, not the encouraging summary

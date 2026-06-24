@@ -1,0 +1,2088 @@
+# Role
+You are a senior technical recruiter evaluating whether a candidate's
+resume bank is worth tailoring for a specific job, and if so, which
+variant to start from. The candidate has multiple tailored versions of
+the same underlying resume (same person, same 13+ years of experience,
+same core employers) — each variant was written or adjusted with a
+different target role/company in mind.
+
+# STAGE 0 — Relevance Gate (do this FIRST, before any ranking)
+
+Before ranking individual variants, assess the CANDIDATE'S BANK AS A
+WHOLE: what is the common underlying profile across all variants (core
+domain, seniority level, type of organization typically targeted —
+e.g. "enterprise tech / regulated private-sector TPM, 13+ years,
+platform delivery focus")?
+
+Compare that collective profile against the JD's actual core
+requirements — not individual keyword matches, but the fundamental
+nature of the role:
+- What SECTOR does the JD require (e.g. government/public-sector vs.
+  private enterprise vs. startup)?
+- What STAKEHOLDER TYPE does the JD require experience with (e.g.
+  Ministry/government partners vs. internal corporate stakeholders vs.
+  consumer-facing)?
+- What KIND OF SCOPE does the JD require (e.g. provincial/system-wide
+  policy and funding vs. product/platform delivery)?
+
+Then answer plainly:
+
+## Stage 0: Is This Worth Pursuing With This Resume Bank?
+State one of:
+- **GOOD FIT** — the bank's core domain/sector/stakeholder type
+  genuinely matches the JD. Proceed to full ranking below.
+- **PARTIAL FIT** — some genuine overlap exists (name what, specifically)
+  but a structural gap remains (name it). Proceed to ranking, but the
+  candidate should know going in that even the best variant will need
+  real reframing, not just paraphrasing.
+- **POOR FIT** — the JD's core domain/sector/stakeholder requirement has
+  NO genuine counterpart anywhere in the resume bank (e.g. the JD
+  requires government/public-sector stakeholder experience and every
+  variant's experience is private-sector corporate). If this is the
+  case, say so plainly, explain WHY in 2-3 sentences citing the specific
+  structural gap, and advise against spending further effort tailoring
+  any variant for this JD — no amount of paraphrasing manufactures
+  experience that isn't there. You may still produce the ranking below
+  if asked, but lead with this assessment so the candidate can decide
+  whether it's worth reading further.
+
+---
+
+# STAGE 1 — Ranking (only meaningful if Stage 0 is GOOD FIT or PARTIAL FIT)
+
+For each variant, score 0-100 on each dimension:
+- **Domain Fit** (0-100): does the variant's industry/sector framing
+  match the JD's actual sector?
+- **Seniority/Scope Fit** (0-100): does the variant's framing match the
+  JD's level and scope (IC vs. people-management, single program vs.
+  portfolio, internal vs. external/regulatory stakeholder scope)?
+- **Requirement Coverage** (0-100): how many of the JD's explicitly
+  named requirements (tools, certifications, years, domain experience)
+  does this variant's content already support with real evidence?
+
+Then give an **Overall Fit Score (0-100)** — NOT a simple average; weight
+Domain Fit and Seniority/Scope Fit higher than Requirement Coverage,
+since a domain mismatch can't be paraphrased away the way a missing
+keyword can.
+
+IMPORTANT: do not inflate scores to create false differentiation. If
+multiple variants are genuinely similar in fit, give them similar
+scores and say so explicitly — a forced ranking with arbitrary score
+gaps is worse than an honest tie.
+
+## Output Format
+
+### Ranking (with scores)
+| Rank | Variant | Domain Fit | Seniority/Scope Fit | Requirement Coverage | Overall |
+|---|---|---|---|---|---|
+| 1 | [filename] | X/100 | X/100 | X/100 | X/100 |
+(continue for every variant — but you may group clearly-irrelevant
+variants together rather than scoring each individually if Stage 0
+was POOR FIT)
+
+### Top Pick
+Name the single best-starting-point variant (if any genuinely qualify)
+and explain in 2-3 sentences why, citing actual scored dimensions.
+
+### Gaps Even in the Top Pick
+List any JD requirements the top-ranked variant does NOT currently
+address, so the candidate knows what Stage 2 (ats_optimize.sh) and
+Stage 3 (ats_recommend.sh) will need to work on.
+
+### Variants With No Real Fit
+Name variants clearly the wrong domain/seniority for this JD, so the
+candidate doesn't waste a Stage 2 evaluation on them.
+
+---
+
+# JOB DESCRIPTION
+Robinhood Logo
+Back to jobs
+Engineering Manager, Equities
+Menlo Park, CA
+Join us in building the future of finance.
+Our mission is to democratize finance for all. An estimated $124 trillion of assets will be inherited by younger generations in the next two decades. The largest transfer of wealth in human history. If you’re ready to be at the epicenter of this historic cultural and financial shift, keep reading.
+
+Join us in building the future of finance.
+Our mission is to democratize finance for all. An estimated $124 of assets will be inherited by younger generations in the next two decades. The largest transfer of wealth in human history. If you’re ready to be at the epicenter of this historic cultural and financial shift, keep reading.
+
+About the team
+We are building an elite team, applying frontier technologies to the world’s biggest financial problems. We’re looking for bold thinkers. Sharp problem-solvers. Builders who are wired to make an impact. Robinhood isn’t a place for complacency, it’s where ambitious people do the best work of their careers. We’re a high-performing, fast-moving team with ethics at the center of everything we do. Expectations are high, and so are the rewards.
+
+The Equities Engineering team builds and operates stock trading for millions of customers. The team focuses on order management, execution, and reliability through various trading tools, ensuring trades are processed seamlessly and with low latency. You’ll work closely with product, design, and data partners to deliver these features. We value clear communication, measurable outcomes, and a strong sense of ownership across the team!
+
+As an Engineering Manager, you will lead a team responsible for delivering and maintaining critical equities trading flows. You will set clear goals, guide technical direction, and support engineers in delivering reliable, scalable services. Your work will directly impact the quality and reliability of the trading experience for customers!
+
+This role is based in our Menlo Park, CA office, with in-person attendance expected 5 days per week.
+
+At Robinhood, we believe in the power of in-person work to accelerate progress, spark innovation, and strengthen community. Our office experience is intentional, energizing, and designed to fully support high-performing teams.
+
+What you'll do
+Lead a team of engineers to deliver delightful tools to manage equities trading with clear uptime and latency targets
+Set quarterly goals and track progress using defined metrics such as incident response time, latency, and user funnels through key flows
+Partner with product managers, design, and other teams to define requirements and deliver features on schedule
+Review engineering designs and guide design decisions to improve scalability and performance to ship seamlessly
+Support hiring, onboarding, and development of engineers through regular feedback and structured growth plans
+What you bring
+Experience managing engineering teams that build and maintain critical user journeys with millions of users
+Ability to define and track measurable goals such as performance metrics and business targets
+Strong technical background in mobile application development or web development
+Clear communication skills with the ability to explain technical decisions and trade-offs
+Exceptional cross functional skills to enable seamless collaboration with product, design, and other partners
+Leadership expectations
+Our ambitious roadmap requires a great culture shaped by exceptional leaders. Here’s what we expect from them:
+
+Drive high performance by setting clear, focused goals, giving real-time feedback, stretching top talent, and scaling impact through focus, innovation, and tech.
+Hire and retain top talent by setting a high bar, hiring only those who raise it, investing in onboarding, and addressing talent issues quickly and fairly.
+Create community by connecting work to purpose, removing friction while prioritizing safety, building trust and inclusion, and leading from the front with integrity.
+What we offer
+Challenging, high-impact work to grow your career
+Performance driven compensation with multipliers for outsized impact, bonus programs, equity ownership, and 401(k) matching
+Best in class benefits to fuel your work, including 100% paid health insurance for employees with 90% coverage for dependents
+Lifestyle wallet - a highly flexible benefits spending account for wellness, learning, and more
+Employer-paid life & disability insurance, fertility benefits, and mental health benefits
+Time off to recharge including company holidays, paid time off, sick time, parental leave, and more!
+Exceptional office experience with catered meals, events, and comfortable workspaces
+In addition to the base pay range listed below, this role is also eligible for bonus opportunities + equity + benefits.
+
+Base pay for the successful applicant will depend on a variety of job-related factors, which may include education, training, experience, location, business needs, or market demands. The expected base pay range for this role is based on the location where the work will be performed and is aligned to one of 3 compensation zones. For other locations not listed, compensation can be discussed with your recruiter during the interview process.
+
+Base Pay Range:
+
+Zone 1 (Menlo Park, CA; New York, NY; Bellevue, WA; Washington, DC)
+
+$230,000 - $270,000 USD
+
+Zone 2 (Denver, CO; Westlake, TX; Chicago, IL)
+
+$203,000 - $238,000 USD
+
+Zone 3 (Lake Mary, FL; Clearwater, FL; Gainesville, FL)
+
+$180,000 - $211,000 USD
+
+Click here to learn more about our Total Rewards, which vary by region and entity.
+
+If our mission energizes you and you’re ready to build the future of finance, we look forward to seeing your application.
+
+Robinhood provides equal opportunity for all applicants, offers reasonable accommodations upon request, and complies with applicable equal employment and privacy laws. Inclusion is built into how we hire and work—welcoming different backgrounds, perspectives, and experiences so everyone can do their best. Please review the Privacy Policy for your country of application.
+
+---
+
+# RESUME VARIANTS (20 total)
+
+
+### VARIANT: Nanditha_Murthy_Resume_ Anthropic.md
+NANDITHA S MURTHY
+
+Senior Technical Program Manager | Cloud Inference & AI Model Deployment | Partner Engineering Coordination
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Senior Technical Program Manager with 13+ years defining, planning, and executing large-scale technical programs across regulated environments (medical devices, banking, healthcare), including prior hands-on development of Dexcom’s G5 CGM platform. Led cross-functional programs spanning 8+ lines of business, delivering 99.99% uptime platforms supporting $1B+ daily transactions with zero audit violations. Currently leading AI/ML program delivery on Amazon Bedrock and Azure AI Foundry:
+LLM evaluation, inference stack governance, model-selection benchmarking, launch readiness, and HITL processes across HIPAA/
+GDPR-regulated environments.
+
+CORE COMPETENCIES
+
+Technical Program Management · AI/ML Program Delivery (Model Evaluation, Inference Stacks, HITL Governance) · Program
+Governance · Roadmap Planning · Risk Identification & Mitigation · Stakeholder Alignment · Cross-Functional Execution Without
+Direct Authority · Cloud Partner Engineering Coordination · AI Model Launch Readiness & Deployment Pipelines
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, Jenkins pipelines, n8n, Webhooks, Feature Flagging
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG Architectures,
+Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  AI Model Deployment at Scale: Owned launch readiness and inference stack governance for LLM deployments on Amazon
+Bedrock and Azure AI Foundry, coordinating partner engineering alignment, blocker tracking, and post-launch stability across regulated healthcare environments.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Designed human-in-the-loop (HITL) review and approval workflows for AI model changes and outputs, ensuring compliant, production-ready AI deployment in a regulated healthcare environment.
+-  Evaluated and deployed open-weight LLMs (LLaMA variants) on Amazon Bedrock and Azure AI Foundry; coordinated inference stack deployment across dev/staging/production, owned launch readiness checklists, blocker tracking, and go/no-go decisions with engineering and compliance stakeholders.
+-  Acted as primary technical interface between engineering, clinical, and external stakeholders, owning the shared AI deployment roadmap, day-to-day coordination on model changes, and incident follow-through ensuring production stability.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Defined, planned, and executed large-scale technical programs for a mission-critical API platform serving 8+ lines of business, spanning DevOps automation, security process, and platform scalability and reliability, achieving zero audit violations across four consecutive quarters.
+
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks, driving continuous improvement across delivery workflows.
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+-  Automated CI/CD and deployment pipelines (Jenkins, GitHub Actions, Terraform) shipping to multiple cloud targets (AWS,
+Azure) simultaneously, increasing release velocity 5× while maintaining compliance; owned launch readiness gates and post- launch stability tracking.
+-  Provided clear executive reporting on program status, risks, schedule trends vs. baseline, and recovery actions to VP/Director- level stakeholders across product, risk, and architecture.
+-  Reduced compliance and roadmap risk 25% through data/consent service POCs and proactive risk assessment across program milestones; accelerated time-to-market 35% through stakeholder alignment across product, risk, and architecture.
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100%audit compliance.
+-  Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 – Jul
+2021
+-  Owned execution and reliability for global futures and options platforms; led change management for business-critical enhancements, accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+-  Participated in verification and validation (V&V) activities aligned with FDA medical-device workflows, strengthening data integrity, defect detection, and audit readiness.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+-  Architected and owned end-to-end launch readiness for a multi-agent AI inference platform (Ollama, vLLM, RAG, prompt orchestration), defined deployment pipeline from model evaluation through production, established go/no-go criteria, and built
+HITL governance ensuring no model output reaches users without passing all safety stages.
+-  Coordinated cross-functional dependencies across engineering, compliance (GDPR/HIPAA/PHIPA), and UX teams — tracked 79 user stories with safety invariants as exit criteria, managed blocker resolution, and maintained joint roadmap across internal and external stakeholders.
+
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) Bangalore, KA | 2005 – 2009
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile, 2024) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google Project
+Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (San Francisco, CA / New York,
+NY)
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Audible.md
+NANDITHA S MURTHY
+
+Senior Technical Program Manager | Financial Systems & API Platforms | Transaction-Scale Delivery
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Senior Technical Program Manager with 13+ years defining, planning, and executing large-scale technical programs across regulated environments (medical devices, banking, healthcare), with deep background in high-throughput financial transaction systems: mission-critical banking APIs supporting $1B+/day, trading platform execution for global exchanges, and royalty/ entitlement reconciliation platforms at Apple/iTunes scale. Led cross-functional programs spanning 8+ lines of business, delivering
+99.99% uptime platforms supporting $1B+ daily transactions with zero audit violations. Currently leading AI/ML program delivery: LLM evaluation and inference stacks (Ollama, vLLM), model-selection benchmarking, human-in-the-loop (HITL) review processes, and AI governance under HIPAA/GDPR.
+
+CORE COMPETENCIES
+
+Technical Program Management · AI/ML Program Delivery (Model Evaluation, Inference Stacks, HITL Governance) · Program
+Governance · Roadmap Planning · Risk Identification & Mitigation · Stakeholder Alignment · Cross-Functional Execution Without
+Direct Authority · Change Management & Impact Analysis · Agile / Scrum / Kanban / SAFe
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, Jenkins pipelines, n8n, Webhooks, Feature Flagging Languages /
+Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG Architectures,
+Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  Financial Transaction Scale: Directed reconciliation and financial data-integrity programs processing 20–50k+ transactions daily across global exchanges and millions of subscription records at Apple/iTunes scale.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Designed human-in-the-loop (HITL) review and approval workflows for AI model changes and outputs, ensuring compliant, production-ready AI deployment in a regulated healthcare environment.
+-  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Defined, planned, and executed large-scale technical programs owning full PM lifecycle: scope, schedule, budget, quality assurance, and critical path management, for a mission-critical API platform serving 8+ lines of business, achieving zero audit violations across four consecutive quarters.
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks, driving continuous improvement across delivery workflows.
+
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+-  Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while maintaining compliance standards.
+-  Reduced compliance and roadmap risk 25% through data/consent service POCs and proactive risk assessment across program milestones; accelerated time-to-market 35% through stakeholder alignment across product, risk, and architecture.
+-  Defined KPIs and SLAs for mission-critical API platform supporting $1B+/day transactions, reporting performance against targets to senior leadership.
+-  Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 – Jul
+2021
+-  Led change and release management for global Futures & Derivatives execution and middle-office workflows (OMS audit reconciliation, allocation, clearing, booking) spanning CME, OCC, LME, ICE, SGX, and SFE, directing audit-file reconciliation of 20–50k trades/day and defining an end-of-day standard adopted across 127 exchanges.
+-  Chaired cross-divisional working groups spanning MD/CIO-level leadership, Futures Trading Risk BSAs, Compliance
+Technology, and downstream LOB application teams, presenting risk registers, traceability matrices, and audit-ready evidence packs for senior-partner decision-making.
+-  Drove FINRA consent-order data-quality remediation, achieving 100% remediation of critical data elements within mandated timelines and strengthening regulator confidence.
+-  Defined QA and UAT strategy, coached teams on testing best practices, and developed post-testing migration plans; maintained
+100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST) processing millions of subscription transactions daily, owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+-  Participated in verification and validation (V&V) activities aligned with FDA medical-device workflows, strengthening data integrity, defect detection, and audit readiness.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement) where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) Bangalore, India | 2005 – 2009
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile, 2024) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google Project
+Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (Newark, NJ / New York Metro)
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Camunda.md
+NANDITHA S MURTHY
+
+Senior Technical Delivery Lead | Customer-Facing PS Implementation | AI-Enabled Program Execution
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Technical Delivery Lead with 13+ years leading end-to-end implementation engagements and delivery programs across enterprise software, regulated financial services, and healthcare, translating customer outcomes into realistic delivery plans and steering execution with technical credibility. Delivered $1B+/day platforms with zero audit violations across 12+ lines of business in a professional services model. Currently directing a GenAI platform implementation; deep familiarity with agentic orchestration, process automation, and AI governance, directly aligned to Camunda's platform.
+
+CORE COMPETENCIES
+
+Technology Strategy Execution · Service Innovation · Service Delivery Transformation · AI-Enabled Program Delivery ·
+Program Governance · Product Requirements & Roadmap Planning · Matrixed Stakeholder Leadership · Customer-Facing PS
+Engagement Delivery · Risk & Issue Management · Professional Services Delivery · Agile/SAFe · Scope Decomposition &
+Change Control
+
+TECHNICAL STACK
+
+Program & Delivery: JIRA · JIRA Portfolio / Jira Align · Confluence · ADRs · UML · Agile/SAFe · Kanban
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG Architectures,
+Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Cloud & Infrastructure (working knowledge): AWS · Azure · Docker · Kubernetes · Terraform · CI/CD
+
+CAREER HIGHLIGHTS
+
+-  Customer Implementation Delivery: Led multi-party PS implementation engagements across 12+ enterprise clients, sustaining
+100% client retention and 30% scope expansion, directly protecting ARR and enabling account growth through predictable, outcome-aligned delivery.
+-  Service Delivery Transformation: Reduced onboarding timelines 60% and accelerated time-to-market 35% through structured governance, 20+ reusable delivery assets, and cross-functional stakeholder alignment.
+-  AI-Enabled Innovation: Directed delivery of a GenAI multi-agent platform, leveraging AI tools daily to prototype concepts, draft requirements, and produce illustrative artifacts before engaging engineering, compressing alignment cycles.
+-  Platform Reliability at Scale: Achieved 99.99% uptime for enterprise-wide API platforms supporting $1B+ daily transactions with zero audit violations over four consecutive quarters.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Leading strategy execution for a privacy-first GenAI healthcare platform, translating customer outcomes and compliance requirements into a phased technology roadmap, owning delivery from concept through production.
+-  Established OKR framework from the ground up: defined company and engineering objectives with CEO/CTO, cascaded measurable key results across delivery work streams, and ran quarterly governance reviews tying roadmap priorities to outcomes.
+-  Developed business cases and strategic recommendations for AI platform investment decisions, producing investor-ready roadmaps and executive communications that drove decision-making across CEO, CTO, advisors, and external stakeholders spanning investors, founders, product, design, and data science.
+-  Used AI tools (Claude, Copilot, LLMs) daily to prototype concepts, draft product requirements, and produce illustrative artifacts before engaging engineering, compressing alignment cycles and accelerating stakeholder sign-off.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI) with data isolation, auditability, and HIPAA/GDPR compliance as core pillars, coordinating AI agents, human reviewers, and automated systems across end-to- end process workflows; implemented feature flags and phased rollout across dev/staging/production for safe, incremental delivery.
+Technical Lead / Technical Program Manager - Wipro (client: TD Bank) Mississauga, ON | Aug 2021 – Apr 2025
+-  Led customer-facing PS implementation engagements as an embedded delivery lead within TD Bank, translating customer outcomes into delivery plans (scope, milestones, dependencies, budget) across 12+ lines of business, aligning multi-party teams on cadence, Definition of Done, and predictable increments, accelerating time-to-market 35%.
+-  Developed business cases and strategic recommendations for platform modernization initiatives, aligning technology investment decisions to enterprise OKRs and risk appetite across product, risk, compliance, and architecture leadership.
+-  Ran PMO governance across strategic delivery workstreams: milestone tracking, dependency management, risk/issue logs, and leadership status reporting against quarterly OKRs, ensuring full transparency on status, timelines, and budget.
+
+-  Drove scope decomposition, change control, and trade-off decisions (scope/time/quality) across concurrent initiatives; protected delivery commitments by surfacing and escalating risks early with full evidence - environments, integrations, NFRs, and readiness gaps.
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks; drove continuous improvement and engineer enablement that grew project scope 30% and sustained 100% client retention.
+-  Worked with product owners to build strategic roadmaps, refine backlogs of demand, and balance competing priorities across a high-volume, fast-changing delivery portfolio.
+-  Reduced compliance and roadmap risk 25% through proactive risk assessment across program milestones; defined PCI-compliant governance frameworks ensuring 100% audit compliance.
+-  Reduced onboarding timelines 60% by building and iterating on a PS delivery excellence framework, 20+ reusable delivery assets
+(architecture designs, rollout plans, SRE playbooks, change impact templates), capturing engagement learnings to continuously improve delivery predictability across teams.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 –
+Jul 2021
+-  Led change and release management for global Futures & Derivatives execution and middle-office workflows (OMS audit reconciliation, allocation, clearing, booking) spanning CME, OCC, LME, ICE, SGX, and SFE, directing audit-file reconciliation of 20–50k trades/day and defining an end-of-day standard adopted across 127 exchanges.
+-  Chaired cross-divisional working groups spanning MD/CIO-level leadership, Futures Trading Risk BSAs, Compliance
+Technology, and downstream LOB application teams, presenting risk registers, traceability matrices, and audit-ready evidence packs for senior-partner decision-making ensuring timely decisions to protect timeline, budget, and quality.
+-  Drove FINRA consent-order data-quality remediation, achieving 100% remediation of critical data elements within mandated timelines and strengthening regulator confidence.
+-  Defined QA and UAT strategy, coached teams on testing best practices, and developed post-testing migration plans; maintained 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Infosys (client: Apple Inc) B angalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | Feb 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self- improvement) targeting GDPR/HIPAA/PHIPA; defined a phased AI capability roadmap across 79 user stories with safety invariants as sprint exit criteria.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval — directly demonstrating AI-enabled service innovation at the prototype stage.
+
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) B angalore, India | 2005 – 2009
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to occasional travel for client engagements and team offsites.
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Canada_Life.md
+NANDITHA S MURTHY
+
+Technical Lead | Java & Cloud Platform Software | APIs & Enterprise Platforms
+Oakville, ON, Canada | +1 (647) 881-3872 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Senior Technical Delivery Lead with 13+ years owning end-to-end delivery and operational stability of enterprise-scale
+Java/API platforms in regulated financial services and healthcare. Led a globally distributed 7-engineer team delivering
+15+ mission-critical initiatives with 99.99% uptime across platforms supporting $1B+ daily transactions, zero Sev-1 incidents during major platform transformations, and zero audit violations over four consecutive quarters. Hands-on in
+API-first, event-driven architectures (Spring Boot, Kafka, Kubernetes); experienced in incident ownership, change management, compliance governance, and engineering team development.
+
+CORE COMPETENCIES
+
+Engineering Team Leadership (Mentoring, Coaching, Accountability) · Commercial Java Development · Object-Oriented
+Design & Implementation · API & Enterprise Platform Software · Agile Development Process (Scrum/Kanban/SAFe) ·
+Code Review & Quality Standards · Iterative Process Definition · Stakeholder Partnership & Delivery Ownership
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, Jenkins pipelines, n8n, Webhooks, Feature Flagging
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG
+Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  Audit & Compliance Excellence: Zero audit violations across four consecutive quarters; 100% PCI audit compliance across multi- tenant financial services clients.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment.
+-  Implemented environment-based feature flags and phased rollout configuration across dev/staging/production, enabling safe, incremental AI feature delivery.
+-  Designing the engineering org from the ground up at pre-seed stage: established training programs, engineering onboarding, and team operating processes (code review, sprint cadence) to scale from founding team to first hires.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Led and developed a globally distributed 7-engineer team: ran structured feedback and growth coaching, instituted sprint discipline, and promoted 3 engineers into senior roles , while delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks.
+
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+-  Led enterprise NPID (service account) attestation and privileged-access hygiene program across 7 platforms (Active Directory,
+Unix, databases, ACF2, AS400, network, application layer) — standardizing intake and attestation workflows with IAM and
+Digital Identity (Diamond) teams, and establishing ownership tracking and escalation for thousands of unowned identities.
+-  Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while maintaining compliance standards.
+-  Reduced compliance and roadmap risk 25% through data/consent service POCs and proactive risk assessment across program milestones; accelerated time-to-market 35% through stakeholder alignment across product, risk, and architecture.
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100% audit compliance.
+-  Iteratively defined and refined development processes as teams scaled: authored 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks) cutting onboarding 60%; led change impact analysis enforcing enterprise change management protocols via ServiceNow across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 migrations with zero Sev-1 incidents.
+-  Owned production stability for a mission-critical API platform by leading Sev-1/Sev-2 incident management with 15-minute average resolution, drove root cause analysis and trend reduction that cut incident recurrence 30%, and sustained 99.99% uptime supporting $1B+ daily transactions, accountable for platform health metrics reported to senior leadership.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 – Jul
+2021
+-  Owned execution and reliability for global futures and options platforms while remaining hands-on in commercial Java development - object-oriented design and implementation of Spring Boot services - accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team building commercial Java application software for iTunes reconciliation and entitlement platforms (Java,
+Spring MVC, MongoDB, REST), owning object-oriented design, requirements elicitation, and solution delivery.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement) where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+
+EDUCATION
+
+Master of Science, Computer Science — San Diego State University
+Bachelor of Engineering, Electronics & Communication — SJB Institute of Technology (VTU)
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Deloitte.md
+NANDITHA S MURTHY
+Technology Strategy & Delivery Transformation Leader | AI-Enabled Program Execution
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+SUMMARY
+Technology Strategy and Delivery Transformation leader with 13+ years of strategy execution in professional services and
+regulated financial services and healthcare, translating business priorities into technology-enabled solutions across matrixed
+organizations, delivering $1B+/day platforms with zero audit violations. Currently directing a GenAI platform delivery; strong AI/
+ML fluency with a proven track record of using AI tools to prototype concepts, sharpen requirements, and accelerate alignment
+before engineering is engaged.
+CORE COMPETENCIES
+Technology Strategy Execution · Service Innovation · Service Delivery Transformation · AI-Enabled Program Delivery ·
+Program Governance · Product Requirements & Roadmap Planning · Matrixed Stakeholder Leadership · Business Case
+Development · Risk & Issue Management · Professional Services Delivery · Agile/SAFe · Executive Presentations & Storytelling
+TECHNICAL STACK
+Program & Delivery: JIRA · JIRA Portfolio / Jira Align · Confluence · ADRs · UML · Agile/SAFe · Kanban
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG Architectures,
+Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Cloud & Infrastructure (working knowledge): AWS · Azure · Docker · Kubernetes · Terraform · CI/CD
+CAREER HIGHLIGHTS
+• Strategy Execution at Scale: Translated enterprise business priorities into technology-enabled delivery roadmaps across 12+
+lines of business; aligned program milestones to quarterly OKRs and reported progress to senior leadership.
+• Service Delivery Transformation: Reduced onboarding timelines 60% and accelerated time-to-market 35% through structured
+governance, 20+ reusable delivery assets, and cross-functional stakeholder alignment.
+• AI-Enabled Innovation: Directed delivery of a GenAI multi-agent platform, leveraging AI tools daily to prototype concepts,
+draft requirements, and produce illustrative artifacts before engaging engineering, compressing alignment cycles.
+• Platform Reliability at Scale: Achieved 99.99% uptime for enterprise-wide API platforms supporting $1B+ daily transactions
+with zero audit violations over four consecutive quarters.
+• Professional Services Delivery: Sustained 100% client retention and 30% increase in project scope through professional services
+engagement model; advanced 3 engineers to senior roles through structured enablement programs.
+PROFESSIONAL EXPERIENCE
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+• Leading strategy execution for a privacy-first GenAI healthcare platform, translating business priorities and compliance
+requirements into a phased technology roadmap, owning delivery from concept through production.
+• Established OKR framework from the ground up: defined company and engineering objectives with CEO/CTO, cascaded
+measurable key results across delivery workstreams, and ran quarterly governance reviews tying roadmap priorities to outcomes.
+• Developed business cases and strategic recommendations for AI platform investment decisions, producing investor-ready
+roadmaps and executive communications that drove decision-making across CEO, CTO, advisors, and external stakeholders
+spanning investors, founders, product, design, and data science.
+• Used AI tools (Claude, Copilot, LLMs) daily to prototype concepts, draft product requirements, and produce illustrative artifacts
+before engaging engineering, compressing alignment cycles and accelerating stakeholder sign-off.
+• Established program governance frameworks for a multi-agent AI orchestration system (GenAI) with data isolation, auditability,
+and HIPAA/GDPR compliance as core pillars; implemented feature flags and phased rollout across dev/staging/production for
+safe, incremental delivery.
+Technical Lead / Technical Program Manager - Wipro (client: TD Bank) Mississauga, ON | Aug 2021 – Apr 2025
+• Delivered as a professional services practitioner embedded within TD Bank, translating business priorities into technology-
+enabled solutions for 12+ lines of business (TD Securities, Wealth Management, Insurance, Business Banking, MBNA, Online
+Channels), engaging stakeholders from AVP Enterprise Architects and Sr. IT Managers to external AWS Solution Architects
+and IBM engagement teams, accelerating time-to-market 35%.
+• Developed business cases and strategic recommendations for platform modernization initiatives, aligning technology
+investment decisions to enterprise OKRs and risk appetite across product, risk, compliance, and architecture leadership.
+• Ran PMO governance across strategic delivery workstreams: milestone tracking, dependency management, risk/issue logs, and
+leadership status reporting against quarterly OKRs, ensuring full transparency on status, timelines, and budget.
+
+• Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and
+zero rollbacks; drove continuous improvement and engineer enablement that grew project scope 30% and sustained 100% client
+retention.
+• Worked with product owners to build strategic roadmaps, refine backlogs of demand, and balance competing priorities across a
+high-volume, fast-changing delivery portfolio.
+• Reduced compliance and roadmap risk 25% through proactive risk assessment across program milestones; defined PCI-compliant
+governance frameworks ensuring 100% audit compliance.
+• Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led
+change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 –
+Jul 2021
+• Led change and release management for global Futures & Derivatives execution and middle-office workflows (OMS audit
+reconciliation, allocation, clearing, booking) spanning CME, OCC, LME, ICE, SGX, and SFE, directing audit-file
+reconciliation of 20–50k trades/day and defining an end-of-day standard adopted across 127 exchanges.
+• Chaired cross-divisional working groups spanning MD/CIO-level leadership, Futures Trading Risk BSAs, Compliance
+Technology, and downstream LOB application teams, presenting risk registers, traceability matrices, and audit-ready
+evidence packs for senior-partner decision-making.
+• Drove FINRA consent-order data-quality remediation, achieving 100% remediation of critical data elements within mandated
+timelines and strengthening regulator confidence.
+• Defined QA and UAT strategy, coached teams on testing best practices, and developed post-testing migration plans;
+maintained 100% compliance with internal controls.
+• Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery
+efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Infosys (client: Apple Inc) B angalore, India | Jul 2016 – Sep 2019
+• Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning
+project planning, requirements elicitation, and solution design.
+• Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and
+production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+• Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+• Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and
+data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E
+telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+AI PLATFORM PROJECT
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | Feb 2025 – Present
+• Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-
+improvement) targeting GDPR/HIPAA/PHIPA; defined a phased AI capability roadmap across 79 user stories with safety
+invariants as sprint exit criteria.
+• Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture,
+prompt orchestration, and Human-in-the-Loop approval — directly demonstrating AI-enabled service innovation at the prototype
+stage.
+EDUCATION
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) B angalore, India | 2005 – 2009
+CERTIFICATIONS
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation · Available for 50%+
+travel.
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Deloitte_2.md
+NANDITHA S MURTHY
+
+Technology Strategy & Delivery Transformation Leader | AI-Enabled Program Execution
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Technology Strategy and Delivery Transformation leader with 13+ years of strategy execution in professional services and regulated financial services and healthcare, translating business priorities into technology-enabled solutions across matrixed organizations, delivering $1B+/day platforms with zero audit violations. Currently directing a GenAI platform delivery; strong AI/
+ML fluency with a proven track record of using AI tools to prototype concepts, sharpen requirements, and accelerate alignment before engineering is engaged.
+
+CORE COMPETENCIES
+
+Technology Strategy Execution · Service Innovation · Service Delivery Transformation · AI-Enabled Program Delivery ·
+Program Governance · Product Requirements & Roadmap Planning · Matrixed Stakeholder Leadership · Business Case
+Development · Risk & Issue Management · Professional Services Delivery · Agile/SAFe · Executive Presentations & Storytelling
+
+TECHNICAL STACK
+
+Program & Delivery: JIRA · JIRA Portfolio / Jira Align · Confluence · ADRs · UML · Agile/SAFe · Kanban
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG Architectures,
+Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Cloud & Infrastructure (working knowledge): AWS · Azure · Docker · Kubernetes · Terraform · CI/CD
+
+CAREER HIGHLIGHTS
+
+-  Strategy Execution at Scale: Translated enterprise business priorities into technology-enabled delivery roadmaps across 12+ lines of business; aligned program milestones to quarterly OKRs and reported progress to senior leadership.
+-  Service Delivery Transformation: Reduced onboarding timelines 60% and accelerated time-to-market 35% through structured governance, 20+ reusable delivery assets, and cross-functional stakeholder alignment.
+-  AI-Enabled Innovation: Directed delivery of a GenAI multi-agent platform, leveraging AI tools daily to prototype concepts, draft requirements, and produce illustrative artifacts before engaging engineering, compressing alignment cycles.
+-  Platform Reliability at Scale: Achieved 99.99% uptime for enterprise-wide API platforms supporting $1B+ daily transactions with zero audit violations over four consecutive quarters.
+-  Professional Services Delivery: Sustained 100% client retention and 30% increase in project scope through professional services engagement model; advanced 3 engineers to senior roles through structured enablement programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Leading strategy execution for a privacy-first GenAI healthcare platform, translating business priorities and compliance requirements into a phased technology roadmap, owning delivery from concept through production.
+-  Established OKR framework from the ground up: defined company and engineering objectives with CEO/CTO, cascaded measurable key results across delivery workstreams, and ran quarterly governance reviews tying roadmap priorities to outcomes.
+-  Developed business cases and strategic recommendations for AI platform investment decisions, producing investor-ready roadmaps and executive communications that drove decision-making across CEO, CTO, advisors, and external stakeholders spanning investors, founders, product, design, and data science.
+-  Used AI tools (Claude, Copilot, LLMs) daily to prototype concepts, draft product requirements, and produce illustrative artifacts before engaging engineering, compressing alignment cycles and accelerating stakeholder sign-off.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI) with data isolation, auditability, and HIPAA/GDPR compliance as core pillars; implemented feature flags and phased rollout across dev/staging/production for safe, incremental delivery.
+-  Developed fact-based business cases using qualitative and quantitative analysis, scenario planning, and financial projections to support AI platform investment decisions and operating model recommendations.
+Technical Lead / Technical Program Manager - Wipro (client: TD Bank) Mississauga, ON | Aug 2021 – Apr 2025
+-  Delivered as a professional services practitioner embedded within TD Bank, translating business priorities into technology- enabled solutions for 12+ lines of business (TD Securities, Wealth Management, Insurance, Business Banking, MBNA, Online
+Channels), engaging stakeholders from AVP Enterprise Architects and Sr. IT Managers to external AWS Solution Architects and IBM engagement teams, accelerating time-to-market 35%.
+-  Developed business cases and strategic recommendations for platform modernization initiatives, aligning technology investment decisions to enterprise OKRs and risk appetite across product, risk, compliance, and architecture leadership.
+-  Ran PMO governance across strategic delivery workstreams: milestone tracking, dependency management, risk/issue logs, and leadership status reporting against quarterly OKRs, ensuring full transparency on status, timelines, and budget.
+
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks; drove continuous improvement and engineer enablement that grew project scope 30% and sustained 100% client retention.
+-  Worked with product owners to build strategic roadmaps, refine backlogs of demand, and balance competing priorities across a high-volume, fast-changing delivery portfolio.
+-  Reduced compliance and roadmap risk 25% through proactive risk assessment across program milestones; defined PCI-compliant governance frameworks ensuring 100% audit compliance.
+-  Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+-  Facilitated strategic workshops and leadership decision sessions with VP/Director-level stakeholders across product, risk, compliance, and architecture to drive alignment on technology strategy and operating model priorities.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 –
+Jul 2021
+-  Led change and release management for global Futures & Derivatives execution and middle-office workflows (OMS audit reconciliation, allocation, clearing, booking) spanning CME, OCC, LME, ICE, SGX, and SFE, directing audit-file reconciliation of 20–50k trades/day and defining an end-of-day standard adopted across 127 exchanges.
+-  Chaired cross-divisional working groups spanning MD/CIO-level leadership, Futures Trading Risk BSAs, Compliance
+Technology, and downstream LOB application teams, presenting risk registers, traceability matrices, and audit-ready evidence packs for senior-partner decision-making.
+-  Drove FINRA consent-order data-quality remediation, achieving 100% remediation of critical data elements within mandated timelines and strengthening regulator confidence.
+-  Defined QA and UAT strategy, coached teams on testing best practices, and developed post-testing migration plans; maintained 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Infosys (client: Apple Inc) B angalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | Feb 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self- improvement) targeting GDPR/HIPAA/PHIPA; defined a phased AI capability roadmap across 79 user stories with safety invariants as sprint exit criteria.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval — directly demonstrating AI-enabled service innovation at the prototype stage.
+
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) B angalore, India | 2005 – 2009
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation · Available for 50%+ travel.
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Dexcom.md
+NANDITHA S MURTHY
+
+Senior Technical Program Manager | AI/ML Program Delivery | Cloud Platforms & Regulated Systems
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Senior Technical Program Manager with 13+ years defining, planning, and executing large-scale technical programs across regulated environments (medical devices, banking, healthcare), including prior hands-on development of
+Dexcom’s G5 CGM platform. Led cross-functional programs spanning 8+ lines of business, delivering 99.99% uptime platforms supporting $1B+ daily transactions with zero audit violations. Currently leading AI/ML program delivery: LLM evaluation and inference stacks (Ollama, vLLM), model-selection benchmarking, human-in-the-loop (HITL) review processes, and AI governance under HIPAA/GDPR.
+
+CORE COMPETENCIES
+
+Technical Program Management · AI/ML Program Delivery (Model Evaluation, Inference Stacks, HITL Governance) ·
+Program Governance · Roadmap Planning · Risk Identification & Mitigation · Stakeholder Alignment · Cross-Functional
+Execution Without Direct Authority · Change Management & Impact Analysis · Agile / Scrum / Kanban / SAFe
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, Jenkins pipelines, n8n, Webhooks, Feature Flagging
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG
+Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  Audit & Compliance Excellence: Zero audit violations across four consecutive quarters; 100% PCI audit compliance across multi- tenant financial services clients.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Designed human-in-the-loop (HITL) review and approval workflows for AI model changes and outputs, ensuring compliant, production-ready AI deployment in a regulated healthcare environment.
+-  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Defined, planned, and executed large-scale technical programs for a mission-critical API platform serving 8+ lines of business, spanning DevOps automation, security process, and platform scalability and reliability, achieving zero audit violations across four consecutive quarters.
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks, driving continuous improvement across delivery workflows.
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+-  Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while maintaining compliance standards.
+-  Reduced compliance and roadmap risk 25% through data/consent service POCs and proactive risk assessment across program milestones; accelerated time-to-market 35% through stakeholder alignment across product, risk, and architecture.
+
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100% audit compliance.
+-  Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 – Jul
+2021
+-  Owned execution and reliability for global futures and options platforms; led change management for business-critical enhancements, accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+-  Participated in verification and validation (V&V) activities aligned with FDA medical-device workflows, strengthening data integrity, defect detection, and audit readiness.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement) where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU)
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile, 2024) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google Project
+Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (U.S.)
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Goldman.md
+NANDITHA S MURTHY
+Senior Program Manager | Change Management & Digital Transformation | Global Banking & Markets
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+SUMMARY
+Senior Program Manager with 13+ years leading change management and digital transformation across regulated financial
+services, delivering $1B+/day platforms with zero audit violations across 8+ lines of business at a major Canadian bank, and
+driving a multi-million-dollar middle office transformation at Citi (Futures & Derivatives OMS, Clearing, Booking across CME,
+OCC, LME, ICE, SGX, and SFE). Proven track record running governance forums with senior leadership, removing program-level
+impediments, and aligning outcomes to firm-wide OKRs. Currently directing a GenAI platform delivery; strong AI/ML fluency
+paired with executive storytelling and change management depth.
+CORE COMPETENCIES
+Program Management · AI & Digital Transformation · Global Banking & Markets Operations · Executive Governance &
+Stakeholder Leadership · OKR Frameworks & Roadmap Planning · Risk & Issue Management · QA/UAT Strategy · Matrixed
+Cross-Functional Delivery · Budgeting & Resource Planning · AI in Financial Services · Agile/SAFe
+TOOLS & METHODS
+Program & Delivery: JIRA · JIRA Portfolio / Jira Align · Confluence · ADRs · UML · Agile/SAFe · Kanban
+AI & Automation Platforms: Amazon Bedrock · Azure AI Foundry · GitHub Copilot · Copilot Studio · RAG Architectures ·
+LLM Evaluation (LLaMA, Ollama, vLLM)
+Cloud & Infrastructure (working knowledge): AWS · Azure · Docker · Kubernetes · Terraform · CI/CD
+CAREER HIGHLIGHTS
+• GBM Domain Experience: Led change management for a sophisticated middle office platform at Citi, Futures & Derivatives
+OMS, Allocation, Clearing, and Booking across CME, OCC, LME, ICE, SGX, and SFE, generating multi-million-dollar annual
+revenue.
+• Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of
+business with zero audit violations over four consecutive quarters.
+• Governance at Scale: Established and ran program governance frameworks across 8+ lines of business; linked delivery
+milestones to quarterly OKRs and reported progress to senior leadership at TD Bank.
+• Delivery Velocity & Program Efficiency: Increased release velocity 5× through CI/CD and governance automation while
+maintaining compliance; reduced onboarding 60% via 20+ reusable delivery assets; accelerated time-to-market 35% through
+stakeholder alignment.
+• Team & Client Outcomes: 100% client retention, 30% increase in project scope, 3 engineers advanced to senior roles through
+enablement and mentorship programs.
+PROFESSIONAL EXPERIENCE
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+• Established OKR framework from the ground up: defined company and engineering objectives with CEO/CTO, cascaded
+measurable key results across delivery workstreams, and ran quarterly reviews tying roadmap priorities to outcomes.
+• Ran front-to-back program governance for a multi-agent GenAI orchestration platform: identified and removed delivery
+impediments by leveraging executive sponsorship, external advisors, and cross-functional relationships across engineering,
+design, and compliance.
+• Chaired governance forums with CEO, CTO, and external stakeholders; provided full transparency on project status, risks,
+timelines, and budget through structured reporting.
+• Established program governance frameworks with data isolation, auditability, and HIPAA/GDPR compliance as core pillars;
+implemented feature flags and phased rollout across dev/staging/production for safe, incremental delivery.
+• Developed investor-ready business cases, delivery roadmaps, and executive communications, driving strategic decision-making
+across the leadership team.
+Technical Lead - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+• Led front-to-back change management and digital transformation programs across a matrixed organization spanning 8+ lines of
+business, partnering with risk, compliance, product, and architecture teams to design and implement solutions from inception
+through production.
+• Ran program governance forums with senior stakeholders, providing full transparency on initiative status, risks, timelines, and
+budget; aligned program milestones to quarterly OKRs and reported progress against key results.
+
+• Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and
+zero rollbacks; drove continuous improvement across delivery workflows.
+• Worked with product owners to build strategic roadmaps, refine backlogs of demand, and balance competing priorities across a
+high-volume, fast-changing delivery portfolio.
+• Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30% and boosting
+platform throughput 60%; unified API strategy achieving 99.99% uptime.
+• Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while
+maintaining PCI-compliance standards.
+• Defined QA and UAT strategy, coached teams on testing best practices, and developed post-testing migration strategies; ensured
+100% audit compliance across multi-tenant financial services clients.
+• Led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 platform transformations, achieving zero
+Sev-1 incidents; reduced onboarding timelines 60% through 20+ reusable delivery assets.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 –
+Jul 2021
+• Owned end-to-end delivery of a middle-office platform for Futures & Derivatives OMS, Allocation, Clearing, and Booking
+spanning CME, OCC, LME, ICE, SGX, and SFE, directing solution design, sequencing front-to-back releases with business
+and operations stakeholders, and managing exchange-specific regulatory and clearing requirements for a platform generating
+multi-million-dollar annual revenue.
+• Chaired working groups and governance checkpoints with cross-divisional GBM stakeholders; recognized and escalated
+project risks to senior partners and oversaw remediation, sustaining 99.99% uptime and accelerating release timelines 25%.
+• Identified and removed delivery impediments across cross-functional teams and external consultants in ambiguous, fast-
+paced trading environments, ensuring predictable backlog delivery and on-time milestones.
+• Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; acted as hands-on technical lead for
+audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable delivery.
+• Established quality and reliability standards through code reviews and test strategy, defined QA and UAT strategy, coached
+teams on testing best practices, and developed post-testing migration plans, maintaining 100% compliance with internal
+controls.
+• Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery
+efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) B angalore, India | Jul 2016 – Sep 2019
+• Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning
+project planning, requirements elicitation, and solution design.
+• Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and
+production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+• Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+• Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and
+data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E
+telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+SELECTED PROJECT
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | Feb 2025 – Present
+• Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement)
+where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety
+invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+• Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture,
+prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+EDUCATION
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) B angalore, India | 2005 – 2009
+CERTIFICATIONS
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google Project
+Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (New York)
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Humana.md
+NANDITHA S MURTHY
+
+Senior Technical Program Manager | AI/ML Program Delivery | Cloud Platforms & Regulated Systems
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Senior Technical Program Manager with 13+ years defining, planning, and executing large-scale technical programs spanning cloud operations, reliability, and AI-driven automation in regulated healthcare and banking. Led cross- functional programs spanning 8+ lines of business, delivering 99.99% uptime platforms supporting $1B+ daily transactions with zero audit violations. Currently leading AI/ML program delivery: LLM evaluation and inference stacks
+(Ollama, vLLM), model-selection benchmarking, human-in-the-loop (HITL) review processes, and AI governance under
+HIPAA/GDPR.
+
+CORE COMPETENCIES
+
+Technical Program Management · AI/ML Program Delivery (Model Evaluation, Inference Stacks, HITL Governance) ·
+Program Governance · Roadmap Planning · Risk Identification & Mitigation · Stakeholder Alignment · Cross-Functional
+Execution Without Direct Authority · Change Management & Impact Analysis · Agile / Scrum / Kanban / SAFe
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, Jenkins pipelines, n8n, Webhooks, Feature Flagging
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG
+Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  Audit & Compliance Excellence: Zero audit violations across four consecutive quarters; 100% PCI audit compliance across multi- tenant financial services clients.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Designed human-in-the-loop (HITL) review and approval workflows for AI model changes and outputs, ensuring compliant, production-ready AI deployment in a regulated healthcare environment.
+-  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment with AIOps, log summarization, incident triage.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Defined, planned, and executed large-scale technical programs for a mission-critical API platform serving 8+ lines of business, spanning DevOps automation, security process, and platform scalability and reliability, achieving zero audit violations across four consecutive quarters.
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks, driving continuous improvement across delivery workflows.
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+-  Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while maintaining compliance standards.
+-  Reduced compliance and roadmap risk 25% through data/consent service POCs and proactive risk assessment across program milestones; accelerated time-to-market 35% through stakeholder alignment across product, risk, and architecture.
+
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100% audit compliance.
+-  Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 – Jul
+2021
+-  Owned execution and reliability for global futures and options platforms; led change management for business-critical enhancements, accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+-  Participated in verification and validation (V&V) activities aligned with FDA medical-device workflows, strengthening data integrity, defect detection, and audit readiness.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement) where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012–2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) Bangalore, India | 2005–2009
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile, 2024) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google Project
+Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (U.S.)
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Meta.md
+NANDITHA S MURTHY
+
+Senior Technical Program Manager | Cross-Functional Platform Delivery | Privacy, Security & AI-Enabled Execution
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Senior Technical Program Manager with 13+ years driving end-to-end technical programs from inception to delivery across matrixed organizations, defining roadmaps, gathering requirements, and aligning cross-functional engineering, product, and business teams to ship measurable impact at scale. Deep experience in privacy and security product delivery: built HIPAA/GDPR/PHIPA-governed AI systems with human-in-the-loop safety gates, multi-agent orchestration, and consent enforcement. Hands-on software engineering background (Java,
+Spring Boot, distributed systems) underpins technical credibility with engineering teams. Currently defining roadmaps, gathering requirements, and aligning cross-functional engineering, product, and business teams.
+
+CORE COMPETENCIES
+
+Technical Program Management · End-to-End Product Delivery (Inception to Launch) · Privacy & Security Product Adoption · Cross-
+Functional Matrix Org Execution · Roadmap & Requirements Definition · Dependency Management & Risk Mitigation · AI Agent
+Orchestration & Prompt Engineering · Multi-Timezone Distributed Team Coordination · Metrics & Impact Measurement
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2, Step Functions), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, Kafka, JMS, Redis
+AI & Automation: Amazon Bedrock, Azure AI Foundry, RAG Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM), Multi-Agent Orchestration (AWS Step Functions)
+Methods & Tools: Jira, Confluence, Postman, Swagger, Agile / Scrum / SAFe
+
+CAREER HIGHLIGHTS
+
+End-to-End Delivery Ownership: Drove technical programs from inception through production across 8+ lines of business, delivering
+99.99%uptime platforms supporting $1B+ daily transactions.
+Privacy & Security Product Adoption: Architected HIPAA/GDPR/PHIPA-governed multi-agent AI systems with human-in-the-loop safety gates —no output reaches users without passing all safety stages.
+AI Agent Orchestration: Built and deployed production multi-agent orchestration on AWS Step Functions integrating Bedrock for intent classification, tool-use, and human-in-the-loop callbacks.
+Cross-Functional Execution: Led globally distributed engineering teams across multiple time zones, sustaining 95% sprint predictability and zero rollbacks across 15+ concurrent initiatives.
+Requirements to Roadmap: Defined product requirements, scope, and phased roadmaps across 79+ user stories with measurable safety/ quality exit criteria.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform)
+Remote | Dec 2025 – Present
+Define product roadmap and long-term strategy for a privacy-first, AI-enabled healthcare platform, gathering requirements and scoping features from concept through production in partnership with CTO/CEO.
+Designed human-in-the-loop (HITL) review and approval workflows ensuring no AI output reaches users without passing safety and compliance gates — directly addressing privacy/security product adoption challenges.
+Built multi-agent AI orchestration architecture (data isolation, auditability, HIPAA/GDPR compliance) coordinating AI agents, human reviewers, and automated systems across end-to-end workflows.
+Use AI tools daily for prompt engineering, agent orchestration, and requirements drafting — integrating AI to optimize and redesign delivery workflows for measurable efficiency gains.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro)
+Mississauga, ON | Aug 2021 – Apr 2025
+Defined, planned, and executed large-scale technical programs from inception to delivery for a mission-critical platform serving 8+ lines of business, establishing roadmap, scope, and requirements across matrixed stakeholders.
+Led a globally distributed team of 7 engineers across multiple time zones, delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks.
+Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; identified cross-team dependencies and built mitigation strategies for platform-wide initiatives.
+Established metrics and program health indicators tracked against quarterly OKRs, providing ongoing status, risk, and issue communication to senior stakeholders.
+Led change impact analysis across 8+ teams during major platform transformations, achieving zero Sev-1 incidents through proactive dependency and risk management.
+
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi
+Mississauga, ON | Feb 2020 – Jul 2021
+Owned execution and reliability for global futures and options platforms with hands-on technical ownership (Java, Spring Boot, JMS,
+MongoDB); established work relationships across multi-disciplinary teams and external partners.
+Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20%.
+Established quality standards through code reviews and test strategy; coordinated consultants and vendor partners for predictable backlog delivery.
+Technology Analyst - Apple Inc (via Infosys)
+Bangalore, India | Jul 2016 – Sep 2019
+Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST) processing millions of subscription transactions daily, owning requirements elicitation and end-to-end solution design.
+Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom
+San Diego, CA | Nov 2014 – Sep 2015
+Developed and validated the Bluetooth Low Energy interface for the G-series Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Participated in verification and validation (V&V) activities aligned with FDA medical-device workflows, strengthening data integrity, defect detection, and audit readiness.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform
+Feb 2025 – Present
+Architected and deployed a production multi-agent safety pipeline on AWS Step Functions (crisis detection, OPA consent enforcement,
+LLM inference via Bedrock, governed self-improvement) — no output reaches users without passing all safety stages.
+Built supervisor agent pattern with synchronous child state machine execution, HITL via task-token callbacks, and CloudFormation IaC deployment; defined 79 user stories with safety invariants as measurable exit criteria.
+
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) | 2005 – 2009
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile, 2024) AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google Project
+Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (New York, NY)
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_PM_Oakville_RBC.md
+NANDITHA S MURTHY
+
+Senior Program Manager | AI & Digital Transformation | Financial Services & Regulated Platforms
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Senior Program Manager with 13+ years leading AI and digital transformation programs in regulated financial services and healthcare. Guided end-to-end execution of large-scale, cross-functional programs spanning 8+ lines of business at a major Canadian bank, partnering with risk, compliance, product, and architecture leadership to deliver $1B+/day platforms with zero audit violations. Currently directing delivery of a GenAI healthcare platform - multi-agent orchestration, governance, and executive/investor communication. Deep understanding of AI/ML and GenAI systems paired with strong change management and executive storytelling.
+
+CORE COMPETENCIES
+
+Program Management · AI & Digital Transformation · Executive Presentations & Storytelling · Business Case
+Development · Change Management · Matrixed Stakeholder Leadership · Budgeting & Resource Planning · Risk &
+Compliance Navigation · Agile/SAFe.
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG
+Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  Audit & Compliance Excellence: Zero audit violations across four consecutive quarters; 100% PCI audit compliance across multi-tenant financial services clients.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director — Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment.
+-  Implemented environment-based feature flags and phased rollout configuration across dev/staging/production, enabling safe, incremental AI feature delivery.
+-  Developed investor-ready business cases, delivery roadmaps, and executive communications for an AI platform, driving decision-making across CEO/CTO, advisors, and external stakeholders.
+Technical Lead / Technical Program Manager — TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Led AI/digital transformation and modernization programs across a matrixed organization - partnering with risk, compliance, and procurement-adjacent functions to secure approvals and remove delivery roadblocks, accelerating time-to-market 35%.
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks, driving continuous improvement across delivery workflows.
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+
+-  Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while maintaining compliance standards.
+-  Reduced compliance and roadmap risk 25% through data/consent service POCs and proactive risk assessment across program milestones; accelerated time-to-market 35% through stakeholder alignment across product, risk, and architecture.
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100% audit compliance.
+-  Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President - Global Markets Technology (Futures & Options Execution) — Citi Mississauga, ON | Feb 2020 –
+Jul 2021
+-  Owned execution and reliability for global futures and options platforms; led change management for business-critical enhancements, accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst — Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer — Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+SELECTED PROJECT
+
+Bumblebee Beats / EmoConnect — Zero Trust AI wellness platform | Feb 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement) where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+
+EDUCATION
+
+Master of Science, Computer Science — San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication — SJB Institute of Technology (VTU) B angalore, India | 2005 – 2009
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Pfizer.md
+NANDITHA S MURTHY
+Director, AI Change Adoption & Transformation | Hybrid Human-Agent Operating Models | Regulated
+Environments
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+SUMMARY
+Change and transformation leader with 13+ years owning AI adoption programs and delivery execution across regulated financial
+services and healthcare, partnering with cross-functional technical teams to turn AI ambition into measurable business outcomes.
+Led change management across 12+ lines of business in a matrixed professional services model; built executive adoption
+strategies, ran governance forums with VP/Director-level leadership, and designed hybrid human-agent operating models where
+people and AI agents share accountabilities. Currently directing a GenAI healthcare platform, owning the business case, the
+change narrative, and the adoption discipline that makes it stick.
+CORE COMPETENCIES
+AI Change Adoption & Transformation · Hybrid Human-Agent Operating Models · Executive Adoption Strategy · Change
+Executive Communications & Storytelling · Management & Resistance Navigation · Program & Delivery Management ·
+Business Case Development · Stakeholder Readiness & Enablement · OKR Frameworks & Adoption Metrics · Matrixed Cross-
+Functional Leadership · AI Governance & Compliance
+TECHNICAL STACK
+Program & Delivery: JIRA · JIRA Portfolio / Jira Align · Confluence · ADRs · UML · Agile/SAFe · Kanban
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG Architectures,
+Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Cloud & Infrastructure (working knowledge): AWS · Azure · Docker · Kubernetes · Terraform · CI/CD
+CAREER HIGHLIGHTS
+• AI Change Adoption at Scale: Owned end-to-end change management and adoption programs across 12+ lines of business
+during major platform transformations, built change narratives, surfaced and navigated stakeholder resistance, designed LOB-
+specific enablement, and sustained adoption through structured governance and OKR-linked progress reporting.
+• Hybrid Operating Model Design: Architected human-agent operating models for a GenAI platform, defined what humans own
+vs. what agents execute, designed HITL governance ensuring AI outputs require human approval before reaching end users.
+• Business Outcome Ownership: Tied program delivery to commercial outcomes; linked milestones to quarterly OKRs, reported
+adoption health and delivery status to CEO/CTO/investor stakeholders with full transparency.
+• Executive-Level Governance: Ran governance forums with MD/CIO-level leadership at Citi, VP/Director-level at TD Bank,
+and CEO/CTO/investor stakeholders at Divinity Science, driving decisions, surfacing risks, and maintaining single source of
+truth on status.
+• Program Delivery Excellence: Accelerated time-to-market 35%, reduced onboarding 60% via 20+ reusable delivery assets;
+sustained 100% client retention through structured change and enablement programs.
+PROFESSIONAL EXPERIENCE
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+• Leading strategy execution for a privacy-first GenAI healthcare platform, translating business priorities and compliance
+requirements into a phased technology roadmap, owning delivery from concept through production.
+• Designed the hybrid human-agent operating model for a multi-agent GenAI platform, defined role boundaries between human
+reviewers and AI agents, built the change enablement that helped clinical and product stakeholders adapt to AI-augmented
+workflows, and established adoption metrics tracking readiness and sustained usage.
+• Established OKR framework from the ground up: defined company and engineering objectives with CEO/CTO, cascaded
+measurable key results across delivery workstreams, and ran quarterly governance reviews tying roadmap priorities to outcomes.
+• Developed business cases and strategic recommendations for AI platform investment decisions, producing investor-ready
+roadmaps and executive communications that drove decision-making across CEO, CTO, advisors, and external stakeholders
+spanning investors, founders, product, design, and data science.
+• Used AI tools (Claude, Copilot, LLMs) daily to prototype concepts, draft product requirements, and produce illustrative artifacts
+before engaging engineering, compressing alignment cycles and accelerating stakeholder sign-off.
+• Established program governance frameworks for a multi-agent AI orchestration system (GenAI) with data isolation, auditability,
+and HIPAA/GDPR compliance as core pillars; implemented feature flags and phased rollout across dev/staging/production for
+safe, incremental delivery.
+Technical Lead / Technical Program Manager - Wipro (client: TD Bank) Mississauga, ON | Aug 2021 – Apr 2025
+• Delivered as a professional services practitioner embedded within TD Bank, translating business priorities into technology-
+enabled solutions for 12+ lines of business (TD Securities, Wealth Management, Insurance, Business Banking, MBNA, Online
+Channels), engaging stakeholders from AVP Enterprise Architects and Sr. IT Managers to external AWS Solution Architects
+and IBM engagement teams, accelerating time-to-market 35%.
+
+• Developed business cases and strategic recommendations for platform modernization initiatives, aligning technology investment
+decisions to enterprise OKRs and risk appetite across product, risk, compliance, and architecture leadership.
+• Ran PMO governance across strategic delivery workstreams: milestone tracking, dependency management, risk/issue logs, and
+leadership status reporting against quarterly OKRs, ensuring full transparency on status, timelines, and budget.
+• Owned stakeholder readiness and change communications across 12+ lines of business — read resistance signals early, built
+targeted enablement for each LOB, and sustained adoption through structured governance and progress reporting against OKRs.
+• Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and
+zero rollbacks; drove continuous improvement and engineer enablement that grew project scope 30% and sustained 100% client
+retention.
+• Worked with product owners to build strategic roadmaps, refine backlogs of demand, and balance competing priorities across a
+high-volume, fast-changing delivery portfolio.
+• Reduced compliance and roadmap risk 25% through proactive risk assessment across program milestones; defined PCI-compliant
+governance frameworks ensuring 100% audit compliance.
+• Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led
+change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 –
+Jul 2021
+• Led change and release management for global Futures & Derivatives execution and middle-office workflows (OMS audit
+reconciliation, allocation, clearing, booking) spanning CME, OCC, LME, ICE, SGX, and SFE, directing audit-file
+reconciliation of 20–50k trades/day and defining an end-of-day standard adopted across 127 exchanges.
+• Chaired cross-divisional working groups spanning MD/CIO-level leadership, Futures Trading Risk BSAs, Compliance
+Technology, and downstream LOB application teams, presenting risk registers, traceability matrices, and audit-ready
+evidence packs for senior-partner decision-making.
+• Drove FINRA consent-order data-quality remediation, achieving 100% remediation of critical data elements within mandated
+timelines and strengthening regulator confidence.
+• Defined QA and UAT strategy, coached teams on testing best practices, and developed post-testing migration plans;
+maintained 100% compliance with internal controls.
+• Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery
+efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Infosys (client: Apple Inc) B angalore, India | Jul 2016 – Sep 2019
+• Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning
+project planning, requirements elicitation, and solution design.
+• Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and
+production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+• Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+• Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and
+data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E
+telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+AI PLATFORM PROJECT
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | Feb 2025 – Present
+• Designed and operationalized a hybrid human-agent operating model for a Zero Trust AI wellness platform; established what
+agents execute autonomously vs. what requires human review, built the adoption framework for clinical stakeholders, and defined
+safety invariants as measurable adoption exit criteria across 79 user stories.
+• Established adoption metrics and sustainment mechanisms: defined safety invariants as measurable exit criteria, tracked readiness
+across 79 user stories, and built the governance that ensured gains held after each release, treating adoption as a measured
+outcome, not a hope.
+EDUCATION
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) B angalore, India | 2005 – 2009
+CERTIFICATIONS
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without visa sponsorship · Available for hybrid onsite across U.S. Pfizer
+commercial sites
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Sony.md
+NANDITHA S MURTHY
+Senior Technical Program Manager | Cross-Functional Platform Delivery | Privacy, Security & AI-Enabled Execution
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+SUMMARY
+Senior Technical Program Manager with 13+ years driving end-to-end technical programs from inception to delivery across matrixed
+organizations, defining roadmaps, gathering requirements, and aligning cross-functional engineering, product, and business teams to ship
+measurable impact at scale. Deep experience in privacy and security product delivery: built HIPAA/GDPR/PHIPA-governed AI systems
+with human-in-the-loop safety gates, multi-agent orchestration, and consent enforcement. Hands-on software engineering background (Java,
+Spring Boot, distributed systems) underpins technical credibility with engineering teams. Currently translating business strategy into
+executable roadmaps and driving value realization through governance, risk management, and operational readiness across matrixed global
+organizations
+CORE COMPETENCIES
+Technical Program Management · End-to-End Product Delivery (Inception to Launch) · Privacy & Security Product Adoption · Cross-
+Functional Matrix Org Execution · Roadmap & Requirements Definition · Dependency Management & Risk Mitigation · AI Agent
+Orchestration & Prompt Engineering · Multi-Timezone Distributed Team Coordination · Metrics & Impact Measurement
+TECHNICAL STACK
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2, Step Functions), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, Kafka, JMS, Redis
+AI & Automation: Amazon Bedrock, Azure AI Foundry, RAG Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama,
+vLLM), Multi-Agent Orchestration (AWS Step Functions)
+Methods & Tools: Jira, Confluence, Postman, Swagger, Agile / Scrum / SAFe
+CAREER HIGHLIGHTS
+End-to-End Delivery Ownership: Drove technical programs from inception through production across 8+ lines of business, delivering
+99.99%uptime platforms supporting $1B+ daily transactions.
+Privacy & Security Product Adoption: Architected HIPAA/GDPR/PHIPA-governed multi-agent AI systems with human-in-the-loop
+safety gates —no output reaches users without passing all safety stages.
+AI Agent Orchestration: Built and deployed production multi-agent orchestration on AWS Step Functions integrating Bedrock for intent
+classification, tool-use, and human-in-the-loop callbacks.
+Cross-Functional Execution: Led globally distributed engineering teams across multiple time zones, sustaining 95% sprint predictability
+and zero rollbacks across 15+ concurrent initiatives.
+Requirements to Roadmap: Defined product requirements, scope, and phased roadmaps across 79+ user stories with measurable safety/
+quality exit criteria.
+PROFESSIONAL EXPERIENCE
+Technical Director - Divinity Science (AI-enabled digital health platform)
+Remote | Dec 2025 – Present
+Define product roadmap and long-term strategy for a privacy-first, AI-enabled healthcare platform, gathering requirements and
+scoping features from concept through production in partnership with CTO/CEO.
+Designed human-in-the-loop (HITL) review and approval workflows ensuring no AI output reaches users without passing safety and
+compliance gates — directly addressing privacy/security product adoption challenges.
+Built multi-agent AI orchestration architecture (data isolation, auditability, HIPAA/GDPR compliance) coordinating AI agents, human
+reviewers, and automated systems across end-to-end workflows.
+Use AI tools daily for prompt engineering, agent orchestration, and requirements drafting — integrating AI to optimize and redesign
+delivery workflows for measurable efficiency gains.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro)
+Mississauga, ON | Aug 2021 – Apr 2025
+Defined, planned, and executed large-scale technical programs from inception to delivery for a mission-critical platform serving 8+ lines
+of business, establishing roadmap, scope, and requirements across matrixed stakeholders.
+Led a globally distributed team of 7 engineers across multiple time zones, delivering 15+ mission-critical initiatives with 95% sprint
+predictability and zero rollbacks.
+Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; identified cross-team
+dependencies and built mitigation strategies for platform-wide initiatives.
+Established metrics and program health indicators tracked against quarterly OKRs, providing ongoing status, risk, and issue
+communication to senior stakeholders.
+Led change impact analysis across 8+ teams during major platform transformations, achieving zero Sev-1 incidents through proactive
+dependency and risk management.
+
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi
+Mississauga, ON | Feb 2020 – Jul 2021
+Owned execution and reliability for global futures and options platforms with hands-on technical ownership (Java, Spring Boot, JMS,
+MongoDB); established work relationships across multi-disciplinary teams and external partners.
+Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery
+efficiency 20%.
+Established quality standards through code reviews and test strategy; coordinated consultants and vendor partners for predictable
+backlog delivery.
+Technology Analyst - Apple Inc (via Infosys)
+Bangalore, India | Jul 2016 – Sep 2019
+Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST) processing
+millions of subscription transactions daily, owning requirements elicitation and end-to-end solution design.
+Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and
+production support across finance and engineering stakeholders.
+Software Engineer - Dexcom
+San Diego, CA | Nov 2014 – Sep 2015
+Developed and validated the Bluetooth Low Energy interface for the G-series Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and
+data-stream parsing.
+Participated in verification and validation (V&V) activities aligned with FDA medical-device workflows, strengthening data integrity,
+defect detection, and audit readiness.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E
+telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+AI PLATFORM PROJECT
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform
+Feb 2025 – Present
+Architected and deployed a production multi-agent safety pipeline on AWS Step Functions (crisis detection, OPA consent enforcement,
+LLM inference via Bedrock, governed self-improvement) — no output reaches users without passing all safety stages.
+Built supervisor agent pattern with synchronous child state machine execution, HITL via task-token callbacks, and CloudFormation IaC
+deployment; defined 79 user stories with safety invariants as measurable exit criteria.
+EDUCATION
+Master of Science, Computer Science - San Diego State University | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) | 2005 – 2009
+CERTIFICATIONS
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile, 2024) AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google Project
+Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (New York, NY)
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_TPM_grow_therapy.md
+NANDITHA S MURTHY
+
+Senior Technical Program Manager | Cloud & API Platforms | DevOps & Platform Reliability
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Senior Technical Program Manager with 13+ years defining, planning, and executing large-scale technical programs across DevOps, platform scalability and reliability, and security process in regulated environments (banking, healthcare, medical devices). Led cross-functional programs spanning 8+ lines of business, delivering 99.99% uptime platforms supporting $1B+ daily transactions with zero audit violations. Applies technical program management methodologies to drive efficiency and predictability in software engineering — turning ambiguous problems into reliable, compliant, scalable delivery. Currently focused on AI-native agentic systems and LLM platform governance.
+
+CORE COMPETENCIES
+
+Technical Program Management Methodologies · Program Governance · Roadmap Planning · Risk Assessment ·
+Stakeholder Alignment · Cross-Functional Program Execution · Change Management & Impact Analysis · Vendor &
+Partner Management · Agile / Scrum / Kanban / SAFe
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, Jenkins pipelines, n8n, Webhooks, Feature Flagging
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG
+Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  Audit & Compliance Excellence: Zero audit violations across four consecutive quarters; 100% PCI audit compliance across multi-tenant financial services clients.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director — Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment.
+-  Implemented environment-based feature flags and phased rollout configuration across dev/staging/production, enabling safe, incremental AI feature delivery.
+Technical Lead / Technical Program Manager — TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Defined, planned, and executed large-scale technical programs for a mission-critical API platform serving 8+ lines of business — spanning DevOps automation, security process, and platform scalability and reliability — achieving zero audit violations across four consecutive quarters.
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks, driving continuous improvement across delivery workflows.
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+
+-  Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while maintaining compliance standards.
+-  Reduced compliance and roadmap risk 25% through data/consent service POCs and proactive risk assessment across program milestones; accelerated time-to-market 35% through stakeholder alignment across product, risk, and architecture.
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100% audit compliance.
+-  Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President - Global Markets Technology (Futures & Options Execution) — Citi Mississauga, ON | Feb 2020 –
+Jul 2021
+-  Owned execution and reliability for global futures and options platforms; led change management for business-critical enhancements, accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst — Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer — Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+SELECTED PROJECT
+
+Bumblebee Beats / EmoConnect — Zero Trust AI wellness platform | Feb 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement) where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+
+EDUCATION
+
+Master of Science, Computer Science — San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication — SJB Institute of Technology (VTU) B angalore, India | 2005 – 2009
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (San Francisco Bay Area)
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Thumbtack.md
+NANDITHA S MURTHY
+
+Senior Technical Program Manager | Internal Platforms, Identity & Integration | Enterprise AI & Infrastructure
+Oakville, ON, Canada | +1 (647) 881-3872 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Senior Technical Program Manager with 13+ years defining, planning, and executing large-scale technical programs across DevOps, platform scalability and reliability, and security process in regulated environments (banking, healthcare, medical devices). Led cross-functional programs spanning 8+ lines of business, delivering 99.99% uptime platforms supporting $1B+ daily transactions with zero audit violations. Applies technical program management methodologies to drive efficiency and predictability in software engineering, turning ambiguous problems into reliable, compliant, scalable delivery. Currently leading enterprise AI platform delivery — multi-agent LLM orchestration, MCP/connector patterns, guardrails, and governance — and using AI tooling daily to accelerate program execution.
+
+CORE COMPETENCIES
+
+Technical Program Management · Identity & Access Programs (Service Accounts, Privileged Access, RBAC, Zero Trust)
+- Platform & Integration Architecture · Vendor & Partner Management (Evaluations, Pilots, Renewals) · Enterprise AI
+Governance (LLM Agents, MCP, Guardrails) · RFCs & Design Reviews · Data & Workflow Integration (ETL, APIs) · OKRs
+& Roadmap Execution · Cross-Functional Alignment
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, SQL, Jenkins pipelines, Feature Flagging
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG
+Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM), MCP, n8n connectors, Webhooks
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  Audit & Compliance Excellence: Zero audit violations across four consecutive quarters; 100% PCI audit compliance across multi- tenant financial services clients.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment.
+-  Implemented environment-based feature flags and phased rollout configuration across dev/staging/production, enabling safe, incremental AI feature delivery.
+-  Designed MCP-style connector and webhook integration patterns linking the AI platform to external health-data providers and scheduling systems; defined governance, guardrails, and adoption tracking for LLM-agent capabilities.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Defined, planned, and executed large-scale technical programs for a mission-critical API platform serving 8+ lines of business, spanning DevOps automation, security process, and platform scalability and reliability , achieving zero audit violations across four consecutive quarters.
+
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks, driving continuous improvement across delivery workflows.
+-  Led enterprise NPID (service account) attestation and privileged-access hygiene program across 7 platforms (Active Directory,
+Unix, databases, ACF2, AS400, network, application layer) — standardizing intake and attestation workflows with IAM and
+Digital Identity (Diamond) teams, and establishing ownership tracking and escalation for thousands of unowned identities.
+-  Partnered with security, compliance, and LOB stakeholders to validate identity ownership and prepare audit evidence packs; recommended attestation automation and defined privileged-access hygiene standards for onboarding, reducing compliance and roadmap risk 25%.
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+-  Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while maintaining compliance standards.
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100% audit compliance.
+-  Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); facilitated ADRs, RFCs, and architecture design reviews with senior engineers.
+-  Led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President - Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 –
+Jul 2021
+-  Owned execution and reliability for global futures and options platforms; led change management for business-critical enhancements, accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement) where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) Bangalore, India | 2005 – 2009
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Valon.md
+NANDITHA S MURTHY
+
+Engineering Lead | Java & Cloud Platform Software | APIs & Enterprise Platforms Oakville, ON, Canada | +1 (224)
+622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Engineering leader with 13+ years building commercial Java platform software and 4+ years leading distributed engineering teams in agile environments. Deep expertise in object-oriented design, API-first and event-driven architectures (Spring Boot, Kafka, Kubernetes), delivering enterprise platform software with 99.99% uptime supporting
+$1B+ daily transactions. Proven mentor and coach: instituted code-review and quality standards, drove accountability through sprint discipline (95% predictability, zero rollbacks), and developed engineers into senior roles. Regulated- industry depth across banking and FDA-regulated medical devices; currently leading delivery of an AI-native healthcare platform.
+
+CORE COMPETENCIES
+
+Engineering Team Leadership (Mentoring, Coaching, Accountability) · Commercial Java Development · Object-Oriented
+Design & Implementation · API & Enterprise Platform Software · Agile Development Process (Scrum/Kanban/SAFe) ·
+Code Review & Quality Standards · Iterative Process Definition · Stakeholder Partnership & Delivery Ownership
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, Jenkins pipelines, n8n, Webhooks, Feature Flagging
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG
+Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  Audit & Compliance Excellence: Zero audit violations across four consecutive quarters; 100% PCI audit compliance across multi- tenant financial services clients.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment.
+-  Implemented environment-based feature flags and phased rollout configuration across dev/staging/production, enabling safe, incremental AI feature delivery.
+-  Designing the engineering org from the ground up at pre-seed stage: established training programs, engineering onboarding, and team operating processes (code review, sprint cadence) to scale from founding team to first hires.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Led and developed a globally distributed 7-engineer team: ran structured feedback and growth coaching, instituted sprint discipline, and promoted 3 engineers into senior roles , while delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks.
+
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+-  Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while maintaining compliance standards.
+-  Reduced compliance and roadmap risk 25% through data/consent service POCs and proactive risk assessment across program milestones; accelerated time-to-market 35% through stakeholder alignment across product, risk, and architecture.
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100% audit compliance.
+-  Iteratively defined and refined development processes as teams scaled: authored 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks) cutting onboarding 60%; led change impact analysis across 8+ teams during IBM-CMOD and AIX- to-RHEL 8 migrations with zero Sev-1 incidents.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 – Jul
+2021
+-  Owned execution and reliability for global futures and options platforms while remaining hands-on in commercial Java development - object-oriented design and implementation of Spring Boot services - accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team building commercial Java application software for iTunes reconciliation and entitlement platforms (Java,
+Spring MVC, MongoDB, REST), owning object-oriented design, requirements elicitation, and solution delivery.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement) where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+
+EDUCATION
+
+Master of Science, Computer Science — San Diego State University
+Bachelor of Engineering, Electronics & Communication — SJB Institute of Technology (VTU)
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to NYC/SF or remote
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Veeva.md
+NANDITHA S MURTHY
+
+Engineering Lead / Technical Program Manager | Java & Cloud Platform Software | APIs & Enterprise Platforms
+Oakville, ON, Canada | +1 (647) 881-3872 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Engineering leader with 13+ years building commercial Java platform software and 4+ years leading distributed engineering teams in agile environments. Deep expertise in object-oriented design, API-first and event-driven architectures (Spring Boot, Kafka, Kubernetes), delivering enterprise platform software with 99.99% uptime supporting
+$1B+ daily transactions. Proven mentor and coach: instituted code-review and quality standards, drove accountability through sprint discipline (95% predictability, zero rollbacks), and developed engineers into senior roles. Regulated- industry depth across banking and FDA-regulated medical devices; currently leading delivery of an AI-native healthcare platform.
+
+CORE COMPETENCIES
+
+Engineering Team Leadership (Mentoring, Coaching, Accountability) · Commercial Java Development · Object-Oriented
+Design & Implementation · API & Enterprise Platform Software · Agile Development Process (Scrum/Kanban/SAFe) ·
+Code Review & Quality Standards · Iterative Process Definition · Stakeholder Partnership & Delivery Ownership
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, Jenkins pipelines, n8n, Webhooks, Feature Flagging
+Languages / Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG
+Architectures, Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  Audit & Compliance Excellence: Zero audit violations across four consecutive quarters; 100% PCI audit compliance across multi- tenant financial services clients.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment.
+-  Implemented environment-based feature flags and phased rollout configuration across dev/staging/production, enabling safe, incremental AI feature delivery.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Defined, planned, and executed large-scale technical programs for a mission-critical API platform serving 8+ lines of business, spanning DevOps automation, security process, and platform scalability and reliability, achieving zero audit violations across four consecutive quarters.
+-  Led, mentored, and coached a globally distributed team of 7 engineers in an agile development process, instilling accountability through sprint discipline and structured feedback, delivering 15+ initiatives with 95% sprint predictability, zero rollbacks, and 3 engineers developed into senior roles.
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+
+-  Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while maintaining compliance standards.
+-  Reduced compliance and roadmap risk 25% through data/consent service POCs and proactive risk assessment across program milestones; accelerated time-to-market 35% through stakeholder alignment across product, risk, and architecture.
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100% audit compliance.
+-  Iteratively defined and refined development processes as teams scaled: authored 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks) cutting onboarding 60%; led change impact analysis across 8+ teams during IBM-CMOD and AIX- to-RHEL 8 migrations with zero Sev-1 incidents.
+Associate Vice President, Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 – Jul
+2021
+-  Owned execution and reliability for global futures and options platforms while remaining hands-on in commercial Java development - object-oriented design and implementation of Spring Boot services - accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team building commercial Java application software for iTunes reconciliation and entitlement platforms (Java,
+Spring MVC, MongoDB, REST), owning object-oriented design, requirements elicitation, and solution delivery.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI PLATFORM PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement) where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+
+EDUCATION
+
+Master of Science, Computer Science — San Diego State University
+Bachelor of Engineering, Electronics & Communication — SJB Institute of Technology (VTU)
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Walmart_Distinguished_R-2479383.md
+NANDITHA S MURTHY
+Technical Program Manager | AI Platform Delivery | Governance & Cross-Functional Execution
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+SUMMARY
+Senior Technical Program Manager with 13+ years defining, planning, and executing large-scale technical programs across DevOps,
+platform scalability and reliability, and security process in regulated environments (banking, healthcare, medical devices) with
+growing focus on AI/ML platform delivery, governance, and translating ambiguous strategic priorities into executable, cross-
+functional roadmaps. Led cross-functional programs spanning 8+ lines of business, delivering 99.99% uptime platforms supporting
+$1B+ daily transactions with zero audit violations. Applies technical program management methodologies to drive efficiency and
+predictability in software engineering,turning ambiguous problems into reliable, compliant, scalable delivery. Currently focused on
+AI-native agentic systems and LLM platform governance.
+CORE COMPETENCIES
+Technical Program Management Methodologies · Program Governance · Roadmap Planning · Risk Assessment · Stakeholder
+Alignment · Cross-Functional Program Execution · Change Management & Impact Analysis · Vendor & Partner Management ·
+Agile / Scrum / Kanban / SAFe
+TECHNICAL STACK
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, Jenkins pipelines, n8n, Webhooks, Feature Flagging Languages /
+Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG Architectures,
+Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+CAREER HIGHLIGHT
+• Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of
+business.
+• Audit & Compliance Excellence: Zero audit violations across four consecutive quarters; 100% PCI audit compliance across multi-
+tenant financial services clients.
+• Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+• Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE
+playbooks); accelerated time-to-market 35% through stakeholder alignment.
+• Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through
+enablement and mentorship programs.
+PROFESSIONAL EXPERIENCE
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+• Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and
+compliance outcomes with direct reporting to CTO/CEO.
+• Translate ambiguous strategic and regulatory priorities into phased technical roadmaps and measurable delivery milestones for a
+privacy-first AI healthcare platform, reporting directly to CTO/CEO.
+• Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability,
+and HIPAA/GDPR compliance as core governance pillars.
+• Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model
+selection for privacy-sensitive, on-premise healthcare deployment.
+• Implemented environment-based feature flags and phased rollout configuration across dev/staging/production, enabling safe,
+incremental AI feature delivery.
+• Prepare structured updates and risk/trade-off narratives for executive stakeholders, translating technical constraints (model
+selection, compliance gating, deployment risk) into business-ready decisions.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+• Defined, planned, and executed large-scale technical programs for a mission-critical API platform serving 8+ lines of business,
+spanning DevOps automation, security process, and platform scalability and reliability, achieving zero audit violations across
+four consecutive quarters.
+
+• Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and
+zero rollbacks, driving continuous improvement across delivery workflows.
+• Directed backend modernization and unified API/data platform strategy across AWS, Azure, OpenStack, and VMware spanning
+8+ lines of business, reducing latency 30% and achieving 99.99% uptime supporting $1B+ daily transactions, establishing shared
+platform standards adopted across multiple domain teams.
+• Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while
+maintaining compliance standards.
+• Reduced compliance and data-governance risk 25% through data/consent service POCs, establishing trusted data handling
+patterns across program milestones
+• Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients,
+ensuring 100% audit compliance.
+• Established program health metrics and KPI/OKR tracking frameworks, providing executive-level visibility into risk,
+dependencies, and decision impact across the platform portfolio
+• Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led
+change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President - Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 –
+Jul 2021
+• Owned execution and reliability for global futures and options platforms; led change management for business-critical
+enhancements, accelerating release timelines 25%.
+• Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing
+pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+• Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal
+controls.
+• Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery
+efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+• Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning
+project planning, requirements elicitation, and solution design.
+• Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and
+production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+• Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+• Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and
+data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E
+telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+AI ENABLEMENT PROJECT
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+• Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement)
+where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety
+invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+• Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture,
+prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+EDUCATION
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) Bangalore, India | 2005 – 2009
+CERTIFICATIONS
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (San Francisco Bay Area)
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Walmart_Principal_R-2506205.md
+NANDITHA S MURTHY
+
+Technical Program Manager | Cloud & API Platforms | Data Governance & AI-Enabled Systems
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Senior Technical Program Manager with 13+ years defining, planning, and executing large-scale technical programs across DevOps, platform scalability and reliability, and security process in regulated environments (banking, healthcare, medical devices) with growing focus on data platform governance, distributed data architecture, and AI-enabled decision systems across multi-domain technology programs. Led cross-functional programs spanning 8+ lines of business, delivering 99.99% uptime platforms supporting
+$1B+ daily transactions with zero audit violations. Applies technical program management methodologies to drive efficiency and predictability in software engineering,turning ambiguous problems into reliable, compliant, scalable delivery. Currently focused on AI-native agentic systems and LLM platform governance.
+
+CORE COMPETENCIES
+
+Technical Program Management Methodologies · Program Governance · Roadmap Planning · Risk Assessment · Stakeholder
+Alignment · Cross-Functional Program Execution · Change Management & Impact Analysis · Vendor & Partner Management ·
+Agile / Scrum / Kanban / SAFe
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, Jenkins pipelines, n8n, Webhooks, Feature Flagging Languages /
+Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG Architectures,
+Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  Audit & Compliance Excellence: Zero audit violations across four consecutive quarters; 100% PCI audit compliance across multi- tenant financial services clients.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment.
+-  Implemented environment-based feature flags and phased rollout configuration across dev/staging/production, enabling safe, incremental AI feature delivery.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Defined, planned, and executed large-scale technical programs for a mission-critical API platform serving 8+ lines of business, spanning DevOps automation, security process, and platform scalability and reliability, achieving zero audit violations across four consecutive quarters.
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks, driving continuous improvement across delivery workflows.
+-  Directed backend modernization and unified API/data platform strategy across AWS, Azure, OpenStack, and VMware spanning
+8+ lines of business, reducing latency 30% and achieving 99.99% uptime supporting $1B+ daily transactions, establishing shared platform standards adopted across multiple domain teams.
+-  Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while maintaining compliance standards.
+
+-  Reduced compliance and data-governance risk 25% through data/consent service POCs, establishing trusted data handling patterns across program milestones
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100% audit compliance.
+-  Established program health metrics and KPI/OKR tracking frameworks, providing executive-level visibility into risk, dependencies, and decision impact across the platform portfolio
+-  Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President - Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 –
+Jul 2021
+-  Owned execution and reliability for global futures and options platforms; led change management for business-critical enhancements, accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI ENABLEMENT PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement) where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) Bangalore, India | 2005 – 2009
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (San Francisco Bay Area)
+
+---
+
+### VARIANT: Nanditha_Murthy_Resume_Walmart_staff_ R-2506210.md
+NANDITHA S MURTHY
+
+Technical Program Manager | Cloud & API Platforms | Data Governance & AI-Enabled Systems
+Oakville, ON, Canada | +1 (224) 622-9801 | nanditha.murthy@gmail.com | LinkedIn | GitHub
+
+SUMMARY
+
+Senior Technical Program Manager with 13+ years defining, planning, and executing large-scale technical programs across DevOps, platform scalability and reliability, and security process in regulated environments (banking, healthcare, medical devices) with growing focus on data platform governance and AI-enabled decision systems. Led cross-functional programs spanning 8+ lines of business, delivering 99.99% uptime platforms supporting $1B+ daily transactions with zero audit violations. Applies technical program management methodologies to drive efficiency and predictability in software engineering — turning ambiguous problems into reliable, compliant, scalable delivery. Currently focused on AI-native agentic systems and LLM platform governance.
+
+CORE COMPETENCIES
+
+Technical Program Management Methodologies · Program Governance · Roadmap Planning · Risk Assessment · Stakeholder
+Alignment · Cross-Functional Program Execution · Change Management & Impact Analysis · Vendor & Partner Management ·
+Agile / Scrum / Kanban / SAFe
+
+TECHNICAL STACK
+
+Cloud / DevOps: AWS (EKS, Lambda, S3, EC2), Azure (AKS, App Service, CosmosDB, Key Vault), Docker, OpenShift
+(Kubernetes), VMware, Jenkins, GitHub Actions, CI/CD, Terraform (IaC)
+Scripting & Automation: Python, PowerShell, YAML, Shell, Jenkins pipelines, n8n, Webhooks, Feature Flagging Languages /
+Frameworks: Java 17, Spring Boot / MVC, Node.js, TypeScript, JavaScript, FastAPI, React/Next.js
+Data / Messaging: PostgreSQL, MongoDB, MySQL, Oracle, DB2, Kafka, JMS, Redis
+Security & Observability: HashiCorp Vault, SOC workflows, Datadog, Dynatrace, Splunk, Prometheus, Grafana
+AI & Automation Platforms: Amazon Bedrock, Azure AI Foundry, GitHub Copilot, Copilot Studio, Claude, RAG Architectures,
+Prompt Orchestration, LLM Evaluation (LLaMA, Ollama, vLLM)
+Methods & Tools: Jira, Confluence, Bitbucket, Linear, ADRs, UML, A/B Testing
+
+CAREER HIGHLIGHTS
+
+-  Platform Reliability at Scale: Achieved 99.99% uptime for API platforms supporting $1B+ daily transactions across 8+ lines of business.
+-  Audit & Compliance Excellence: Zero audit violations across four consecutive quarters; 100% PCI audit compliance across multi- tenant financial services clients.
+-  Delivery Velocity: Increased release velocity 5× through CI/CD and governance pipeline automation (Jenkins, GitHub Actions,
+Terraform) while maintaining compliance standards.
+-  Program Efficiency: Reduced onboarding time 60% via 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); accelerated time-to-market 35% through stakeholder alignment.
+-  Client & Team Outcomes: 100% client retention, 30% increase in project scope, and 3 engineers advanced to senior roles through enablement and mentorship programs.
+
+PROFESSIONAL EXPERIENCE
+
+Technical Director - Divinity Science (AI-enabled digital health platform) Remote | Dec 2025 – Present
+-  Lead delivery of a privacy-first, AI-enabled healthcare platform in a highly regulated domain, owning roadmap, risk, and compliance outcomes with direct reporting to CTO/CEO.
+-  Established program governance frameworks for a multi-agent AI orchestration system (GenAI), with data isolation, auditability, and HIPAA/GDPR compliance as core governance pillars.
+-  Evaluated open-weight LLMs (LLaMA variants) using Ollama and vLLM; conducted hands-on benchmarking to inform model selection for privacy-sensitive, on-premise healthcare deployment.
+-  Implemented environment-based feature flags and phased rollout configuration across dev/staging/production, enabling safe, incremental AI feature delivery.
+Technical Lead / Technical Program Manager - TD Bank (via Wipro) Mississauga, ON | Aug 2021 – Apr 2025
+-  Defined, planned, and executed large-scale technical programs for a mission-critical API platform serving 8+ lines of business, spanning DevOps automation, security process, and platform scalability and reliability, achieving zero audit violations across four consecutive quarters.
+-  Managed a globally distributed team of 7 engineers delivering 15+ mission-critical initiatives with 95% sprint predictability and zero rollbacks, driving continuous improvement across delivery workflows.
+-  Directed backend modernization (Java 17, Spring Boot, Kafka) across AWS and Azure, reducing latency 30%; unified API strategy across OpenStack and VMware achieving 99.99% uptime supporting $1B+ daily transactions.
+-  Automated CI/CD and governance pipelines (Jenkins, GitHub Actions, Terraform), increasing release velocity 5× while maintaining compliance standards.
+
+-  Reduced compliance and data-governance risk 25% through data/consent service POCs, establishing trusted data handling patterns across program milestones
+-  Defined project governance frameworks for PCI-compliant deployment strategies across multi-tenant financial services clients, ensuring 100% audit compliance.
+-  Reduced onboarding timelines 60% through 20+ reusable delivery assets (architecture designs, rollout plans, SRE playbooks); led change impact analysis across 8+ teams during IBM-CMOD and AIX-to-RHEL 8 transformations with zero Sev-1 incidents.
+Associate Vice President - Global Markets Technology (Futures & Options Execution) - Citi Mississauga, ON | Feb 2020 –
+Jul 2021
+-  Owned execution and reliability for global futures and options platforms; led change management for business-critical enhancements, accelerating release timelines 25%.
+-  Drove delivery across Java, Spring Boot, JMS, MongoDB, and messaging platforms; technical lead for audit-file processing pipelines (Apache Camel) while coordinating consultants for predictable backlog delivery.
+-  Established quality and reliability standards through code reviews and test strategy, maintaining 100% compliance with internal controls.
+-  Resolved Sev-1/Sev-2 incidents with 15-minute average resolution, sustaining 99.99% uptime; improved cross-team delivery efficiency 20% and reduced incident recurrence 30%.
+Technology Analyst - Apple Inc (via Infosys) Bangalore, India | Jul 2016 – Sep 2019
+-  Led a 4-member team delivering iTunes reconciliation and entitlement platforms (Java, Spring MVC, MongoDB, REST), owning project planning, requirements elicitation, and solution design.
+-  Built ETL pipelines (Spring Batch) and reporting services with MongoDB aggregation, supporting multi-format exports and production support across finance and engineering stakeholders.
+Software Engineer - Dexcom San Diego, CA | Nov 2014 – Sep 2015
+-  Developed and validated the Bluetooth Low Energy interface for the G5 Mobile Continuous Glucose Monitoring product
+(transmitter–receiver and iPhone–transmitter), an FDA-regulated Class III medical device.
+-  Built SOAP/REST web services exposing application operations to monitor product data transfers; developed system unit tests and data-stream parsing.
+Earlier: Firmware Engineer Intern, West Health (wireless fetal monitoring, BLE, I2C) · Technical Associate, Tech Mahindra (E2E telecom platform testing for BT) · STEM Fellow (Volunteer), Teach For America.
+
+AI ENABLEMENT PROJECT
+
+Bumblebee Beats / EmoConnect - Zero Trust AI wellness platform | June 2025 – Present
+-  Architected a multi-agent safety pipeline (crisis detection, OPA consent enforcement, LLM inference, governed self-improvement) where no output reaches users without passing all safety stages; defined a phased AI roadmap across 79 user stories with safety invariants as sprint exit criteria targeting GDPR/HIPAA/PHIPA.
+-  Ran open-weight LLMs locally (Ollama, vLLM) for privacy-preserving on-device inference; implemented RAG architecture, prompt orchestration, and Human-in-the-Loop approval with no self-approval path.
+
+EDUCATION
+
+Master of Science, Computer Science - San Diego State University San Diego, CA | 2012 – 2015
+Bachelor of Engineering, Electronics & Communication - SJB Institute of Technology (VTU) Bangalore, India | 2005 – 2009
+
+CERTIFICATIONS
+
+Certified SAFe® 6 DevOps Practitioner (Scaled Agile, valid through Jul 2026) · Certified SAFe® 6 Product Owner/Product Manager
+(Scaled Agile) (2024–2026) · AI in Health Care: From Strategies to Implementation (Harvard Medical School / Emeritus) · Google
+Project Management Certificate (Coursera) · Oracle Certified Associate, Java SE 8 Programmer
+Work Authorization: Eligible to work in the U.S. without employer visa sponsorship · Open to relocation (San Francisco Bay Area)
+
+---
+
+---
+Now complete Stage 0 first. Only proceed to the full Stage 1 ranking if
+Stage 0 found a GOOD FIT or PARTIAL FIT — if POOR FIT, you may still
+provide an abbreviated ranking if useful, but lead with the Stage 0
+verdict and reasoning.

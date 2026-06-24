@@ -1,0 +1,111 @@
+I have enough evidence. Let me now produce the full Phase A/B output.
+
+Length: DEEP
+
+Confidence: Certain
+
+Phase A — Gap × Evidence Matrix
+Gap: Developer Experience (DevEx) terminology — job title keyword, absent from resume
+
+Evidence Found: PARTIAL
+
+Source File: CMOD_IBM_part_1.md, CMOD_IBM_part_2.md
+
+Supporting Text: "Modern CI/CD & DevSecOps compatibility." / "Broadened scope to leverage OpenShift-based container testing for indexer microservices, ensuring future upgrades had zero manual steps." / "Enhanced CI/CD governance using OpenShift container validation, improving team confidence in future releases."
+
+Assessment: These facts support developer workflow improvement and CI/CD enablement but are interview prep notes, not resume bullets. The underlying experience is real. Closest evidence anchor is the resume's existing 5× velocity bullet. No evidence file contains an explicit "developer experience program" — this remains a presentation gap addressable by reframing existing bullets, not a new fact from evidence.
+
+Gap: Budget tracking / resource allocation ownership
+
+Evidence Found: PARTIAL
+
+Source File: Career_Wealth_part_9.md (inferred from structured case files)
+
+Supporting Text: "Engaged licensing and finance teams to upgrade OTS licensing to support future scaling" (CMOD_IBM_part_1.md) / "Led a licensing review session with vendor (OTS), infra architects, and procurement." (CMOD_IBM_part_1.md)
+
+Assessment: Procurement engagement and licensing cost decisions are adjacent to budget ownership, but no evidence file explicitly states Nanditha tracked or managed a program budget (dollar amounts, budget variance, spend forecasting). This is a PARTIAL at best. Candidate must confirm whether they held actual budget accountability at TD or Citi before adding a bullet.
+
+Gap: Quality Management System (QMS) experience — JD requires ResMed QMS alignment
+
+Evidence Found: PARTIAL
+
+Source File: Career_Wealth_part_15.md (Dexcom), Career_Wealth_part_16.md (West Health)
+
+Supporting Text (Career_Wealth_part_15.md): "Participated in verification and validation (V&V) activities aligned with FDA workflows, reinforcing audit readiness and patient safety."
+
+Supporting Text (Career_Wealth_part_16.md): "Supported prototype validation activities, ensuring alignment with healthcare compliance standards."
+
+Assessment: FDA V&V workflows are a direct analog to medical device QMS processes. This is the strongest QMS evidence in the corpus and it pre-dates 2015. The gap is structural in terms of recency and explicit QMS framing — but the underlying regulated-environment process experience is real and verifiable.
+
+Gap: PMP certification
+
+Evidence Found: NO
+
+Source File: none
+
+Supporting Text: N/A
+
+Assessment: TRUE GAP. No evidence in any file indicates PMP pursuit or completion. Google PM Certificate is present but is not equivalent.
+
+Gap: PSM or CSM certification
+
+Evidence Found: NO
+
+Source File: none
+
+Supporting Text: N/A
+
+Assessment: TRUE GAP. SAFe DevOps Practitioner and SAFe PO/PM are present but are not PSM/CSM. Do not conflate them.
+
+Gap: "Security and Privacy by Design" — JD lists as a program domain
+
+Evidence Found: YES
+
+Source File: Bumblebee_Beats_Zero_Trust_Architecture.md
+
+Supporting Text: "A contract-driven design where no service exceeds its trust level." / "No Zone Jumping. Every request must be cryptographically proven and move sequentially through the topology." / "The system learns and adapts, but behavioural mutation requires explicit human consent."
+
+Assessment: Zero Trust architecture design with OPA policy enforcement, cryptographic identity, and HIPAA/GDPR compliance is direct evidence for Privacy by Design. This is not on the resume in this framing and should be added.
+
+Phase B — New Material Recommendations
+Gap Addressed: Security and Privacy by Design
+
+Proposed Addition (candidate must verify): "Architected a Zero Trust AI platform with OPA policy enforcement, cryptographic request validation, and zone-isolated data architecture, applying Privacy by Design and Security by Design principles across all system layers under GDPR/HIPAA/PHIPA compliance."
+
+Evidence Source: Bumblebee_Beats_Zero_Trust_Architecture.md
+
+Where on Resume: Nanditha_Murthy_Resume_Dexcom_part_7.md (AI Platform Project section) — add as third bullet, or surface in Summary
+
+Confidence: HIGH — the architecture document directly supports this claim
+
+Gap Addressed: Budget / procurement adjacency
+
+Proposed Addition (candidate must verify before using): "Engaged procurement, vendor (OTS), and infra architects to manage licensing cost decisions during AIX-to-Linux migration, ensuring license-compliant scale-out within program constraints."
+
+Evidence Source: CMOD_IBM_part_1.md
+
+Where on Resume: Nanditha_Murthy_Resume_Dexcom_part_6.md — TD Bank block
+
+Confidence: MEDIUM — procurement engagement is real, but direct budget accountability (dollar tracking, variance reporting) is unconfirmed. Candidate must verify before using.
+
+Gap Addressed: QMS / FDA-regulated process experience (recency gap)
+
+Proposed Addition (candidate must verify): In Summary or Dexcom bullet: "Prior hands-on development and V&V participation on an FDA-regulated Class III medical device (Dexcom G5 CGM), including verification and validation activities aligned with FDA medical-device quality workflows."
+
+Evidence Source: Career_Wealth_part_15.md
+
+Where on Resume: Already partially on resume in part_6.md Dexcom block — strengthen existing bullet to explicitly name "FDA quality workflows" rather than just "V&V activities"
+
+Confidence: HIGH — verbatim match to evidence
+
+True Gaps (no evidence closure)
+
+PMP certification — no evidence in any file. Do not add.
+PSM / CSM certification — no evidence. SAFe credentials do not substitute.
+
+
+Evidence Files Not Used
+
+iRecon_pointers.md — all pages scanned as images only; no extractable text. Contains no usable facts for any identified gap.
+Wipro_BSP.md — covers HA validation checklists and BSP intake methodology. No fact in this file closes any of the four gaps above.
+Files covering Citi Futures/Options (Career_Wealth parts 10–12) and Apple iTunes (parts 13–14) — no gap-relevant facts; platform reliability evidence already on resume.

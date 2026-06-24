@@ -343,3 +343,75 @@ Both manual and agent runs were validated against this policy:
   correctly in the workflow output for all three stage calls).
 - JD self-retrieval confirmed clean on both runs: no JD boilerplate
   appeared in the RETRIEVED SECTIONS of `ats_prompt.txt`.
+
+---
+
+## Phase 3 — Evidence Layer (Stage 3.5)
+
+### What was added
+
+```
+input/evidence/                         [NEW directory]
+  Career_Wealth.xlsx                    ← drop here (and any other evidence)
+  iRecon_pointers.pdf
+  <any employer/project notes>
+
+scripts/ingest_evidence.sh              [NEW]
+  Converts input/evidence/ → output/career_wealth_chunk/*.md
+  Uses same MarkItDown container. pdfplumber first for PDFs, fallback to
+  MarkItDown. Chunks large files by heading (>8KB threshold, same logic
+  as smart_chunk.sh). Idempotent — clears stale chunks on re-run.
+
+scripts/ats_evidence_gap.sh             [NEW]
+  Stage 3.5 — builds prompts/ats_evidence_gap_prompt.txt
+  Loads: JD + resume variant chunks + evidence corpus chunks + Stage 2/3
+  gap output (if saved). Writes a structured prompt that asks Claude to:
+    Phase A: for each gap, check evidence corpus for a matching fact
+    Phase B: for each match, propose a minimal new resume bullet
+             grounded only in the evidence — not inferred
+  Outputs: prompts/ats_evidence_gap_prompt.txt → upload to Claude.ai
+
+policy/execution_policy.json            [UPDATED]
+  stage_3_5_evidence_gap added:
+    execution_policy: manual_only
+    rationale: same attribution failure mode as Stage 3 + more source
+    files → more surface area for local model hallucination. Not yet
+    tested; conservative default.
+```
+
+### Design rationale
+
+**Why this is a separate stage, not folded into Stage 3:**
+Stage 3 (ats_recommend) is constrained to the resume chunks only — by
+design, it cannot reference material outside the chosen variant. That
+constraint is correct for its purpose (paraphrase of existing facts) and
+must not be relaxed. Stage 3.5 has a fundamentally different task: it
+explicitly crosses a boundary Stage 3 must not cross. Folding them
+together would dilute both constraints and make the output ambiguous.
+
+**Why evidence ingest is separate from the ATS cycle:**
+The evidence corpus (Career_Wealth.xlsx, project notes) changes rarely
+and independently of which JD you're working on. Running ingest on every
+ATS cycle would be wasteful. Separating it means: run `ingest_evidence.sh`
+once when the corpus updates, then use `ats_evidence_gap.sh` for any JD.
+
+**What Stage 3.5 does NOT do:**
+- It does not write the new resume bullets for you. It proposes drafts
+  grounded in evidence that the candidate must verify and reword.
+- It does not reduce Stage 3's gap list. Stage 3 and Stage 3.5 are
+  additive: Stage 3 fixes what's already there, Stage 3.5 finds what's
+  not there at all.
+- It does not replace the manual path. Policy is manual_only — same
+  rationale as Stage 3.
+
+**Gap taxonomy (end-to-end):**
+```
+Stage 2/3 output                Stage 3.5 outcome
+─────────────────────────────   ──────────────────────────────────────
+Presentation gap (text exists,  → Stage 3 handles (paraphrase only)
+  phrased differently)
+Evidence gap (real experience,  → Stage 3.5 surfaces (new bullet from
+  not on any variant)              evidence corpus)
+True gap (not on resume,        → Both stages name it honestly.
+  not in evidence either)          Do not fabricate.
+```
