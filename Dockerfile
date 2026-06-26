@@ -21,6 +21,9 @@ RUN pip install sentence-transformers scikit-learn
 # package — must be installed explicitly.
 RUN pip install reportlab
 
+# Install flask for ui on 5000
+RUN pip install flask
+
 # Pin the HuggingFace cache path explicitly so it's guaranteed to match the
 # named volume mounted in docker-compose.yml, regardless of how $HOME
 # resolves for the container's effective user.
@@ -39,5 +42,7 @@ ENV LANG=C.UTF-8
 
 # Create working dirs
 RUN mkdir -p /input /output
+
+EXPOSE 5000
 
 CMD ["bash"]

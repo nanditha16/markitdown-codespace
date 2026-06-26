@@ -12,6 +12,42 @@ is available as an additive layer — it never replaces the prompt files.
 
 ---
 
+## Prerequisites
+
+| Requirement | Why | Install |
+|---|---|---|
+| **Docker Desktop** | Runs the entire pipeline — all tools live inside | [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop) |
+| **Git** | Clone the repo | Pre-installed on most Macs; [git-scm.com](https://git-scm.com) on Windows |
+| **Terminal** | Run the startup command | Terminal.app (Mac) / Git Bash (Windows) |
+
+**Git on Mac:** run `git --version`. If missing, `xcode-select --install` installs
+the command-line tools only (not full Xcode). Most Macs with Docker Desktop already have Git.
+
+**Port note:** macOS reserves port 5000 for AirPlay. This app uses port **5001**.
+
+---
+
+## First-time setup
+
+Clone the repo and run one script:
+
+```bash
+git clone https://github.com/YOUR-ORG/markitdown-codespace.git
+cd markitdown-codespace
+./setup_first_time.sh
+```
+
+`setup_first_time.sh` checks Git and Docker, builds the container (5–15 min first time
+while AI models download), creates all folders, and opens the web app automatically.
+See `SETUP.md` for the full plain-language walkthrough.
+
+**Every day after that:**
+```bash
+./scripts/serve.sh    # → http://localhost:5001
+```
+
+---
+
 ## Folder structure
 
 ```
@@ -37,7 +73,7 @@ markitdown-codespace/
 │   ├── JDx_PREP/             Per-JD prep folder (created after variant chosen)
 │   │   ├── prom/             All numbered prompt files for this JD
 │   │   │   ├── 1_variant_rank_prompt.txt
-│   │   │   ├── 1.5_semantic_prompt.txt
+│   │   │   ├── 1.5_semantic_prompt.txt   ← diagnostic only, not uploaded to Claude
 │   │   │   ├── 2_ats_prompt.txt
 │   │   │   ├── 3_ats_recommend_prompt.txt
 │   │   │   └── 4_ats_evidence_gap_prompt.txt
@@ -47,6 +83,12 @@ markitdown-codespace/
 │   │       ├── ats_recommend_prompt_response.txt
 │   │       └── ats_evidence_gap_response.txt
 │   └── <model_name>/         Ollama response files, separated per model
+├── web/                      Local web UI (Flask, runs inside Docker)
+│   ├── app.py                Flask backend — calls existing scripts, no new logic
+│   ├── templates/index.html  5-step guided interface
+│   └── static/               CSS + JS
+├── setup_first_time.sh       One-command first-time setup for new users
+├── SETUP.md                  Plain-language setup guide
 ├── policy/
 │   ├── execution_policy.json Stage trust classifications (single source of
 │   │                         truth — edit here to change system behavior)
@@ -63,13 +105,17 @@ markitdown-codespace/
 
 ```bash
 # 1. Put resume PDFs in input/pdf/, JD text files in input/other/JD1.txt etc.
-# 2. Run the base pipeline
-./run.sh
+# 2. Start the web UI
+./scripts/serve.sh       # → http://localhost:5001
 
-# 3. (One-time) Ingest career evidence corpus
+# Or use the command line:
+# Re-process files after adding new PDFs or JDs:
+./run.sh                 # → route → clean → chunk (skips Docker setup if already running)
+
+# (One-time) Ingest career evidence corpus:
 ./scripts/ingest_evidence.sh
 
-# 4. Run batch prep for all JDs — see Batch Workflow below
+# Run batch prep for all JDs — see Batch Workflow below:
 ./scripts/batch_prep.sh
 ```
 
@@ -108,7 +154,7 @@ to Claude.ai and pasting responses back.
 ./scripts/batch_prep.sh
 # → For each JDx.txt:
 #     - Converts JDx.txt → output/JDx.md (via router.sh)
-#     - Runs variant_rank.sh against all 21 resume variants
+#     - Runs variant_rank.sh against all resume variants in output/resume/
 #     - Writes prompts/JD_Analysis/JDx/variant_rank_prompt.txt
 # → Prints status dashboard showing all JDs and their stage completion
 ```
@@ -197,7 +243,31 @@ FORCE=1 ./scripts/batch_prep.sh --continue    # Re-run even if prompts already e
 
 ---
 
-### Non-developer UI
+### Web UI (browser-based — recommended for non-technical users)
+
+Runs entirely inside Docker. No extra installs needed after first-time setup.
+
+```bash
+./scripts/serve.sh
+# → opens http://localhost:5001 automatically
+# → streams live script output in the browser
+# → download buttons for every prompt file
+# → paste boxes that save responses directly to the correct folder
+```
+
+The UI walks through the same workflow as the batch commands above, step by step:
+- **Step 0 Setup** — system check (Docker, resume count, evidence chunks) + run pipeline
+- **Step 1 Add JDs** — paste or drag-and-drop job description text files
+- **Step 2 Rank Variants** — generate prompts → open Claude.ai → paste response back
+- **Step 3 ATS Analysis** — generate Stages 2-4 → upload each → paste responses
+- **Step 4 Dashboard** — full status across all JDs: chosen variant, stage completion
+
+The UI calls the same shell scripts as the command line. It adds visibility and
+removes the need to manage file paths manually — no pipeline logic changes.
+
+---
+
+### Non-developer UI (terminal menu)
 
 ```bash
 ./scripts/ui.sh
@@ -367,6 +437,18 @@ regenerate a specific JD after fixing a bug or changing the chosen variant.
 Mac under memory pressure. Free RAM before running: quit Docker when not
 in use, `docker compose down`.
 
+**Stage 2 silently fails:** `ats_optimize.sh` passes JD text via a temp file to
+avoid shell argument length limits with `docker exec`. If Stage 2 produces no
+output, check that `output/<chosen>.md` exists (prepare_variant.sh must run first).
+
+**`docker exec` inside Docker:** all pipeline scripts detect `/.dockerenv` and run
+directly when inside the container (web UI), falling back to `docker exec` on the
+host (terminal). Both paths work correctly — no manual switching needed.
+
+**Port 5001 blocked:** `lsof -i :5001` shows what's using it. Kill that process
+or change the port in `docker-compose.yml` and `scripts/serve.sh`.
+
+
 ---
 
 ## Architecture notes
@@ -386,3 +468,41 @@ in use, `docker compose down`.
 - **Additive automation:** every prompt file exists independently of whether
   automation ran. If Ollama fails, the prompt file is still there for
   Claude.ai upload.
+
+
+---
+
+## Right problems in the right order:
+
+1. Safety before automation ✅
+    - policy enforcement
+    - trust labeling
+
+2. Automation without losing control ✅
+    - optional execution
+    - prompt-first preserved
+
+3. Grounding: this is what prevents "AI-looking correct but wrong" ✅
+    - evidence layer (Career_Wealth.xlsx, project notes, employer PDFs → 49 retrievable chunks)
+
+4. Scalability ✅
+    - batch workflows (1-25 JDs per run, variant grouping, auto POOR FIT archiving)
+
+5. UI / agent layer ✅
+    - Web UI (browser, Flask inside Docker, http://localhost:5001) — Persona A delivered
+    - Terminal menu (ui.sh) — developer fallback
+    - Agent workflow (ats_workflow.sh + Ollama) — local LLM execution with policy gates
+
+6. API (future)
+    - Persona B: user supplies Claude/OpenAI API key → UI calls LLM directly
+    - Same prompt files, same pipeline — API becomes an optional execution path
+
+
+## FUTURE Extension
+
+**Persona B — API-backed automation:**
+Technical users who want the UI to call Claude directly instead of the
+manual upload/paste loop. They supply an API key; the UI uses it for
+Stages 0/1 and 3 (currently manual_only). The prompt files and pipeline
+structure remain completely unchanged — the API becomes one more
+execution path alongside Claude.ai upload and local Ollama.

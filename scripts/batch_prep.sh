@@ -173,7 +173,7 @@ resolve_variant_file() {
   MATCH=$(ls output/resume/*.md 2>/dev/null | while IFS= read -r f; do
     NORM_F=$(basename "$f" .md | tr -d ' _-' | tr '[:upper:]' '[:lower:]')
     echo "$NORM_F $f"
-  done | grep "^.*${NORM_KEY}" | awk '{print $NF}' | head -1)
+  done | grep "${NORM_KEY}" | awk '{print $NF}' | head -1)
   [ -n "$MATCH" ] && echo "$MATCH" && return
 
   # Strategy 4: last segment match (just the company/role part after last underscore)
@@ -228,7 +228,7 @@ run_sequence1() {
       if [ -f "input/other/${JD_NAME}.txt" ]; then
         log "  Converting ${JD_NAME}.txt → ${JD_MD}"
         ./scripts/router.sh "input/other/${JD_NAME}.txt" 2>/dev/null | \
-          grep -E "(✅|❌|Saved)" || true
+          grep -E "(Saved|Routing|complete)" || true
       else
         err "  No JD file found: input/other/${JD_NAME}.txt or ${JD_MD}"
         continue
@@ -419,7 +419,7 @@ run_sequence3() {
         if [ -f "input/other/${JD_NAME}.txt" ]; then
           log "    Converting ${JD_NAME}.txt..."
           ./scripts/router.sh "input/other/${JD_NAME}.txt" 2>/dev/null | \
-            grep -E "(✅|❌|Saved)" || true
+            grep -E "(Saved|Routing|complete)" || true
         fi
         if [ ! -f "$JD_MD" ]; then
           # Try output/JD/ subdirectory (some users keep JDs there)

@@ -72,7 +72,35 @@ echo "🧠 Retrieving resume sections relevant to this JD..."
 # ✅ Stage 1: semantic retrieval against existing chunks/ (built by smart_chunk.sh)
 #    Use the JD text itself as the query so retrieval is JD-driven, not keyword-driven.
 RETRIEVAL_START=$(date +%s)
-docker exec markitdown python /app/scripts/retrieve.py "$JD_TEXT"
+# Write JD text to a temp file to avoid argument-length/quoting issues
+# when passing large multi-line text through shell arguments or docker exec.
+JD_TMPFILE=$(mktemp /tmp/jd_query_XXXXXX.txt)
+printf '%s' "$JD_TEXT" > "$JD_TMPFILE"
+
+if [ -f "/.dockerenv" ]; then
+  # Inside Docker — run directly, read query from file
+  python3 - "$JD_TMPFILE" << 'PYEOF_WRAPPER'
+import sys
+from pathlib import Path
+# Read query from file path passed as arg to avoid arg length limits
+query_file = sys.argv[1]
+query = Path(query_file).read_text(encoding="utf-8")
+sys.argv[1] = query  # patch argv so retrieve.py works unchanged
+exec(open("/app/scripts/retrieve.py").read())
+PYEOF_WRAPPER
+else
+  # On host — copy temp file into container and run
+  docker cp "$JD_TMPFILE" markitdown:/tmp/jd_query.txt
+  docker exec markitdown python3 - /tmp/jd_query.txt << 'PYEOF_WRAPPER'
+import sys
+from pathlib import Path
+query_file = sys.argv[1]
+query = Path(query_file).read_text(encoding="utf-8")
+sys.argv[1] = query
+exec(open("/app/scripts/retrieve.py").read())
+PYEOF_WRAPPER
+fi
+rm -f "$JD_TMPFILE"
 RETRIEVAL_END=$(date +%s)
 echo "⏱️  Retrieval took $((RETRIEVAL_END - RETRIEVAL_START))s"
 

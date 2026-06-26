@@ -4,52 +4,59 @@ set -e
 
 echo "🧠 Smart chunking (fixed empty chunk issue)..."
 
-# Now runs INSIDE the container, matching the rest of the pipeline.
-docker exec markitdown bash -c '
-mkdir -p chunks
-rm -f chunks/*
+# Detect if we're already inside the Docker container.
+# When running via `docker exec` from the host, the outer shell calls this
+# script which then calls `docker exec markitdown` again — which works.
+# When running FROM INSIDE the container (e.g. via Flask web UI), the
+# nested `docker exec` fails because Docker CLI is not in the container.
+# Solution: if we're inside Docker, run the chunking logic directly.
 
-for f in output/*.md; do
-  if [ -f "$f" ]; then
+_run_chunking() {
+  mkdir -p chunks
+  rm -f chunks/*
+
+  for f in output/*.md; do
+    [ -f "$f" ] || continue
     filename=$(basename -- "$f")
     name="${filename%.*}"
-
     echo "➡️ Processing $filename"
 
-    awk -v prefix="chunks/${name}_part_" "
-    BEGIN {
-        i=1
-        outfile=prefix i \".md\"
-        chunk=\"\"
-    }
+    python3 - "$f" "$name" << 'PYEOF'
+import re, sys
+from pathlib import Path
 
-    /^[A-Z][A-Z ]+\$/ || /^#{1,6} / {
-        if (length(chunk) > 0) {
-            print chunk > outfile
-            close(outfile)
-            i++
-            outfile=prefix i \".md\"
-            chunk=\"\"
-        }
-        chunk = \$0 \"\n\"
-        next
-    }
+src  = Path(sys.argv[1])
+name = sys.argv[2]
+heading = re.compile(r'^([A-Z][A-Z ]+)\s*$|^#{1,6} ')
 
-    {
-        chunk = chunk \$0 \"\n\"
-    }
+lines = src.read_text(errors='replace').splitlines(keepends=True)
+i, chunk = 1, []
 
-    END {
-        if (length(chunk) > 0) {
-            print chunk > outfile
-        }
-    }
-    " "$f"
+def flush(c, n, idx):
+    if c:
+        Path(f'chunks/{n}_part_{idx}.md').write_text(''.join(c))
 
-  fi
-done
+for line in lines:
+    if heading.match(line.rstrip()) and chunk:
+        flush(chunk, name, i)
+        i += 1
+        chunk = []
+    chunk.append(line)
+flush(chunk, name, i)
+PYEOF
 
-find chunks/ -type f -size 0 -delete
-'
+  done
+
+  find chunks/ -type f -size 0 -delete
+}
+
+# Are we inside Docker? Check for /.dockerenv (present in every Docker container)
+if [ -f "/.dockerenv" ]; then
+  # Already inside the container — run directly
+  _run_chunking
+else
+  # Running on host — exec into the container as before
+  docker exec markitdown bash -c "$(declare -f _run_chunking); _run_chunking"
+fi
 
 echo "✅ Smart chunks created (no empty files)"

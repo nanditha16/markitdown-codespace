@@ -51,7 +51,11 @@ fi
 echo "🧠 Retrieving resume sections relevant to this JD..."
 
 RETRIEVAL_START=$(date +%s)
-docker exec markitdown python /app/scripts/retrieve.py "$JD_TEXT"
+if [ -f "/.dockerenv" ]; then
+  python3 /app/scripts/retrieve.py "$JD_TEXT"
+else
+  docker exec markitdown python /app/scripts/retrieve.py "$JD_TEXT"
+fi
 RETRIEVAL_END=$(date +%s)
 echo "⏱️  Retrieval took $((RETRIEVAL_END - RETRIEVAL_START))s"
 

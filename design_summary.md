@@ -516,3 +516,111 @@ Older JDs generated before this convention used unnumbered names.
 | Dashboard S2 showing ❌ for completed JDs | Checked `2_ats_prompt.txt` only; old JDs have `ats_prompt.txt` | Accept both naming conventions in dashboard check |
 | `--continue` skipping JDs with responses | Response file named `1_variant_rank_prompt_response.txt`; script checked `variant_rank_prompt_response.txt` | `find_response()` tries all known naming variants |
 | `smart_chunk.sh` chunking JDs not resumes | Script called without prepare_variant; `output/` contained all JDs + resumes | Corrected: `batch_prep.sh` always calls `prepare_variant.sh` first, mirroring manual sequence |
+
+---
+
+## Phase 5 — Local Web UI + First-Time Setup
+
+### What was added
+
+```
+web/
+  app.py                    Flask backend (runs INSIDE Docker container)
+  templates/index.html      Single-page UI — 5 steps, chat-bubble guide
+  static/css/style.css      Dark theme, purpose-built (no framework)
+  static/js/app.js          All UI interactions, SSE streaming, state
+
+scripts/serve.sh            Start the web UI (one command)
+setup_first_time.sh         One-command first-time setup for new users
+SETUP.md                    Plain-language setup guide (no jargon)
+```
+
+### Architecture
+
+```
+Browser (localhost:5001)
+        ↕ HTTP / SSE
+Flask app (inside Docker container — python3 /app/web/app.py)
+        ↕ subprocess
+Existing shell scripts (UNCHANGED — no pipeline logic modified)
+        ↕ direct execution (no docker exec needed — already inside)
+Python tools (retrieve.py, markitdown, pdfplumber, etc.)
+```
+
+Flask runs **inside** the same Docker container that runs all other pipeline
+tools. This means:
+- No host-side Python dependency (Flask is in the Dockerfile)
+- Scripts run directly without `docker exec` wrapper
+- Port 5001 mapped from container to host via docker-compose
+
+### Design decisions
+
+**Why Flask inside Docker, not on the host:**
+The original design ran Flask on the host and called `docker exec markitdown`
+for each pipeline command. This broke because every pipeline script also calls
+`docker exec markitdown` internally — creating nested docker exec calls that
+fail when the Docker CLI isn't available inside the container.
+
+Moving Flask inside the container resolves the entire class of problem:
+scripts run directly as subprocesses, no docker exec nesting possible.
+
+**Why port 5001 not 5000:**
+macOS reserves port 5000 for AirPlay Receiver (System Settings → AirDrop &
+Handoff → AirPlay Receiver). Binding 5000 fails silently on macOS 12+.
+Port 5001 has no system reservation.
+
+**`/.dockerenv` detection:**
+All pipeline scripts now check for `/.dockerenv` (injected by Docker into
+every container). When present, scripts skip the `docker exec markitdown`
+wrapper and run the inner logic directly. When absent (host terminal),
+scripts call `docker exec` as before. Both workflows work correctly.
+
+**JD text via temp file:**
+`ats_optimize.sh` passes the JD text to `retrieve.py` as `sys.argv[1]`.
+A multi-line 2KB JD text passed through `docker exec ... python retrieve.py "$JD_TEXT"`
+breaks silently — argument quoting collapses newlines. Fixed by writing
+JD text to a temp file, passing the path, reading inside Python. This
+bypasses all shell argument quoting and docker exec argument limits.
+
+**Chatbot is scripted, not LLM-backed:**
+The UI guide is a state machine (5 fixed steps). It is not an LLM-backed
+chatbot. This was a deliberate design choice:
+- No API key required for non-technical users
+- No additional cost or failure mode
+- Scripted guide delivers identical UX value for the demo use case
+- LLM-backed assistant remains a future option (Persona B) without
+  changing any pipeline code
+
+### Bugs fixed during Web UI development
+
+| Bug | Root cause | Fix |
+|-----|-----------|-----|
+| Blank page at localhost:5000 | Flask debug mode's reloader re-ran `__main__`, `ROOT` path resolved ambiguously on restart | Set `debug=False` inside Docker; pin `ROOT = Path("/app")` via env var |
+| Port 5000 unavailable | macOS AirPlay Receiver owns port 5000 on macOS 12+ | Changed to port 5001 throughout |
+| `docker exec` fails inside Docker | Pipeline scripts call `docker exec markitdown` internally; Docker CLI not in container | Added `/.dockerenv` detection to all scripts; run directly when inside |
+| `smart_chunk.sh` producing 0 chunks | Called `docker exec markitdown bash -c ...`; Docker CLI absent | Rewrote with `/.dockerenv` check; runs Python chunking directly |
+| `ats_optimize.sh` Stage 2 silent fail | JD text passed as `$JD_TEXT` shell argument through `docker exec`; multi-line text breaks argument quoting | Write JD to temp file; pass path; read in Python |
+| `grep` repetition-operator errors | `grep -E "(✅|❌|Saved)"` — macOS BSD grep fails on multi-byte Unicode in ERE alternation | Removed emoji from grep patterns; use plain-text equivalents |
+| `awk` chunking breaks in Python string | `awk '...'` single-quotes inside Python raw string inside shell heredoc — three-layer quoting conflict | Replaced awk with inline `python3 -c` using temp file approach |
+| Banner prints twice on serve.sh | Flask debug mode spawns reloader child; `__main__` block runs twice | `debug=False`; banner only in `__main__` block |
+| `run.sh` fails from UI | `run.sh` calls `setup.sh` which calls `docker compose up` — Docker CLI absent in container | Web UI's `/api/run-pipeline` bypasses `setup.sh`, runs `router.sh → clean.sh → smart_chunk.sh` directly |
+
+### `setup_first_time.sh` design
+
+Single script for users who have never used this tool. Checks:
+1. Git (`git --version`) — on Mac, offers `xcode-select --install` if missing,
+   but notes most users with Docker Desktop already have Git
+2. Docker Desktop (`docker info`) — polls every 3s for up to 60s if not running,
+   opens Docker Desktop automatically on Mac
+3. Port 5001 (`lsof -i :5001`) — warns if blocked, continues anyway
+4. Docker Compose (`docker compose version`)
+5. Scripts executable (`chmod +x scripts/*.sh`)
+6. Input folders exist (`mkdir -p input/pdf input/evidence ...`)
+7. Builds container (`docker compose up -d --build`)
+8. Runs initial PDF conversion if `input/pdf/` is non-empty
+9. Offers to start the web app immediately
+
+**Xcode note:** `xcode-select --install` is offered only as a fallback when
+`git` is missing. It is not a required step — users with Docker Desktop
+installed almost certainly have Git already (Docker Desktop installs it on
+Windows; most Mac developers have it pre-installed).

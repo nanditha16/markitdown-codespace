@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATS Pipeline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<div class="shell">
+
+  <!-- ── Sidebar ─────────────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <header class="brand">
+      <div class="brand-mark">ATS</div>
+      <div class="brand-text">
+        <span class="brand-name">Pipeline</span>
+        <span class="brand-sub">Application Prep</span>
+      </div>
+    </header>
+
+    <div class="health-bar" id="healthBar">
+      <div class="health-item">
+        <span class="dot dot--pending" id="dotDocker"></span>
+        <span id="lblDocker">Docker checking…</span>
+      </div>
+      <div class="health-item">
+        <span class="dot dot--pending" id="dotResumes"></span>
+        <span id="lblResumes">Resume variants</span>
+      </div>
+      <div class="health-item">
+        <span class="dot dot--pending" id="dotEvidence"></span>
+        <span id="lblEvidence">Evidence chunks</span>
+      </div>
+    </div>
+
+    <nav class="steps" id="stepNav">
+      <button class="step-btn step-btn--active" id="navBtn0" onclick="showStep(0)">
+        <span class="step-num" id="navNum0">0</span>
+        <span>Setup</span>
+      </button>
+      <button class="step-btn" id="navBtn1" onclick="showStep(1)">
+        <span class="step-num" id="navNum1">1</span>
+        <span>Add JDs</span>
+      </button>
+      <button class="step-btn" id="navBtn2" onclick="showStep(2)">
+        <span class="step-num" id="navNum2">2</span>
+        <span>Rank Variants</span>
+      </button>
+      <button class="step-btn" id="navBtn3" onclick="showStep(3)">
+        <span class="step-num" id="navNum3">3</span>
+        <span>ATS Analysis</span>
+      </button>
+      <button class="step-btn" id="navBtn4" onclick="showStep(4)">
+        <span class="step-num" id="navNum4">4</span>
+        <span>Dashboard</span>
+      </button>
+    </nav>
+
+    <div class="trust-legend">
+      <div class="trust-title">Trust levels</div>
+      <div class="trust-row"><span class="badge badge--green">Verified</span>&nbsp;Claude.ai reviewed</div>
+      <div class="trust-row"><span class="badge badge--yellow">Advisory</span>&nbsp;Local model, check gaps</div>
+      <div class="trust-row"><span class="badge badge--red">Blocked</span>&nbsp;Failed all model tests</div>
+    </div>
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- Step 0: Setup -->
+    <section class="step-panel" id="step-0">
+      <div class="guide-bubble">
+        <div class="guide-avatar">✦</div>
+        <div class="guide-body">
+          <p class="guide-text">Welcome. I'll guide you through turning job descriptions into fully tailored, evidence-backed application packages — step by step.</p>
+          <p class="guide-text">Let me check your environment first.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">System check</h2>
+        <div class="check-list">
+          <div class="check-row" id="chkDocker">
+            <span class="check-icon" id="chkDockerIcon">⋯</span>
+            <span>Docker container running (<code>markitdown</code>)</span>
+          </div>
+          <div class="check-row" id="chkResumes">
+            <span class="check-icon" id="chkResumesIcon">⋯</span>
+            <span id="chkResumesLabel">Resume variants in output/resume/</span>
+          </div>
+          <div class="check-row" id="chkEvidence">
+            <span class="check-icon" id="chkEvidenceIcon">⋯</span>
+            <span id="chkEvidenceLabel">Evidence corpus (output/career_wealth_chunk/)</span>
+          </div>
+        </div>
+        <div class="action-row">
+          <button class="btn btn--primary" onclick="runPipeline()">Run pipeline (run.sh)</button>
+          <button class="btn btn--ghost" onclick="ingestEvidence()">Refresh evidence</button>
+          <button class="btn btn--ghost" onclick="loadStatus()">↻ Recheck</button>
+        </div>
+        <p class="hint">Run the pipeline after adding new resume PDFs to <code>input/pdf/</code>. Evidence ingest is separate — run it once when you add files to <code>input/evidence/</code>.</p>
+      </div>
+
+      <div class="log-panel hidden" id="log-setup">
+        <div class="log-header">
+          <span class="log-title" id="log-setup-title">Output</span>
+          <button class="log-close" onclick="closeLog('log-setup')">✕</button>
+        </div>
+        <pre class="log-body" id="log-setup-body"></pre>
+      </div>
+
+      <div class="next-row">
+        <button class="btn btn--next" onclick="showStep(1)">Add job descriptions →</button>
+      </div>
+    </section>
+
+    <!-- Step 1: Add JDs -->
+    <section class="step-panel hidden" id="step-1">
+      <div class="guide-bubble">
+        <div class="guide-avatar">✦</div>
+        <div class="guide-body">
+          <p class="guide-text">Paste a job description or drop .txt files. Each one is saved as JD1.txt, JD2.txt, etc. You can add up to 25 at once.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Add job descriptions</h2>
+        <div class="tab-bar">
+          <button class="tab-btn tab-btn--active" id="tabBtnPaste" onclick="switchTab('paste')">Paste text</button>
+          <button class="tab-btn" id="tabBtnUpload" onclick="switchTab('upload')">Upload .txt file</button>
+        </div>
+
+        <div id="tabPaste">
+          <textarea class="jd-textarea" id="jdText" placeholder="Paste the full job description here…"></textarea>
+          <div class="action-row">
+            <button class="btn btn--primary" onclick="submitJDText()">Save as next JD</button>
+          </div>
+        </div>
+
+        <div id="tabUpload" class="hidden">
+          <div class="dropzone" id="dropzone"
+               ondragover="event.preventDefault(); this.classList.add('drag-over')"
+               ondragleave="this.classList.remove('drag-over')"
+               ondrop="handleDrop(event)">
+            <div class="drop-icon">↑</div>
+            <p>Drop .txt files here</p>
+            <p class="hint">or <label class="file-link">browse<input type="file" id="fileInput" multiple accept=".txt" onchange="handleFileSelect(event)" hidden></label></p>
+          </div>
+        </div>
+
+        <div class="saved-jds" id="savedJDs"></div>
+      </div>
+
+      <div class="next-row">
+        <button class="btn btn--ghost" onclick="showStep(0)">← Back</button>
+        <button class="btn btn--next" onclick="showStep(2)">Generate variant rankings →</button>
+      </div>
+    </section>
+
+    <!-- Step 2: Rank Variants -->
+    <section class="step-panel hidden" id="step-2">
+      <div class="guide-bubble">
+        <div class="guide-avatar">✦</div>
+        <div class="guide-body">
+          <p class="guide-text">For each JD, I generate a prompt that ranks all your resume variants. You upload it to Claude.ai, paste the response back here — I handle the rest.</p>
+          <p class="guide-text">This is the only step that needs your judgment. Claude.ai makes the call, not a local model.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">2a — Generate ranking prompts</h2>
+        <p class="card-desc">Runs <code>batch_prep.sh</code> for all JDs found in <code>input/other/</code>. Takes ~20-40s per JD.</p>
+        <div class="action-row">
+          <button class="btn btn--primary" onclick="generateStage1()" id="btnGenStage1">
+            Generate all ranking prompts
+          </button>
+        </div>
+        <div class="log-panel hidden" id="log-stage1">
+          <div class="log-header">
+            <span class="log-title">Output — batch_prep.sh</span>
+            <button class="log-close" onclick="closeLog('log-stage1')">✕</button>
+          </div>
+          <pre class="log-body" id="log-stage1-body"></pre>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">2b — Upload to Claude.ai, paste responses</h2>
+        <p class="card-desc">For each JD: download the prompt, upload it to <a href="https://claude.ai" target="_blank" class="link">claude.ai</a> as a file attachment, then paste Claude's full response below.</p>
+        <div class="jd-cards" id="jdRankCards">
+          <p class="empty-state">Generate ranking prompts first (step 2a).</p>
+        </div>
+      </div>
+
+      <div class="next-row">
+        <button class="btn btn--ghost" onclick="showStep(1)">← Back</button>
+        <button class="btn btn--next" onclick="showStep(3)">Generate ATS analysis →</button>
+      </div>
+    </section>
+
+    <!-- Step 3: ATS Analysis -->
+    <section class="step-panel hidden" id="step-3">
+      <div class="guide-bubble">
+        <div class="guide-avatar">✦</div>
+        <div class="guide-body">
+          <p class="guide-text">Now I'll generate three prompts per qualifying JD: ATS gap analysis, paraphrase recommendations, and evidence gap check. Upload each to Claude.ai and paste responses back.</p>
+          <p class="guide-text">Stages 2-4 can be run in parallel across different JDs — each is self-contained.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">3a — Generate Stages 2-4 prompts</h2>
+        <p class="card-desc">Runs <code>batch_prep.sh --continue</code>. Only processes JDs with a ranking response. Poor-fit JDs skip automatically.</p>
+        <div class="action-row">
+          <button class="btn btn--primary" onclick="generateStages24()" id="btnGenStages24">
+            Generate ATS prompts for all ready JDs
+          </button>
+          <label class="force-label">
+            <input type="checkbox" id="forceRegen"> Force regenerate existing
+          </label>
+        </div>
+        <div class="log-panel hidden" id="log-stages24">
+          <div class="log-header">
+            <span class="log-title">Output — batch_prep.sh --continue</span>
+            <button class="log-close" onclick="closeLog('log-stages24')">✕</button>
+          </div>
+          <pre class="log-body" id="log-stages24-body"></pre>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">3b — Upload prompts + paste responses</h2>
+        <div class="jd-cards" id="jdAtsCards">
+          <p class="empty-state">Generate ATS prompts first (step 3a).</p>
+        </div>
+      </div>
+
+      <div class="next-row">
+        <button class="btn btn--ghost" onclick="showStep(2)">← Back</button>
+        <button class="btn btn--next" onclick="showStep(4)">View full dashboard →</button>
+      </div>
+    </section>
+
+    <!-- Step 4: Dashboard -->
+    <section class="step-panel hidden" id="step-4">
+      <div class="guide-bubble">
+        <div class="guide-avatar">✦</div>
+        <div class="guide-body">
+          <p class="guide-text">Full picture across all JDs. Click any prompt badge to view/download it, or to paste a Claude.ai response.</p>
+        </div>
+      </div>
+
+      <div class="dashboard-header">
+        <h2 class="card-title" style="margin:0">All JDs</h2>
+        <button class="btn btn--ghost btn--sm" onclick="loadStatus()">↻ Refresh</button>
+      </div>
+
+      <div class="db-row db-row--header">
+        <div>JD</div>
+        <div>Chosen variant</div>
+        <div>Status</div>
+        <div>S1</div><div>S2</div><div>S3</div><div>S4</div>
+      </div>
+
+      <div id="dashboardRows">
+        <p class="empty-state">Loading…</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── Modal ────────────────────────────────────────────────────────────── -->
+<div class="modal-overlay hidden" id="modalOverlay" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title" id="modalTitle">Prompt</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- filled by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ─────────────────────────────────────────────────────────────── -->
+<div class="toast hidden" id="toast"></div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
