@@ -12,7 +12,11 @@ fi
 START=$(date +%s)
 
 # ✅ Run two-stage semantic retrieval inside container (chunk-level → paragraph rerank)
-docker exec markitdown python /app/scripts/retrieve.py "$QUERY"
+if [ -f "/.dockerenv" ]; then
+  python3 /app/scripts/retrieve.py "$QUERY"
+else
+  docker exec markitdown python /app/scripts/retrieve.py "$QUERY"
+fi
 
 END=$(date +%s)
 ELAPSED=$((END - START))

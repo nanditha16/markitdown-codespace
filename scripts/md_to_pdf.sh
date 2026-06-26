@@ -44,6 +44,10 @@ fi
 
 echo "📄 Converting $INPUT_MD → $OUTPUT_PDF (Liberation Serif, report-ready formatting)"
 
-docker exec markitdown python /app/scripts/md_to_pdf.py "$INPUT_MD" "$OUTPUT_PDF"
+if [ -f "/.dockerenv" ]; then
+  python3 /app/scripts/md_to_pdf.py "$INPUT_MD" "$OUTPUT_PDF"
+else
+  docker exec markitdown python /app/scripts/md_to_pdf.py "$INPUT_MD" "$OUTPUT_PDF"
+fi
 
 echo "✅ Saved $OUTPUT_PDF"

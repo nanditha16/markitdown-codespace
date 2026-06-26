@@ -2,13 +2,22 @@
 
 set -e
 
+# Detect if running inside Docker container
+INSIDE_DOCKER=false
+[ -f "/.dockerenv" ] && INSIDE_DOCKER=true
+
+# Helper: run a command directly if inside Docker, else via docker exec
+drun() { if $INSIDE_DOCKER; then "$@"; else docker exec markitdown "$@"; fi; }
+drun_bash() { if $INSIDE_DOCKER; then bash -c "$1"; else drun_bash "$1"; fi; }
+
+
 echo "🧠 Routing files..."
 
 # ✅ PDFs → pdfplumber first
 if ls input/pdf/*.pdf 1> /dev/null 2>&1; then
   echo "📄 Processing PDFs with pdfplumber..."
 
-  docker exec markitdown bash -c "python scripts/pdf_convert.py"
+  drun_bash "python scripts/pdf_convert.py"
 
   # ✅ fallback check
   for f in output/*.md; do
@@ -19,7 +28,7 @@ if ls input/pdf/*.pdf 1> /dev/null 2>&1; then
         echo "⚠️ Weak PDF extraction → fallback to MarkItDown"
 
         name=$(basename "$f" .md)
-        docker exec markitdown markitdown "/input/pdf/$name.pdf" -o "/output/$name.md"
+        drun markitdown "/input/pdf/$name.pdf" -o "/output/$name.md"
       fi
     fi
   done
@@ -35,8 +44,8 @@ if ls input/image/* 1> /dev/null 2>&1; then
 
     # tesseract writes "<base>.txt" by default; force .md so clean/chunk
     # steps (which only glob output/*.md) pick it up
-    docker exec markitdown tesseract "/input/image/$filename" "/output/$name"
-    docker exec markitdown bash -c "mv /output/$name.txt /output/$name.md"
+    drun tesseract "/input/image/$filename" "/output/$name"
+    drun_bash "mv /output/$name.txt /output/$name.md"
   done
 fi
 
@@ -48,7 +57,7 @@ if ls input/html/*.html 1> /dev/null 2>&1; then
     filename=$(basename -- "$f")
     name="${filename%.*}"
 
-    docker exec markitdown markitdown "/input/html/$filename" -o "/output/$name.md"
+    drun markitdown "/input/html/$filename" -o "/output/$name.md"
   done
 fi
 
@@ -60,7 +69,7 @@ if ls input/docx/* 1> /dev/null 2>&1; then
     filename=$(basename -- "$f")
     name="${filename%.*}"
 
-    docker exec markitdown markitdown "/input/docx/$filename" -o "/output/$name.md"
+    drun markitdown "/input/docx/$filename" -o "/output/$name.md"
   done
 fi
 

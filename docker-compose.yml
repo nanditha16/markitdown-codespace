@@ -9,6 +9,8 @@ services:
       - hf-cache:/root/.cache/huggingface
     working_dir: /app
     tty: true
-
+    ports:
+      - "5001:5001"
+      
 volumes:
   hf-cache:
