@@ -24,6 +24,10 @@ RUN pip install reportlab
 # Install flask for ui on 5000
 RUN pip install flask
 
+RUN pip install google-cloud-aiplatform
+RUN pip install google-generativeai
+
+
 # Pin the HuggingFace cache path explicitly so it's guaranteed to match the
 # named volume mounted in docker-compose.yml, regardless of how $HOME
 # resolves for the container's effective user.

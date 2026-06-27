@@ -411,6 +411,52 @@ def resume_list():
     return jsonify({"resumes": resumes})
 
 
+
+@app.route("/api/tier")
+def api_tier():
+    """Return current tier and stage access."""
+    import subprocess
+    result = subprocess.run(
+        ["python3", "/app/scripts/check_tier.py", "--json"],
+        capture_output=True, text=True, cwd=str(ROOT)
+    )
+    try:
+        return jsonify(json.loads(result.stdout))
+    except Exception:
+        return jsonify({"tier": "free", "stages": {}})
+
+@app.route("/api/save-config", methods=["POST"])
+def save_config():
+    """Save BYOK config to ~/.markitdown-codespace/config.json"""
+    import json as _json
+    data = request.get_json(silent=True) or {}
+    config_dir  = Path.home() / ".markitdown-codespace"
+    config_file = config_dir / "config.json"
+    config_dir.mkdir(exist_ok=True)
+
+    existing = {}
+    if config_file.exists():
+        try:
+            existing = _json.loads(config_file.read_text())
+        except Exception:
+            pass
+
+    # Claude API key — save to separate file (more secure)
+    claude_key = data.get("anthropic_api_key", "").strip()
+    if claude_key and claude_key.startswith("sk-ant-"):
+        key_file = config_dir / "claude_api_key"
+        key_file.write_text(claude_key)
+        key_file.chmod(0o600)
+        existing["anthropic_key_file"] = str(key_file)
+
+    # GCP project
+    gcp_project = data.get("gcp_project", "").strip()
+    if gcp_project:
+        existing["gcp_project"] = gcp_project
+
+    config_file.write_text(_json.dumps(existing, indent=2))
+    return jsonify({"ok": True, "tier": "pro" if (claude_key or gcp_project) else "free"})
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", default="0.0.0.0")

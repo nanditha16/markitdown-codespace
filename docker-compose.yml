@@ -7,6 +7,7 @@ services:
       - ./input:/input
       - ./output:/output
       - hf-cache:/root/.cache/huggingface
+      - /Users/nanditha/.config/gcloud:/root/.config/gcloud
     working_dir: /app
     tty: true
     ports:

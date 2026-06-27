@@ -28,6 +28,7 @@ function showStep(n) {
   if (n === 4) renderDashboard();
   if (n === 2) renderRankCards();
   if (n === 3) renderAtsCards();
+  if (n === 5) loadTierStatus();
 }
 
 // ── Status / health ───────────────────────────────────────────────────────────
@@ -498,3 +499,58 @@ function enableBtn(id) {
   };
   b.textContent = labels[id] || "Run";
 }
+
+// ── Settings / Tier ───────────────────────────────────────────────────────────
+function switchSettingsTab(name) {
+  el("settingsGCP").classList.toggle("hidden", name !== "gcp");
+  el("settingsClaude").classList.toggle("hidden", name !== "claude");
+  el("tabBtnGCP").classList.toggle("tab-btn--active", name === "gcp");
+  el("tabBtnClaude").classList.toggle("tab-btn--active", name === "claude");
+}
+
+async function loadTierStatus() {
+  const box = el("tierStatus");
+  if (!box) return;
+  try {
+    const r = await fetch("/api/tier");
+    const d = await r.json();
+    const tier = d.tier || "free";
+    const icons = { free: "🆓", pro: "⚡", team: "🏢" };
+    const labels = {
+      free: "Free — manual Claude.ai upload/paste",
+      pro:  "Pro — Stage 2 automation enabled (BYOK)",
+      team: "Team — all stages automated (managed)",
+    };
+    box.innerHTML = `
+      <div class="check-row">
+        <span class="check-icon">${icons[tier] || "?"}</span>
+        <span style="font-weight:600">${tier.toUpperCase()}</span>
+        <span style="color:var(--text-muted);margin-left:8px">${labels[tier] || tier}</span>
+      </div>`;
+  } catch(e) {
+    box.innerHTML = `<p class="hint">Could not load tier status.</p>`;
+  }
+}
+
+async function saveConfig() {
+  const gcp    = (el("gcpProject") || {}).value || "";
+  const claude = (el("claudeKey")  || {}).value || "";
+  if (!gcp && !claude) { toast("Enter at least one key or project ID.", "err"); return; }
+  const r    = await fetch("/api/save-config", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ gcp_project: gcp, anthropic_api_key: claude }),
+  });
+  const data = await r.json();
+  if (data.ok) {
+    toast(`Saved. Tier: ${data.tier}`, "ok");
+    if (el("claudeKey")) el("claudeKey").value = "";
+    await loadTierStatus();
+  } else {
+    toast("Save failed.", "err");
+  }
+}
+
+// Load tier when settings step is shown
+const _origShowStep = showStep;
+// Patch showStep to load tier when navigating to step 5
