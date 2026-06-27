@@ -469,7 +469,26 @@ or change the port in `docker-compose.yml` and `scripts/serve.sh`.
   automation ran. If Ollama fails, the prompt file is still there for
   Claude.ai upload.
 
+---
 
+## The full decision tree is:
+
+**Round 1 — Go/No-Go on variant (Stage 0/1)**
+    - Claude.ai reads all x variants against the JD
+    - Verdict: GOOD FIT / PARTIAL FIT / POOR FIT
+    - POOR FIT → stop, archive, don't waste time
+    - GOOD/PARTIAL → pick best variant, proceed
+
+**Round 2 — Go/No-Go on applying ATS Optimizer (Stage 2)**
+    - Claude.ai scores the chosen variant against the JD honestly
+    - Verdict: Interview Probability score + Shortlist YES/NO
+    - Low score → conscious decision: is the role worth a stretch application with a strong cover letter, or skip?
+    - High score → proceed to Stage 3/4 for the actual edits
+
+**Round 3 — What to fix (Stages 3 + 4)**
+    - Stage 3: specific paraphrase edits to the variant (don't change facts, change framing)
+    - Stage 4: what real experience from your evidence corpus you can surface that isn't on the resume yet
+    
 ---
 
 ## Right problems in the right order:
@@ -493,16 +512,121 @@ or change the port in `docker-compose.yml` and `scripts/serve.sh`.
     - Terminal menu (ui.sh) — developer fallback
     - Agent workflow (ats_workflow.sh + Ollama) — local LLM execution with policy gates
 
-6. API (future)
-    - Persona B: user supplies Claude/OpenAI API key → UI calls LLM directly
-    - Same prompt files, same pipeline — API becomes an optional execution path
+6. Feedback collection + interest validation
+    - Recommended sequence
+        Clean up repo for public sharing
+        Add CONTRIBUTING.md with feedback form link
+        Add ROADMAP.md with tier plan
+        Remove API keys from scripts (replace with setup guide)
+        Tag v0.1-demo and share
 
+    - After 10+ users give feedback (2-4 weeks):
+        Add license key validation (one Python file + one Cloudflare Worker endpoint)
+        Add BYOK setup flow to Web UI (settings page with key input)
+        Stripe for license key purchase
+    - After first paying customers:
+        Move to Path A (managed SaaS)
+        Private repo for production codebase
+        Keep public repo as "community edition"
+
+7. API (future)
+    - Persona B: user supplies Claude/Gemini API key → UI calls LLM directly
+    - Same prompt files, same pipeline — API becomes an optional execution path
+    - Integration Cost Analysis:
+        - You get an API key from console.anthropic.com, add it once to the project, and a script calls /v1/messages with each prompt file as input and writes the response to the correct resp/ file. 
+        - This is ~50 lines of Python. Cost: roughly $0.50–2.00 per JD for all 4 stages at Sonnet pricing.
+        - The policy layer already has a slot for this. execution_policy.json has local_allowed for Stage 2. Stages 3 and 4 are manual_only but that's a policy decision you can change for API execution since the API is Claude — same model, same quality, just programmatic.
+        - Example:
+            prompts/JDx_PREP/prom/2_ats_prompt.txt  →  Claude API  →  prompts/JDx_PREP/resp/ats_prompt_response.txt
+            prompts/JDx_PREP/prom/3_ats_recommend_prompt.txt  →  Claude API  →  prompts/JDx_PREP/resp/ats_recommend_prompt_response.txt
+            prompts/JDx_PREP/prom/4_ats_evidence_gap_prompt.txt  →  Claude API  →  prompts/JDx_PREP/resp/ats_evidence_gap_response.txt
 
 ## FUTURE Extension
 
+- freemium SaaS model with a self-hosted free tier. 
+    Free tier:  Clone repo → run locally → manual Claude.ai upload/paste
+    Paid tier:  BYOK (Bring Your Own Key): Register → pay → AI automates Stage 2/3/4 via API
+        User registers → enters their own Gemini/Claude API key
+        → key stored encrypted in their local config
+        → usage billed directly to their account
+        → you charge for the pipeline software, not the AI calls
+        
 **Persona B — API-backed automation:**
 Technical users who want the UI to call Claude directly instead of the
 manual upload/paste loop. They supply an API key; the UI uses it for
 Stages 0/1 and 3 (currently manual_only). The prompt files and pipeline
 structure remain completely unchanged — the API becomes one more
 execution path alongside Claude.ai upload and local Ollama.
+
+        | Category | Manual Claude.ai | Claude API | Gemini API |
+        |----------|------------------|------------|-------------|
+        | Model | Claude Sonnet 4.5 (latest) | Claude Sonnet 4.5 (same) | Gemini 2.0 Flash (different) |
+        | Quality | Best | Identical to manual | Good but different model |
+        | Cost | Included in Claude.ai plan | ~$0.30-1.50 per JD (all 4 stages) | Free tier |
+        | Speed | Manual upload/wait/paste | ~10-30s automated | ~10-30s automated |
+        | Trust | Authoritative | Same quality, advisory label | Advisory |
+        | Context window | 200K | 200K | 1M |
+        
+Track 1 — Vertex AI (org-billed, production path)
+    - A billable SaaS pipeline where usage is metered per org.
+    - The Phase 3-12 work you already did is correct architecture. What's missing is updating api_execute.py to use the Vertex AI SDK instead of the REST API with a personal key. That's the production path.
+    - infrastructure:
+        - gcloud authenticated (application_default_credentials.json exists)
+        - Project set (fit-reference-500713-c0)
+        - $414.86 free credit, $0.00063 for one JD Stage 2 — your $414 credit covers 657,000 calls. 
+        - vertex_execute.py uses ADC automatically, no key needed
+        - Only pre-req:  SDK on your Mac host Python, this completes, run the dry-run, then the real call
+            ```
+            python3 -m pip install google-cloud-aiplatform
+            ```
+    - model: gemini-2.5-flash and gemini-2.5-pro 
+    -  it's designed for org-level billing, quotas per project, audit trails, and cost attribution
+        - The estimate looks — $0.011 for all 13 JDs, $300 covers 27,000 runs. Now let's actually run it:
+    ```
+        User (org member) → ATS Pipeline → LLM API → billed to org account
+                                                      → usage tracked per JD/stage
+                                                      → cost surfaced to user
+     ```
+                                              
+Track 2 — Claude API (personal billing, staging path)
+    - Fix your key file, use it now for testing. This lets you validate token counts, response quality, and cost estimates before the Vertex AI integration is complete.        
+    - Usig Claude:
+        - Cost Estimation, Claude cost for one call for Stage 2 alone:
+            1,866 input + 1,465 output tokens
+            Sonnet pricing: $3/M input, $15/M output
+            Cost: (1,866 × $0.000003) + (1,465 × $0.000015) = $0.0056 + $0.022 = ~$0.028, exactly $0.03
+            
+            
+**Comparison**
+- Gemini was $0.00063. Claude was ~$0.028. Claude costs ~44× more per call for Stage 2 per call per JD.
+
+---
+
+**Quality comparison — both responses are good, but differ in focus:**
+
+| Dimension | Claude | Gemini |
+|---|---|---|
+| ATS Score | 72 | 75 |
+| Interview Probability | 65% | 70% |
+| Verdict | MAYBE | MAYBE |
+| Depth of rewrite suggestions | ✅ More specific | ✅ Comparable |
+| Caught "Dec 2025" date issue | ❌ Missed | ✅ Caught it |
+| Missing keywords table | ✅ More complete | ✅ Good |
+| Tone | Analytical | More prescriptive |
+| Action plan | 3 steps, detailed | 5 steps, more checklist |
+
+**Gemini caught something Claude missed** — the "Technical Director - Divinity Science (Dec 2025 – Present)" date discrepancy is flagged as a critical red flag. That's a real issue — Dec 2025 is a future date from when the resume was written. Claude glossed over it entirely.
+
+**Claude's rewrite suggestions are slightly more polished** — the executive summary rewrite and experience bullet rewrites read more naturally and directly mirror JD language. Gemini's rewrites are good but more generic.
+
+**Verdict for your use case:**
+- Gemini → batch all JDs for fast go/no-go signal (~$0.01 for all 13 JDs)
+- Claude → selective use on shortlisted JDs where you're seriously applying (~$0.03/JD)
+- Manual Claude.ai → for Stage 3/4 where citation accuracy matters most
+
+Known Gaps: Gemini hallucinated a credibility issue that doesn't exist.
+The date discrepancy Gemini caught is worth fixing regardless of which model you use — that's a recruiter flag that would get the resume screened out automatically. This is exactly why the responses are labeled ADVISORY vs AUTHORITATIVE. 
+BUt, Dec 2025 to Jun 2026 is 7 months of real experience. Gemini flagged it as a "future date" which was wrong — it was reading the resume without understanding the current date context. That's an advisory error in the Gemini response, not a real issue with your resume. Claude correctly ignored it.
+ Gemini is still very useful for batch screening but spot-checking its Critical Gaps section is essential before acting on anything it flags.
+
+

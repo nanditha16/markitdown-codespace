@@ -57,6 +57,10 @@
         <span class="step-num" id="navNum4">4</span>
         <span>Dashboard</span>
       </button>
+      <button class="step-btn" id="navBtn5" onclick="showStep(5)">
+        <span class="step-num" id="navNum5">⚙</span>
+        <span>Settings</span>
+      </button>
     </nav>
 
     <div class="trust-legend">
@@ -267,6 +271,63 @@
 
       <div id="dashboardRows">
         <p class="empty-state">Loading…</p>
+      </div>
+    </section>
+
+    <!-- Step 5: Settings / BYOK -->
+    <section class="step-panel hidden" id="step-5">
+      <div class="guide-bubble">
+        <div class="guide-avatar">✦</div>
+        <div class="guide-body">
+          <p class="guide-text">Configure API access for Stage 2 automation. Your keys are stored locally — they never leave your machine.</p>
+          <p class="guide-text">Without a key, you stay on the free tier: all prompts are generated, and you upload them to Claude.ai manually.</p>
+        </div>
+      </div>
+
+      <div class="card" id="tierCard">
+        <h2 class="card-title">Current tier</h2>
+        <div id="tierStatus"><p class="empty-state">Loading…</p></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Pro tier — Bring Your Own Key (BYOK)</h2>
+        <p class="card-desc">Add an API key to unlock Stage 2 automation. Stages 3 and 4 remain manual — human review is required for those.</p>
+
+        <div class="tab-bar">
+          <button class="tab-btn tab-btn--active" id="tabBtnGCP" onclick="switchSettingsTab('gcp')">Google Vertex AI</button>
+          <button class="tab-btn" id="tabBtnClaude" onclick="switchSettingsTab('claude')">Anthropic Claude</button>
+        </div>
+
+        <div id="settingsGCP">
+          <p class="hint" style="margin-bottom:12px">Uses gcloud Application Default Credentials. Run <code>gcloud auth application-default login</code> first.</p>
+          <label style="font-size:12px;color:var(--text-muted)">GCP Project ID</label>
+          <input class="jd-textarea" id="gcpProject" style="min-height:40px;padding:8px 12px;font-family:var(--font-mono)"
+                 placeholder="your-project-123">
+          <p class="hint">~$0.001 per JD · gemini-2.5-flash · billed to your GCP project</p>
+        </div>
+
+        <div id="settingsClaude" class="hidden">
+          <p class="hint" style="margin-bottom:12px">Get key at <a href="https://console.anthropic.com" target="_blank" class="link">console.anthropic.com</a> → API Keys → Create key</p>
+          <label style="font-size:12px;color:var(--text-muted)">Anthropic API Key</label>
+          <input class="jd-textarea" id="claudeKey" type="password" style="min-height:40px;padding:8px 12px;font-family:var(--font-mono)"
+                 placeholder="sk-ant-api03-...">
+          <p class="hint">~$0.03 per JD · claude-sonnet-4-5 · same model as Claude.ai</p>
+        </div>
+
+        <div class="action-row">
+          <button class="btn btn--primary" onclick="saveConfig()">Save configuration</button>
+          <button class="btn btn--ghost" onclick="loadTierStatus()">↻ Recheck tier</button>
+        </div>
+        <p class="hint">Keys stored in <code>~/.markitdown-codespace/config.json</code> — never committed to git, never sent anywhere.</p>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Interested in the Team tier?</h2>
+        <p class="card-desc">Team tier includes managed API access (no BYOK needed), Stage 3 and 4 automation, and multi-candidate batch processing.</p>
+        <div class="action-row">
+          <a class="btn btn--ghost" href="https://forms.gle/YOUR_FORM_LINK" target="_blank">Register interest ↗</a>
+          <a class="btn btn--ghost" href="https://github.com/YOUR-ORG/markitdown-codespace/blob/main/ROADMAP.md" target="_blank">View roadmap ↗</a>
+        </div>
       </div>
     </section>
 
