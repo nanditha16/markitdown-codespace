@@ -89,6 +89,6 @@ Using this tool? We want to hear from you.
 - **General feedback:** [GitHub Discussions](../../discussions)
 - **Bug reports:** [GitHub Issues](../../issues)
 - **Feature requests:** [GitHub Issues](../../issues) with label `enhancement`
-- **Interest in Pro/Team tier:** Fill out the [interest form](https://forms.gle/YOUR_FORM_LINK) ← update this
+- **Interest in Pro/Team tier:** Fill out the [interest form](https://forms.gle/sw6kWLgJJe3f8nHUA)
 
 Your feedback directly shapes what gets built next.

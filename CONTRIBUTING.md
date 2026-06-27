@@ -6,7 +6,7 @@ Thank you for trying this tool. This is an early-stage demo prototype — your f
 
 ## Quickest way to help: share your experience
 
-**5 minutes:** Fill out the [feedback form](https://forms.gle/YOUR_FORM_LINK) ← update this link
+**5 minutes:** Fill out the [feedback form](https://forms.gle/sw6kWLgJJe3f8nHUA)
 
 It asks:
 - Which steps worked smoothly
@@ -69,7 +69,7 @@ Core design constraints that must be preserved:
 ## Interest in Pro/Team tier
 
 If you'd use an automated version with managed API access, let us know:
-- [Interest form](https://forms.gle/YOUR_FORM_LINK) ← update this link
+- [Interest form](https://forms.gle/sw6kWLgJJe3f8nHUA)
 - Or open an issue with label `tier-feedback`
 
 We're gauging interest before building payment infrastructure. No commitment required.
