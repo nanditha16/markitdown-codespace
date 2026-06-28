@@ -13,7 +13,8 @@ let modalCtx    = {};
 // ── Boot ──────────────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   loadStatus();
-  setInterval(loadStatus, 30000); // refresh every 30s
+  checkAndShowApiButton();   // show API button immediately if already Pro
+  setInterval(loadStatus, 30000);
 });
 
 // ── Navigation ────────────────────────────────────────────────────────────────
@@ -27,7 +28,7 @@ function showStep(n) {
   currentStep = n;
   if (n === 4) renderDashboard();
   if (n === 2) renderRankCards();
-  if (n === 3) renderAtsCards();
+  if (n === 3) { renderAtsCards(); checkAndShowApiButton(); }
   if (n === 5) loadTierStatus();
 }
 
@@ -494,8 +495,9 @@ function enableBtn(id) {
   if (!b) return;
   b.disabled = false;
   const labels = {
-    btnGenStage1:   "Generate all ranking prompts",
-    btnGenStages24: "Generate ATS prompts for all ready JDs",
+    btnGenStage1:    "Generate all ranking prompts",
+    btnGenStages24:  "Generate ATS prompts for all ready JDs",
+    btnRunStage2Api: "⚡ Run Stage 2 via API (Pro)",
   };
   b.textContent = labels[id] || "Run";
 }
@@ -526,7 +528,19 @@ async function loadTierStatus() {
         <span class="check-icon">${icons[tier] || "?"}</span>
         <span style="font-weight:600">${tier.toUpperCase()}</span>
         <span style="color:var(--text-muted);margin-left:8px">${labels[tier] || tier}</span>
-      </div>`;
+      </div>
+      ${tier !== "free" ? '<p class="hint" style="margin-top:8px;color:var(--green)">✅ API key already configured — Stage 2 automation is active.</p>' : ''}`;
+
+    // Pre-populate GCP project if set
+    if (d.gcp_project && el("gcpProject")) {
+      el("gcpProject").value = d.gcp_project;
+    }
+    // Show which provider is active
+    if (d.provider === "vertex" && el("tabBtnGCP")) {
+      switchSettingsTab("gcp");
+    } else if (d.provider === "claude" && el("tabBtnClaude")) {
+      switchSettingsTab("claude");
+    }
   } catch(e) {
     box.innerHTML = `<p class="hint">Could not load tier status.</p>`;
   }
@@ -554,3 +568,38 @@ async function saveConfig() {
 // Load tier when settings step is shown
 const _origShowStep = showStep;
 // Patch showStep to load tier when navigating to step 5
+
+async function checkAndShowApiButton() {
+  try {
+    const r = await fetch("/api/tier");
+    const d = await r.json();
+    const btn = el("stage2ApiRow");
+    if (btn) btn.style.display = (d.tier === "pro" || d.tier === "team") ? "flex" : "none";
+  } catch(e) {}
+}
+
+// ── Stage 2 API automation ────────────────────────────────────────────────────
+function runStage2API(jd, forceOverride) {
+  const force = forceOverride || false;
+
+  // Ask user which provider if both could be available
+  const provider = el("apiProviderSelect") ? el("apiProviderSelect").value : "auto";
+
+  let url = "/api/run-stage2";
+  const params = [];
+  if (jd)       params.push("jd=" + jd);
+  if (force)    params.push("force=1");
+  if (provider && provider !== "auto") params.push("provider=" + provider);
+  if (params.length) url += "?" + params.join("&");
+
+  // Show the dedicated API log panel
+  el("log-stage2-api").classList.remove("hidden");
+  el("log-stage2-api-body").textContent = "";
+
+  disableBtn("btnRunStage2Api");
+  streamToLog(url, "log-stage2-api", "log-stage2-api-body", (ok) => {
+    enableBtn("btnRunStage2Api");
+    if (ok) { toast("Stage 2 complete. Responses saved automatically.", "ok"); renderAtsCards(); }
+    else     { toast("Stage 2 failed — see log above.", "err"); }
+  });
+}

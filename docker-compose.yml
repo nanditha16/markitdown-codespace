@@ -8,6 +8,7 @@ services:
       - ./output:/output
       - hf-cache:/root/.cache/huggingface
       - /Users/nanditha/.config/gcloud:/root/.config/gcloud
+      - /Users/nanditha/.markitdown-codespace:/root/.markitdown-codespace
     working_dir: /app
     tty: true
     ports:
