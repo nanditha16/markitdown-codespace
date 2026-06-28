@@ -238,6 +238,7 @@ def run_stage(
         return True
 
     info("    Calling Vertex AI (google-genai SDK)...")
+    import sys; sys.stdout.flush()
     start = time.time()
 
     try:
@@ -281,7 +282,10 @@ def run_stage(
     )
     resp_file.write_text(header + text, encoding="utf-8")
 
-    ok(f"  {jd_name} Stage {stage_key} done ({elapsed}s, ~${actual_cost:.5f})")
+    ok(f"  {jd_name} Stage {stage_key} done ({elapsed}s)")
+    info(f"    Cost: ~${actual_cost:.5f} ({input_chars:,} in + {output_chars:,} out chars)")
+    info(f"    Response: {str(resp_file.relative_to(ROOT))}")
+    import sys; sys.stdout.flush()
     return True
 
 

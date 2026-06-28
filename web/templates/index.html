@@ -226,6 +226,24 @@
             <input type="checkbox" id="forceRegen"> Force regenerate existing
           </label>
         </div>
+        <div class="action-row" id="stage2ApiRow" style="display:none;flex-wrap:wrap;gap:10px;align-items:center">
+          <select id="apiProviderSelect" style="background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:5px;font-family:var(--font-body);font-size:13px;cursor:pointer">
+            <option value="auto">Auto (Vertex AI if configured, else Claude)</option>
+            <option value="vertex">Google Vertex AI (~$0.001/JD)</option>
+            <option value="claude">Anthropic Claude (~$0.03/JD)</option>
+          </select>
+          <button class="btn btn--primary" style="background:var(--green)" onclick="runStage2API()" id="btnRunStage2Api">
+            ⚡ Run Stage 2 via API
+          </button>
+          <span class="hint">Runs for all JDs with prompts ready — responses saved automatically</span>
+        </div>
+        <div class="log-panel hidden" id="log-stage2-api">
+          <div class="log-header">
+            <span class="log-title">Stage 2 API — Live output</span>
+            <button class="log-close" onclick="closeLog('log-stage2-api')">✕</button>
+          </div>
+          <pre class="log-body" id="log-stage2-api-body"></pre>
+        </div>
         <div class="log-panel hidden" id="log-stages24">
           <div class="log-header">
             <span class="log-title">Output — batch_prep.sh --continue</span>
@@ -304,6 +322,15 @@
           <input class="jd-textarea" id="gcpProject" style="min-height:40px;padding:8px 12px;font-family:var(--font-mono)"
                  placeholder="your-project-123">
           <p class="hint">~$0.001 per JD · gemini-2.5-flash · billed to your GCP project</p>
+          <div class="hint" style="margin-top:10px;padding:10px 12px;background:var(--surface-2);border-left:3px solid var(--yellow);border-radius:4px;line-height:1.6">
+            <strong>⚠️ Token expiry:</strong> gcloud credentials expire periodically. If Stage 2 returns
+            <code>Reauthentication is needed</code>, run this on your Mac terminal and restart the server:<br>
+            <code style="display:block;margin-top:6px;padding:6px 8px;background:var(--surface-3);border-radius:3px">
+              gcloud auth application-default login
+            </code>
+            The Docker container picks up the refreshed token automatically via the mounted credentials folder.
+            You do not need to rebuild the container.
+          </div>
         </div>
 
         <div id="settingsClaude" class="hidden">
@@ -312,6 +339,14 @@
           <input class="jd-textarea" id="claudeKey" type="password" style="min-height:40px;padding:8px 12px;font-family:var(--font-mono)"
                  placeholder="sk-ant-api03-...">
           <p class="hint">~$0.03 per JD · claude-sonnet-4-5 · same model as Claude.ai</p>
+          <div class="hint" style="margin-top:10px;padding:10px 12px;background:var(--surface-2);border-left:3px solid var(--yellow);border-radius:4px;line-height:1.6">
+            <strong>⚠️ Key storage:</strong> The API key must be stored as plain text only — no filename or extra text appended. If Stage 2 returns <code>invalid x-api-key</code>, verify the key file is clean:<br>
+            <code style="display:block;margin-top:6px;padding:6px 8px;background:var(--surface-3);border-radius:3px">
+              printf 'sk-ant-api03-YOUR_KEY' &gt; ~/.markitdown-codespace/claude_api_key
+            </code>
+            Use <code>printf</code> not <code>echo</code> — echo can append extra characters.
+            Check length with <code>wc -c ~/.markitdown-codespace/claude_api_key</code> — should be ~108 chars.
+          </div>
         </div>
 
         <div class="action-row">
@@ -325,7 +360,7 @@
         <h2 class="card-title">Interested in the Team tier?</h2>
         <p class="card-desc">Team tier includes managed API access (no BYOK needed), Stage 3 and 4 automation, and multi-candidate batch processing.</p>
         <div class="action-row">
-          <a class="btn btn--ghost" href="https://forms.gle/sw6kWLgJJe3f8nHUA" target="_blank">Register interest ↗</a>
+          <a class="btn btn--ghost" href="https://github.com/nanditha16/markitdown-codespace/issues/new?labels=tier-feedback&title=Team+tier+interest" target="_blank">Register interest ↗</a>
           <a class="btn btn--ghost" href="https://github.com/nanditha16/markitdown-codespace/blob/main/ROADMAP.md" target="_blank">View roadmap ↗</a>
         </div>
       </div>

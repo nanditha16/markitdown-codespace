@@ -158,6 +158,36 @@ This only needs to be done once, or when you add new evidence files.
 **The browser shows a blank page**
 → Wait 10 seconds and refresh. The app takes a moment to start inside Docker
 
+**Stage 2 API returns "Reauthentication is needed"** (Vertex AI users)
+→ Your gcloud token expired. Run on your Mac terminal (not inside Docker):
+```bash
+gcloud auth application-default login
+```
+Then restart the server (`./scripts/serve.sh`). The Docker container picks up the
+refreshed credentials automatically — no rebuild needed. Tokens typically last
+several hours; this will happen occasionally during active use.
+
+**Stage 2 API returns "invalid x-api-key"** (Claude users)
+→ The key file contains extra text (filename or newline appended). Fix it:
+```bash
+printf 'sk-ant-api03-YOUR_KEY_HERE' > ~/.markitdown-codespace/claude_api_key
+chmod 600 ~/.markitdown-codespace/claude_api_key
+wc -c ~/.markitdown-codespace/claude_api_key   # should be ~108 chars, not more
+```
+Always use `printf` not `echo` — echo on some systems appends a newline or
+the shell may concatenate extra text. If the count is much higher than 108,
+the file contains more than just the key.
+
+**Stage 2 API returns "No API key configured"** after adding your GCP project
+→ Restart the server after saving Settings. Flask needs to reload to pick up
+the new config. If it persists, verify your GCP project is set:
+```bash
+docker exec markitdown python3 -c "
+import json; d=json.load(open('/root/.config/gcloud/application_default_credentials.json'))
+print(d.get('quota_project_id'))
+"
+```
+
 **"Cannot connect to Docker"**
 → Docker Desktop isn't running. Open it from your Applications folder
 

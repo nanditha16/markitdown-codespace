@@ -448,6 +448,7 @@ host (terminal). Both paths work correctly — no manual switching needed.
 **Port 5001 blocked:** `lsof -i :5001` shows what's using it. Kill that process
 or change the port in `docker-compose.yml` and `scripts/serve.sh`.
 
+**gcloud token expiry:** Vertex AI auth expires periodically. Run `gcloud auth application-default login` on the Mac host when Stage 2 returns `Reauthentication is needed`. No container rebuild needed.
 
 ---
 

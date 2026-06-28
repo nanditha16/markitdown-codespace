@@ -84,8 +84,23 @@ def jd_status(jd_name: str) -> dict:
     s4 = _has_prompt(prep_dir, ["4_ats_evidence_gap_prompt.txt", "ats_evidence_gap_prompt.txt"])
     s5 = _has_prompt(prep_dir, ["5_cover_letter_prompt.txt", "cover_letter_prompt.txt"])
 
+    # Check both JD_Analysis/JDx/.chosen_variant and JDx_PREP/.chosen_variant
     cv_file = analysis_dir / ".chosen_variant"
+    if not cv_file.exists():
+        cv_file = prep_dir / ".chosen_variant"
+    # Also check resp/ for variant_rank_prompt_response.txt and extract from it
     chosen = cv_file.read_text().strip() if cv_file.exists() else None
+    # Fallback: read from the prom/1_variant_rank_prompt.txt filename pattern
+    if not chosen:
+        for rfile in [prep_dir / "resp" / "variant_rank_prompt_response.txt",
+                      analysis_dir / "variant_rank_prompt_response.txt"]:
+            if rfile.exists():
+                txt = rfile.read_text(errors="replace")
+                import re as _re
+                m = _re.search(r'Nanditha_Murthy_Resume_[\w\-_ ]+', txt)
+                if m:
+                    chosen = m.group(0).strip().rstrip('.')
+                    break
 
     if poor_fit:             stage = "poor_fit"
     elif not prompt_exists:  stage = "needs_stage1_prompt"
@@ -414,16 +429,42 @@ def resume_list():
 
 @app.route("/api/tier")
 def api_tier():
-    """Return current tier and stage access."""
+    """Return current tier, stage access, active provider, and GCP project."""
     import subprocess
     result = subprocess.run(
         ["python3", "/app/scripts/check_tier.py", "--json"],
         capture_output=True, text=True, cwd=str(ROOT)
     )
     try:
-        return jsonify(json.loads(result.stdout))
+        data = json.loads(result.stdout)
     except Exception:
-        return jsonify({"tier": "free", "stages": {}})
+        data = {"tier": "free", "stages": {}}
+
+    # Detect which provider is active and surface GCP project
+    gcp_creds   = Path.home() / ".config" / "gcloud" / "application_default_credentials.json"
+    claude_key  = Path.home() / ".markitdown-codespace" / "claude_api_key"
+    config_file = Path.home() / ".markitdown-codespace" / "config.json"
+    cfg = {}
+    if config_file.exists():
+        try:
+            cfg = json.loads(config_file.read_text())
+        except Exception:
+            pass
+
+    gcp_project = cfg.get("gcp_project") or os.environ.get("GCP_PROJECT", "")
+
+    if gcp_creds.exists() and gcp_project:
+        data["provider"]    = "vertex"
+        data["gcp_project"] = gcp_project
+        data["provider_label"] = f"Google Vertex AI ({gcp_project})"
+    elif claude_key.exists() or os.environ.get("ANTHROPIC_API_KEY"):
+        data["provider"]       = "claude"
+        data["provider_label"] = "Anthropic Claude (claude-sonnet-4-5)"
+    else:
+        data["provider"]       = None
+        data["provider_label"] = None
+
+    return jsonify(data)
 
 @app.route("/api/save-config", methods=["POST"])
 def save_config():
@@ -457,6 +498,67 @@ def save_config():
     config_file.write_text(_json.dumps(existing, indent=2))
     return jsonify({"ok": True, "tier": "pro" if (claude_key or gcp_project) else "free"})
 
+
+
+@app.route("/api/run-stage2")
+def run_stage2():
+    """Stream Stage 2 automation via configured API backend (Vertex AI or Claude)."""
+    jd       = request.args.get("jd", "").strip()
+    force    = request.args.get("force", "0") == "1"
+    provider = request.args.get("provider", "auto").strip()  # auto | vertex | claude
+
+    config_file = Path.home() / ".markitdown-codespace" / "config.json"
+    cfg = {}
+    if config_file.exists():
+        try:
+            cfg = json.loads(config_file.read_text())
+        except Exception:
+            pass
+
+    claude_key_file = Path.home() / ".markitdown-codespace" / "claude_api_key"
+    gcp_creds       = Path.home() / ".config" / "gcloud" / "application_default_credentials.json"
+    gcp_project = cfg.get("gcp_project") or os.environ.get("GCP_PROJECT", "")
+    if not gcp_project and gcp_creds.exists():
+        try:
+            import json as _j
+            cred_data = _j.loads(gcp_creds.read_text())
+            gcp_project = cred_data.get("quota_project_id", "")
+        except Exception:
+            pass
+    claude_env_key  = os.environ.get("ANTHROPIC_API_KEY", "")
+    claude_key      = claude_key_file.read_text().strip() if claude_key_file.exists() else claude_env_key
+
+    force_flag = "--force" if force else ""
+    jd_flag    = ("--jd " + jd) if jd else "--all"
+
+    # Resolve provider
+    use_vertex = (provider == "vertex") or (provider == "auto" and gcp_creds.exists() and gcp_project)
+    use_claude = (provider == "claude") or (provider == "auto" and not use_vertex and claude_key)
+
+    if use_vertex and gcp_project:
+        cmd = "GCP_PROJECT=" + gcp_project + " python3 /app/scripts/vertex_execute.py " + jd_flag + " " + force_flag
+    elif use_claude and claude_key:
+        cmd = "ANTHROPIC_API_KEY=" + claude_key + " python3 /app/scripts/claude_execute.py " + jd_flag + " " + force_flag
+    else:
+        def _no_key():
+            msg = "ERROR: No API key configured."
+            if provider == "vertex":
+                msg += " Vertex AI requires gcloud auth + GCP project in Settings."
+            elif provider == "claude":
+                msg += " Claude requires an API key in Settings."
+            else:
+                msg += " Go to Settings to add a Vertex AI project or Claude API key."
+            yield "data: " + json.dumps(msg) + "\n\n"
+            yield "data: " + json.dumps("__DONE__") + "\n\n"
+            yield "data: " + json.dumps({"exit_code": 1}) + "\n\n"
+        return Response(
+            stream_with_context(_no_key()),
+            mimetype="text/event-stream",
+            headers={"Cache-Control": "no-cache"},
+        )
+
+    return _sse(cmd.strip())
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", default="0.0.0.0")
@@ -467,3 +569,5 @@ if __name__ == "__main__":
     print(f"  Root: {ROOT}\n")
     # debug=False inside Docker — cleaner output, no double-start
     app.run(host=args.host, port=args.port, debug=False)
+
+
