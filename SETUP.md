@@ -141,7 +141,10 @@ This only needs to be done once, or when you add new evidence files.
    ```
 4. Go to http://localhost:5001 in your browser
 5. Press Ctrl+C in Terminal when you're done to stop the app
-
+6. After each batch run, you can shutdown
+    ```
+    docker compose down
+    ```
 ---
 
 ## Troubleshooting
@@ -228,3 +231,5 @@ You only ever need to touch `input/pdf/` and `input/evidence/`. Everything else 
 ## Getting help
 
 If something isn't working, share the error message you see in the Terminal with whoever gave you access to this tool. The error message is the key piece of information — a screenshot of the terminal window is the easiest way to share it.
+
+
