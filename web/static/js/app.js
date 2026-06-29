@@ -377,7 +377,7 @@ async function viewPrompt(jd, stage, path) {
       <a class="btn btn--ghost btn--sm" href="/api/download?path=${encodeURIComponent(path)}" download>Download file</a>
       <a class="btn btn--ghost btn--sm" href="https://claude.ai" target="_blank">Open Claude.ai ↗</a>
     </div>
-    <pre class="prompt-preview" id="promptPreviewText">${escHtml(data.content.slice(0, 8000))}${data.content.length > 8000 ? "\n\n… (truncated for display — download for full content)" : ""}</pre>
+    <pre class="prompt-preview" id="promptPreviewText">${escHtml(data.content)}</pre>
     <div style="margin-top:10px;">
       <button class="btn btn--ghost btn--sm" onclick="switchModalToPaste()">→ I've got a response to paste</button>
     </div>`;

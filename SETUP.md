@@ -55,14 +55,41 @@ Use all the default options during installation.
 Open Terminal and run these commands one at a time:
 
 ```bash
-cd ~
-git clone https://github.com/YOUR-ORG/markitdown-codespace.git
+cd <YOUR_CHOSEN_FOLDER>
+git clone https://github.com/nanditha16/markitdown-codespace.git
 cd markitdown-codespace
 ```
 
-> Replace `YOUR-ORG/markitdown-codespace` with the actual GitHub repository address you were given.
+You should now see a folder called `markitdown-codespace` in your chosen directory.
 
-You should now see a folder called `markitdown-codespace` in your home directory.
+---
+
+## Step 3b — Configure your local paths
+
+This step tells Docker where to find your credentials on your specific machine.
+
+```bash
+cp .env.example .env
+```
+
+Open the `.env` file in any text editor and set your paths:
+
+**Mac/Linux:**
+```
+GCLOUD_CONFIG_DIR=~/.config/gcloud
+MARKITDOWN_CODESPACE_DIR=~/.markitdown-codespace
+```
+
+**Windows (Git Bash or Windows Terminal):**
+```
+GCLOUD_CONFIG_DIR=C:/Users/YOURNAME/.config/gcloud
+MARKITDOWN_CODESPACE_DIR=C:/Users/YOURNAME/.markitdown-codespace
+```
+Replace `YOURNAME` with your Windows username (e.g. `john`).
+
+> ⚠️ On Windows, use forward slashes (`/`) not backslashes (`\`).
+
+> ℹ️ The `.env` file is personal — it is listed in `.gitignore` and will never be committed to GitHub.
 
 ---
 
@@ -70,10 +97,17 @@ You should now see a folder called `markitdown-codespace` in your home directory
 
 Still in Terminal, run:
 
+**Mac/Linux:**
 ```bash
 chmod +x scripts/*.sh
 ./scripts/setup.sh
 ```
+
+**Windows (Git Bash):**
+```bash
+./scripts/setup.sh
+```
+> ℹ️ `chmod` is not needed on Windows — Git Bash handles script permissions automatically.
 
 This will:
 - Check that Docker is running
@@ -115,6 +149,14 @@ Before using the app, add your resume PDF files:
 Then go back to the web app and click **"Run pipeline (run.sh)"** on the Setup page.
 This converts your PDFs to the format the system needs. Wait for it to finish (1–2 minutes).
 
+5. create a folder 'output/resume'
+    ```
+    mkdir output/resume
+    ```
+6. move teh resume variant .md files to output/resume
+
+NOTE: Cluade.ai is default, but prompts can be used on any platform
+
 ---
 
 ## Step 7 — Add your career evidence files (first time only)
@@ -136,7 +178,12 @@ This only needs to be done once, or when you add new evidence files.
 2. Open Terminal
 3. Run:
    ```bash
-   cd ~/markitdown-codespace
+   # Mac/Linux:
+   cd <YOUR_CHOSEN_FOLDER>/markitdown-codespace
+
+   # Windows (Git Bash):
+   cd <YOUR_CHOSEN_FOLDER>/markitdown-codespace
+
    ./scripts/serve.sh
    ```
 4. Go to http://localhost:5001 in your browser
@@ -153,16 +200,20 @@ This only needs to be done once, or when you add new evidence files.
 → Open Docker Desktop from your Applications/Start menu and wait for it to fully start
 
 **"port 5001 already in use"**
-→ Another app is using that port. Run: `lsof -i :5001` to see what it is, then close that app
+→ Another app is using that port.
+- **Mac/Linux:** Run `lsof -i :5001` to see what it is, then close that app
+- **Windows:** Run `netstat -ano | findstr :5001` to find the process, then close it
 
 **"No such file or directory: ./scripts/serve.sh"**
-→ You're not in the right folder. Run `cd ~/markitdown-codespace` first
+→ You're not in the right folder.
+- **Mac/Linux:** Run `cd ~/markitdown-codespace`
+- **Windows:** Run `cd $HOME/markitdown-codespace`
 
 **The browser shows a blank page**
 → Wait 10 seconds and refresh. The app takes a moment to start inside Docker
 
 **Stage 2 API returns "Reauthentication is needed"** (Vertex AI users)
-→ Your gcloud token expired. Run on your Mac terminal (not inside Docker):
+→ Your gcloud token expired. Run on your **local terminal** (not inside Docker):
 ```bash
 gcloud auth application-default login
 ```
@@ -172,11 +223,20 @@ several hours; this will happen occasionally during active use.
 
 **Stage 2 API returns "invalid x-api-key"** (Claude users)
 → The key file contains extra text (filename or newline appended). Fix it:
+
+**Mac/Linux:**
 ```bash
 printf 'sk-ant-api03-YOUR_KEY_HERE' > ~/.markitdown-codespace/claude_api_key
 chmod 600 ~/.markitdown-codespace/claude_api_key
 wc -c ~/.markitdown-codespace/claude_api_key   # should be ~108 chars, not more
 ```
+
+**Windows (Git Bash):**
+```bash
+printf 'sk-ant-api03-YOUR_KEY_HERE' > $HOME/.markitdown-codespace/claude_api_key
+wc -c $HOME/.markitdown-codespace/claude_api_key   # should be ~108 chars, not more
+```
+
 Always use `printf` not `echo` — echo on some systems appends a newline or
 the shell may concatenate extra text. If the count is much higher than 108,
 the file contains more than just the key.
@@ -231,5 +291,3 @@ You only ever need to touch `input/pdf/` and `input/evidence/`. Everything else 
 ## Getting help
 
 If something isn't working, share the error message you see in the Terminal with whoever gave you access to this tool. The error message is the key piece of information — a screenshot of the terminal window is the easiest way to share it.
-
-
