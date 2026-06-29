@@ -214,10 +214,18 @@ run_sequence1() {
     local ANALYSIS_DIR="prompts/JD_Analysis/${JD_NAME}"
     local PROM_FILE="${ANALYSIS_DIR}/variant_rank_prompt.txt"
 
-    # Skip if already generated
-    if [ -f "$PROM_FILE" ] && [ "${FORCE:-}" != "1" ]; then
-      ok "$JD_NAME — variant_rank prompt already exists (skip, FORCE=1 to regen)"
-      continue
+    # Skip if already generated — but first verify it's non-empty/complete
+    # A partial run can leave a truncated file; remove it so we regenerate cleanly
+    if [ -f "$PROM_FILE" ]; then
+      local PROM_SIZE
+      PROM_SIZE=$(wc -c < "$PROM_FILE" | tr -d ' ')
+      if [ "${FORCE:-}" != "1" ] && [ "$PROM_SIZE" -gt 500 ]; then
+        ok "$JD_NAME — variant_rank prompt already exists (skip, FORCE=1 to regen)"
+        continue
+      else
+        warn "$JD_NAME — existing prompt is empty or too small (${PROM_SIZE} bytes), regenerating..."
+        rm -f "$PROM_FILE"
+      fi
     fi
 
     log "Processing: $JD_NAME"
@@ -242,8 +250,8 @@ run_sequence1() {
 
     # Run variant_rank.sh → produces prompts/variant_rank_prompt.txt
     mkdir -p "$ANALYSIS_DIR"
-    ./scripts/variant_rank.sh "$JD_MD" "output/resume" 2>/dev/null || {
-      err "  variant_rank.sh failed for $JD_NAME"
+    ./scripts/variant_rank.sh "$JD_MD" "output/resume" || {
+      err "  variant_rank.sh failed for $JD_NAME — see error above"
       continue
     }
 

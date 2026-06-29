@@ -7,12 +7,12 @@ services:
       - ./input:/input
       - ./output:/output
       - hf-cache:/root/.cache/huggingface
-      - /Users/nanditha/.config/gcloud:/root/.config/gcloud
-      - /Users/nanditha/.markitdown-codespace:/root/.markitdown-codespace
+      - ${GCLOUD_CONFIG_DIR:-~/.config/gcloud}:/root/.config/gcloud
+      - ${MARKITDOWN_CODESPACE_DIR:-~/.markitdown-codespace}:/root/.markitdown-codespace
     working_dir: /app
     tty: true
     ports:
       - "5001:5001"
-      
+
 volumes:
   hf-cache:
