@@ -62,6 +62,8 @@ markitdown-codespace/
 │   └── other/                JD text files (JD1.txt, JD2.txt …) → MarkItDown
 ├── output/                   Converted + cleaned .md files land here
 │   ├── resume/               Variant bank — one .md per target role/company
+│   │                         (PDFs in input/pdf/ are routed here automatically
+│   │                         by run.sh; non-PDF resumes must be moved here manually)
 │   ├── cover/                Cover letters (.md) and exported PDFs
 │   ├── career_wealth_chunk/  Evidence chunks (from ingest_evidence.sh)
 │   └── _archive/             Files moved by prepare_variant.sh (not deleted)
@@ -110,7 +112,8 @@ markitdown-codespace/
 
 # Or use the command line:
 # Re-process files after adding new PDFs or JDs:
-./run.sh                 # → route → clean → chunk (skips Docker setup if already running)
+./run.sh                 # → route → clean → route PDFs to output/resume/ → chunk
+                          #   (skips Docker setup if already running)
 
 # (One-time) Ingest career evidence corpus:
 ./scripts/ingest_evidence.sh
@@ -257,6 +260,12 @@ Runs entirely inside Docker. No extra installs needed after first-time setup.
 
 The UI walks through the same workflow as the batch commands above, step by step:
 - **Step 0 Setup** — system check (Docker, resume count, evidence chunks) + run pipeline
+  - Run this after adding new resume PDFs to `input/pdf/`. Conversion is
+    one-time per PDF: files already present in `output/resume/` are skipped
+    on subsequent runs, so hand-edited resume `.md` files are never
+    overwritten.
+  - Evidence ingest is separate — run `./scripts/ingest_evidence.sh` once
+    when you add files to `input/evidence/`; it is not part of Step 0.
 - **Step 1 Add JDs** — paste or drag-and-drop job description text files
 - **Step 2 Rank Variants** — generate prompts → open Claude.ai → paste response back
 - **Step 3 ATS Analysis** — generate Stages 2-4 → upload each → paste responses

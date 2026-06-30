@@ -147,13 +147,8 @@ Before using the app, add your resume PDF files:
 4. Copy your resume PDF files into this folder
 
 Then go back to the web app and click **"Run pipeline (run.sh)"** on the Setup page.
-This converts your PDFs to the format the system needs. Wait for it to finish (1–2 minutes).
-
-5. create a folder 'output/resume'
-    ```
-    mkdir output/resume
-    ```
-6. move teh resume variant .md files to output/resume
+This converts your PDFs and automatically places the converted resume files in
+`output/resume/`. Wait for it to finish (1–2 minutes). No manual file moving needed.
 
 NOTE: Cluade.ai is default, but prompts can be used on any platform
 

@@ -320,6 +320,12 @@ def run_pipeline():
   awk 'NF{p=1} p' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
 done && """ +
         "echo '⏱️  clean done' && "
+        "echo '📥 Routing PDF resumes to output/resume/...' && "
+        """mkdir -p output/resume && if [ -s /tmp/pdf_manifest.txt ]; then
+  while IFS= read -r name; do
+    [ -f "output/$name.md" ] && mv "output/$name.md" "output/resume/$name.md" && echo "  📄 → output/resume/$name.md"
+  done < /tmp/pdf_manifest.txt
+fi && """ +
         "echo '🧠 Smart chunking...' && "
         "mkdir -p chunks && rm -f chunks/* && "
         """python3 -c "
