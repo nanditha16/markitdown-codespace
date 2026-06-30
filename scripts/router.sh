@@ -14,10 +14,18 @@ drun_bash() { if $INSIDE_DOCKER; then bash -c "$1"; else drun_bash "$1"; fi; }
 echo "🧠 Routing files..."
 
 # ✅ PDFs → pdfplumber first
+: > /tmp/pdf_manifest.txt
+
 if ls input/pdf/*.pdf 1> /dev/null 2>&1; then
   echo "📄 Processing PDFs with pdfplumber..."
 
   drun_bash "python scripts/pdf_convert.py"
+
+  for f in input/pdf/*.pdf; do
+    name=$(basename "$f" .pdf)
+    [ -f "output/resume/$name.md" ] && continue
+    echo "$name" >> /tmp/pdf_manifest.txt
+  done
 
   # ✅ fallback check
   for f in output/*.md; do
