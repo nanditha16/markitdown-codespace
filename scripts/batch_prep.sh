@@ -136,6 +136,35 @@ extract_variant() {
     sed 's/\*\*//g; s/\.md$//' \
     >> "$TMP_CANDS" 2>/dev/null || true
 
+  # ── NEW: split-prompt response format ──────────────────────────────────────
+  # The new format writes the variant name as plain text on the line immediately
+  # after "### Top Pick" (no bold, no .md). E.g.:
+  #   ### Top Pick
+  #   Deloitte_2. Strongest client-facing...
+  # Extract the word(s) before the first period/comma/space on that line.
+
+  # Candidate 5: plain text line after "### Top Pick" heading (new split-prompt format)
+  # Handles: "### Top Pick\nDeloitte_2. Strongest client-facing..."
+  grep -A2 "^### Top Pick" "$resp_file" 2>/dev/null | \
+    grep -v "^### Top Pick" | grep -v "^--$" | grep -v "^$" | head -1 | \
+    sed 's/[., ].*//' | tr -d ' ' \
+    >> "$TMP_CANDS" 2>/dev/null || true
+
+  # Candidate 6: "Top Pick" line followed by variant name on same or next line
+  # Handles: "**Top Pick:** Deloitte_2" or "Top Pick — Deloitte_2"
+  grep -i "top pick" "$resp_file" | head -3 | \
+    sed 's/.*[Pp]ick[^a-zA-Z0-9_-]*//; s/[., ].*//' | \
+    grep -v "^$" \
+    >> "$TMP_CANDS" 2>/dev/null || true
+
+  # Candidate 7: rank-1 table row — extract first word segment (handles "Deloitte / Deloitte_2 (tied)")
+  # Takes the first slash-separated or space-separated token from column 3
+  grep -E '^\| *1 *\|' "$resp_file" | head -1 | \
+    awk -F'|' '{print $3}' | \
+    sed 's/^ *//; s/ .*//' | sed 's/\/.*//' | tr -d ' ' | sed 's/\.md$//' \
+    >> "$TMP_CANDS" 2>/dev/null || true
+  # ── end new candidates ─────────────────────────────────────────────────────
+
   # Try each — return first that resolves to a real file
   local RESULT=""
   while IFS= read -r cand; do

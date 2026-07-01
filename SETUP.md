@@ -7,8 +7,6 @@ Estimated time: **15–30 minutes**, mostly waiting for downloads.
 
 ## What you need before starting
 
-You need three things installed on your computer. All are free.
-
 | What | Why | Mac | Windows |
 |------|-----|-----|---------|
 | **Git** | To download the source code | Usually pre-installed | Download from git-scm.com |
@@ -19,40 +17,35 @@ You need three things installed on your computer. All are free.
 
 ## Step 1 — Install Git
 
-**Mac:**
-Open Terminal (press Cmd+Space, type "Terminal", press Enter) and run:
+**Mac:** Open Terminal and run:
 ```
 git --version
 ```
-If you see a version number, Git is already installed. If you see an error, run:
+If you see a version number, Git is already installed. If not:
 ```
 xcode-select --install
 ```
-A popup will appear — click Install and wait for it to finish.
+Click Install when the popup appears and wait.
 
-**Windows:**
-Download and install from: https://git-scm.com/download/win
-Use all the default options during installation.
+**Windows:** Download and install from https://git-scm.com/download/win — use all defaults.
 
 ---
 
 ## Step 2 — Install Docker Desktop
 
 1. Go to: https://www.docker.com/products/docker-desktop
-2. Click **Download Docker Desktop** for your operating system
-3. Open the downloaded file and follow the installer
-4. Once installed, **open Docker Desktop** from your Applications folder (Mac) or Start menu (Windows)
-5. Wait for the Docker whale icon to appear in your menu bar / taskbar and show "Docker Desktop is running"
+2. Click **Download Docker Desktop** for your OS
+3. Open the installer and follow the prompts
+4. Open Docker Desktop from Applications (Mac) or Start menu (Windows)
+5. Wait for the whale icon to show "Docker Desktop is running"
 
 > ⚠️ Docker Desktop must be **open and running** every time you use this app.
 
-**Mac note:** macOS uses port 5000 for AirPlay. This app uses port 5001 to avoid that conflict — no action needed on your part, just be aware.
+**Mac note:** macOS uses port 5000 for AirPlay. This app uses port **5001** — no action needed.
 
 ---
 
 ## Step 3 — Download the source code
-
-Open Terminal and run these commands one at a time:
 
 ```bash
 cd <YOUR_CHOSEN_FOLDER>
@@ -60,19 +53,15 @@ git clone https://github.com/nanditha16/markitdown-codespace.git
 cd markitdown-codespace
 ```
 
-You should now see a folder called `markitdown-codespace` in your chosen directory.
-
 ---
 
 ## Step 3b — Configure your local paths
-
-This step tells Docker where to find your credentials on your specific machine.
 
 ```bash
 cp .env.example .env
 ```
 
-Open the `.env` file in any text editor and set your paths:
+Open `.env` in any text editor:
 
 **Mac/Linux:**
 ```
@@ -80,22 +69,18 @@ GCLOUD_CONFIG_DIR=~/.config/gcloud
 MARKITDOWN_CODESPACE_DIR=~/.markitdown-codespace
 ```
 
-**Windows (Git Bash or Windows Terminal):**
+**Windows (Git Bash):**
 ```
 GCLOUD_CONFIG_DIR=C:/Users/YOURNAME/.config/gcloud
 MARKITDOWN_CODESPACE_DIR=C:/Users/YOURNAME/.markitdown-codespace
 ```
-Replace `YOURNAME` with your Windows username (e.g. `john`).
 
-> ⚠️ On Windows, use forward slashes (`/`) not backslashes (`\`).
-
-> ℹ️ The `.env` file is personal — it is listed in `.gitignore` and will never be committed to GitHub.
+> ⚠️ Windows: use forward slashes (`/`), not backslashes (`\`).
+> ℹ️ `.env` is in `.gitignore` — never committed to GitHub.
 
 ---
 
 ## Step 4 — Run the one-time setup
-
-Still in Terminal, run:
 
 **Mac/Linux:**
 ```bash
@@ -107,19 +92,11 @@ chmod +x scripts/*.sh
 ```bash
 ./scripts/setup.sh
 ```
-> ℹ️ `chmod` is not needed on Windows — Git Bash handles script permissions automatically.
 
-This will:
-- Check that Docker is running
-- Download and build the pipeline environment (takes 5–10 minutes the first time)
-- Set up all the necessary tools inside Docker
-
-You'll see a lot of text scrolling — that's normal. Wait until you see:
+This checks Docker, downloads the pipeline environment (5–10 minutes first time), and sets up all tools. Wait for:
 ```
 ✅ Setup complete
 ```
-
-> If you see `❌ Docker is not running` — make sure Docker Desktop is open and the whale icon shows "running", then try again.
 
 ---
 
@@ -129,128 +106,166 @@ You'll see a lot of text scrolling — that's normal. Wait until you see:
 ./scripts/serve.sh
 ```
 
-Your browser should open automatically to `http://localhost:5001`
-
-If it doesn't open automatically, open your browser and go to: **http://localhost:5001**
-
-You should see the ATS Pipeline interface with a system check showing green checkmarks.
+Your browser opens automatically to **http://localhost:5001**. You should see the ATS Pipeline interface with green system check icons.
 
 ---
 
 ## Step 6 — Add your resume files (first time only)
 
-Before using the app, add your resume PDF files:
+1. Copy your resume PDF files into `input/pdf/`
+2. In the web app, click **"Run pipeline (run.sh)"** on the Setup page
+3. Wait 1–2 minutes. Resumes are converted and placed in `output/resume/` automatically.
 
-1. Find the `markitdown-codespace` folder on your computer
-2. Open the `input` folder inside it
-3. Open the `pdf` folder
-4. Copy your resume PDF files into this folder
+> ℹ️ Claude.ai is the default, but generated prompt files work with any LLM.
 
-Then go back to the web app and click **"Run pipeline (run.sh)"** on the Setup page.
-This converts your PDFs and automatically places the converted resume files in
-`output/resume/`. Wait for it to finish (1–2 minutes). No manual file moving needed.
+---
 
-NOTE: Cluade.ai is default, but prompts can be used on any platform
+## Step 6b — Build the variant bank (first time only, after Step 6)
+
+> **What this is:** Stage 0/1 (variant ranking) uses three files uploaded together
+> to Claude.ai. Two are static and built once here. Only the JD file changes per application.
+
+**Two static files built in this step:**
+- `prompts/variant_bank.txt` — all resume variants packaged together
+- `prompts/variant_rank_prompt.txt` — evaluation instructions
+
+**One file that already exists from Step 6:**
+- `output/JDx.md` — the converted JD, produced by the pipeline
+
+### Using the web UI:
+
+On the Setup page, the **"Build variant bank"** card shows three states:
+
+- 🔴 **Bank missing** — click **"Build Variant Bank"**
+- 🟡 **Bank stale** — a resume is newer than the bank; click **"Rebuild Variant Bank"**
+- 🟢 **Bank ready** — both static files exist and are current
+
+### Using the command line:
+
+```bash
+./scripts/build_variant_bank.sh
+```
+
+Expected output:
+```
+📦 Found 21 resume variant(s) in output/resume
+✅ Variant bank saved to prompts/variant_bank.txt
+✅ Instructions file saved to prompts/variant_rank_prompt.txt
+```
+
+> ✅ **You only do this once.** Rebuild only when you add or edit resumes.
 
 ---
 
 ## Step 7 — Add your career evidence files (first time only)
 
-Your career evidence files (Career_Wealth.xlsx, project notes, PDFs of past work) go here:
-
+Copy evidence files (Career_Wealth.xlsx, project notes, PDFs) into:
 ```
 markitdown-codespace/input/evidence/
 ```
 
-After adding files, click **"Refresh evidence"** on the Setup page.
-This only needs to be done once, or when you add new evidence files.
+Click **"Refresh evidence"** on the Setup page. Re-run whenever you add new evidence files.
 
 ---
 
 ## Every time you use the app
 
-1. Open Docker Desktop and wait for it to show "running"
+1. Open Docker Desktop and wait for "running"
 2. Open Terminal
 3. Run:
    ```bash
-   # Mac/Linux:
    cd <YOUR_CHOSEN_FOLDER>/markitdown-codespace
-
-   # Windows (Git Bash):
-   cd <YOUR_CHOSEN_FOLDER>/markitdown-codespace
-
    ./scripts/serve.sh
    ```
-4. Go to http://localhost:5001 in your browser
-5. Press Ctrl+C in Terminal when you're done to stop the app
-6. After each batch run, you can shutdown
-    ```
-    docker compose down
-    ```
+4. Go to http://localhost:5001
+5. Press Ctrl+C when done
+6. Optionally: `docker compose down`
+
+---
+
+## How to evaluate a job description (the normal workflow)
+
+### Step A — Add the job description
+
+In the web UI: click **"Add JD"** and paste the JD text, or drag a `.txt` file.
+
+### Step B — Check readiness (Step 2 in the UI)
+
+Each JD card in Step 2 shows three numbered download buttons when all files are ready:
+
+1. **① variant_bank.txt** — static, reuse across all JDs
+2. **② variant_rank_prompt.txt** — static, reuse across all JDs
+3. **③ JDx.md** — unique per JD
+
+If a card shows "Run pipeline first" or "Build variant bank first", the status text tells you exactly what's missing.
+
+> No file generation happens in Step 2. All three files exist after Step 0 runs.
+
+### Step C — Upload all three files to Claude.ai
+
+In Claude.ai, start a new conversation and attach all three files at once (multi-select in the file picker). Send — Claude reads all three and evaluates the fit.
+
+> ⚠️ **Use file upload, not copy/paste.** Clipboard corrupts em-dashes in resume content.
+
+> ℹ️ Files ① and ② are reusable for every JD. Only re-download ③ for each new job.
+
+### Step D — Paste Claude's response
+
+Click **"Paste Claude response"** on the JD card. The verdict (GOOD FIT / PARTIAL FIT / POOR FIT) appears as a coloured banner when you view the saved response.
+
+### Step E — Generate Stages 2–4
+
+Click **"Generate Stages 2–4"** in the web UI. Upload each prompt file to Claude.ai individually and paste responses back.
+
+---
+
+## When to rebuild the variant bank
+
+Rebuild when:
+- You added a new resume PDF and ran the pipeline
+- You edited an existing `.md` file in `output/resume/`
+- The web UI shows 🟡 **"Bank stale"**
+
+```bash
+./scripts/build_variant_bank.sh --rebuild
+```
+
+You do **not** need to rebuild between job applications.
+
 ---
 
 ## Troubleshooting
 
-**"Docker is not running"**
-→ Open Docker Desktop from your Applications/Start menu and wait for it to fully start
+**"Docker is not running"** → Open Docker Desktop and wait for it to fully start.
 
 **"port 5001 already in use"**
-→ Another app is using that port.
-- **Mac/Linux:** Run `lsof -i :5001` to see what it is, then close that app
-- **Windows:** Run `netstat -ano | findstr :5001` to find the process, then close it
+- Mac/Linux: `lsof -i :5001`
+- Windows: `netstat -ano | findstr :5001`
 
-**"No such file or directory: ./scripts/serve.sh"**
-→ You're not in the right folder.
-- **Mac/Linux:** Run `cd ~/markitdown-codespace`
-- **Windows:** Run `cd $HOME/markitdown-codespace`
+**"Build Variant Bank shows 0 variants"**
+→ Run the pipeline first (Step 6). The bank is built from `output/resume/` which is empty until PDFs are converted.
 
-**The browser shows a blank page**
-→ Wait 10 seconds and refresh. The app takes a moment to start inside Docker
+**"Bank shows stale after every rebuild"**
+→ Fix mtime: `touch prompts/variant_bank.txt`
 
-**Stage 2 API returns "Reauthentication is needed"** (Vertex AI users)
-→ Your gcloud token expired. Run on your **local terminal** (not inside Docker):
-```bash
-gcloud auth application-default login
-```
-Then restart the server (`./scripts/serve.sh`). The Docker container picks up the
-refreshed credentials automatically — no rebuild needed. Tokens typically last
-several hours; this will happen occasionally during active use.
+**"Claude says it doesn't see a job description"**
+→ You uploaded fewer than three files. All three must be attached before sending.
 
-**Stage 2 API returns "invalid x-api-key"** (Claude users)
-→ The key file contains extra text (filename or newline appended). Fix it:
+**Step 2 shows "Run pipeline first (output/JDx.md missing)"**
+→ The JD was added but the pipeline hasn't run yet. Click "Run pipeline" in Step 0.
 
-**Mac/Linux:**
+**Stage 2 API returns "Reauthentication is needed"** (Vertex AI)
+→ On your local terminal: `gcloud auth application-default login`, then restart the server.
+
+**Stage 2 API returns "invalid x-api-key"** (Claude API)
 ```bash
 printf 'sk-ant-api03-YOUR_KEY_HERE' > ~/.markitdown-codespace/claude_api_key
 chmod 600 ~/.markitdown-codespace/claude_api_key
-wc -c ~/.markitdown-codespace/claude_api_key   # should be ~108 chars, not more
+wc -c ~/.markitdown-codespace/claude_api_key   # should be ~108 chars
 ```
 
-**Windows (Git Bash):**
-```bash
-printf 'sk-ant-api03-YOUR_KEY_HERE' > $HOME/.markitdown-codespace/claude_api_key
-wc -c $HOME/.markitdown-codespace/claude_api_key   # should be ~108 chars, not more
-```
-
-Always use `printf` not `echo` — echo on some systems appends a newline or
-the shell may concatenate extra text. If the count is much higher than 108,
-the file contains more than just the key.
-
-**Stage 2 API returns "No API key configured"** after adding your GCP project
-→ Restart the server after saving Settings. Flask needs to reload to pick up
-the new config. If it persists, verify your GCP project is set:
-```bash
-docker exec markitdown python3 -c "
-import json; d=json.load(open('/root/.config/gcloud/application_default_credentials.json'))
-print(d.get('quota_project_id'))
-"
-```
-
-**"Cannot connect to Docker"**
-→ Docker Desktop isn't running. Open it from your Applications folder
-
-**First time setup takes too long (>15 min)**
-→ Normal on slow internet — the setup downloads ~2GB of AI models. Leave it running.
+**First-time setup takes more than 15 minutes**
+→ Normal on slow internet — downloads ~2GB of tools. Leave it running.
 
 ---
 
@@ -259,16 +274,19 @@ print(d.get('quota_project_id'))
 ```
 markitdown-codespace/
 ├── input/
-│   ├── pdf/          ← Put your resume PDFs here
-│   ├── evidence/     ← Put Career_Wealth.xlsx and project notes here
-│   └── other/        ← JD text files go here (the app manages these)
+│   ├── pdf/        ← Put your resume PDFs here
+│   ├── evidence/   ← Put Career_Wealth.xlsx and project notes here
+│   └── other/      ← JD text files (the app manages these)
 ├── output/
-│   ├── resume/       ← Converted resume files (auto-generated)
-│   └── ...
-└── prompts/          ← All generated prompts live here (auto-managed)
+│   ├── resume/     ← Converted resume files (auto-generated)
+│   └── JDx.md      ← Converted JD files (used directly by Claude.ai upload)
+└── prompts/
+    ├── variant_bank.txt          ← Resume bank — built once, reuse per job
+    ├── variant_rank_prompt.txt   ← Evaluation instructions — built once, reuse per job
+    └── JD_Analysis/              ← Claude responses, per-JD folders
 ```
 
-You only ever need to touch `input/pdf/` and `input/evidence/`. Everything else is managed by the app.
+You only ever need to touch `input/pdf/` and `input/evidence/`.
 
 ---
 
@@ -285,4 +303,4 @@ You only ever need to touch `input/pdf/` and `input/evidence/`. Everything else 
 
 ## Getting help
 
-If something isn't working, share the error message you see in the Terminal with whoever gave you access to this tool. The error message is the key piece of information — a screenshot of the terminal window is the easiest way to share it.
+Share the error message from Terminal with whoever gave you access. A screenshot of the terminal window is the easiest way.

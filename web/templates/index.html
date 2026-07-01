@@ -108,6 +108,49 @@
         <p class="hint">Run the pipeline after adding new resume PDFs to <code>input/pdf/</code>. Evidence ingest is separate — run it once when you add files to <code>input/evidence/</code>.</p>
       </div>
 
+      <!-- Variant Bank card — shown after resumes exist in output/resume/ -->
+      <div class="card" id="variantBankCard">
+        <h2 class="card-title">Build variant bank <span class="badge badge--green" style="font-size:11px;vertical-align:middle;margin-left:6px;">One-time</span></h2>
+        <p class="card-desc">
+          Packages all your resume variants into a reusable prompt file
+          (<code>prompts/variant_bank.txt</code>) and generates the evaluation
+          instructions file (<code>prompts/variant_rank_prompt.txt</code>).
+          Both are static — rebuild only when your resumes change.
+          Claude.ai uses all three files together: bank + instructions + the small
+          per-JD file generated in Step 2.
+        </p>
+
+        <div class="check-row" id="bankStatusRow" style="margin-bottom:12px;">
+          <span class="check-icon" id="bankStatusIcon">⋯</span>
+          <span id="bankStatusLabel">Checking variant bank…</span>
+        </div>
+
+        <div class="action-row">
+          <button class="btn btn--primary" id="btnBuildBank" onclick="buildVariantBank(false)">
+            Build variant bank
+          </button>
+          <button class="btn btn--ghost" id="btnRebuildBank" onclick="buildVariantBank(true)" style="display:none;">
+            Rebuild bank
+          </button>
+          <a class="btn btn--ghost" id="btnDownloadBank" href="/api/download-bank" download style="display:none;">
+            ↓ Download variant_bank.txt
+          </a>
+        </div>
+
+        <p class="hint" id="bankHint">
+          Run this after the pipeline converts your PDFs (above). Re-run only when
+          you add or edit resume files — not between job applications.
+        </p>
+
+        <div class="log-panel hidden" id="log-bank">
+          <div class="log-header">
+            <span class="log-title">Output — build_variant_bank.sh</span>
+            <button class="log-close" onclick="closeLog('log-bank')">✕</button>
+          </div>
+          <pre class="log-body" id="log-bank-body"></pre>
+        </div>
+      </div>
+
       <div class="log-panel hidden" id="log-setup">
         <div class="log-header">
           <span class="log-title" id="log-setup-title">Output</span>
@@ -169,22 +212,27 @@
       <div class="guide-bubble">
         <div class="guide-avatar">✦</div>
         <div class="guide-body">
-          <p class="guide-text">For each JD, I generate a prompt that ranks all your resume variants. You upload it to Claude.ai, paste the response back here — I handle the rest.</p>
+          <p class="guide-text">For each JD, I generate a small JD file that pairs with your variant bank. Upload <strong>both files</strong> to Claude.ai — it ranks your resume variants and tells you which one to use.</p>
           <p class="guide-text">This is the only step that needs your judgment. Claude.ai makes the call, not a local model.</p>
         </div>
       </div>
 
       <div class="card">
-        <h2 class="card-title">2a — Generate ranking prompts</h2>
-        <p class="card-desc">Runs <code>batch_prep.sh</code> for all JDs found in <code>input/other/</code>. Takes ~20-40s per JD.</p>
+        <h2 class="card-title">2a — Verify files ready</h2>
+        <p class="card-desc">
+          Confirms the three files exist for each JD. No new files are created —
+          <code>output/JDx.md</code> already exists from the pipeline (Step 0),
+          and the bank + instructions were built in Step 0.
+          If anything is missing, this will tell you exactly what to fix.
+        </p>
         <div class="action-row">
           <button class="btn btn--primary" onclick="generateStage1()" id="btnGenStage1">
-            Generate all ranking prompts
+            Check all JDs
           </button>
         </div>
         <div class="log-panel hidden" id="log-stage1">
           <div class="log-header">
-            <span class="log-title">Output — batch_prep.sh</span>
+            <span class="log-title">Output — variant_rank.sh</span>
             <button class="log-close" onclick="closeLog('log-stage1')">✕</button>
           </div>
           <pre class="log-body" id="log-stage1-body"></pre>
@@ -192,10 +240,21 @@
       </div>
 
       <div class="card">
-        <h2 class="card-title">2b — Upload to Claude.ai, paste responses</h2>
-        <p class="card-desc">For each JD: download the prompt, upload it to <a href="https://claude.ai" target="_blank" class="link">claude.ai</a> as a file attachment, then paste Claude's full response below.</p>
+        <h2 class="card-title">2b — Upload both files to Claude.ai, paste response</h2>
+        <p class="card-desc">
+          For each JD: download <strong>both</strong> files below and upload them together
+          to <a href="https://claude.ai" target="_blank" class="link">claude.ai</a> as
+          file attachments in one conversation. Paste Claude's full response back here.
+        </p>
+        <div class="hint" style="margin-bottom:14px;padding:10px 14px;background:var(--surface-2);border-left:3px solid var(--teal);border-radius:4px;line-height:1.7">
+          <strong>Three files, one conversation:</strong>
+          <code>variant_bank.txt</code> (built in Step 0, reuse always) +
+          <code>variant_rank_prompt.txt</code> (built in Step 0, reuse always) +
+          <code>jd_current.txt</code> (generated per JD above).
+          Use file upload — not copy/paste — clipboard corrupts em-dashes.
+        </div>
         <div class="jd-cards" id="jdRankCards">
-          <p class="empty-state">Generate ranking prompts first (step 2a).</p>
+          <p class="empty-state">Generate JD files first (step 2a).</p>
         </div>
       </div>
 

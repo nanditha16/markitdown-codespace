@@ -13,7 +13,8 @@ let modalCtx    = {};
 // ── Boot ──────────────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   loadStatus();
-  checkAndShowApiButton();   // show API button immediately if already Pro
+  loadVariantBankStatus();
+  checkAndShowApiButton();
   setInterval(loadStatus, 30000);
 });
 
@@ -26,6 +27,7 @@ function showStep(n) {
     b.classList.toggle("step-btn--active", i === n);
   });
   currentStep = n;
+  if (n === 0) loadVariantBankStatus();
   if (n === 4) renderDashboard();
   if (n === 2) renderRankCards();
   if (n === 3) { renderAtsCards(); checkAndShowApiButton(); }
@@ -42,6 +44,7 @@ async function loadStatus() {
     if (currentStep === 3) renderAtsCards();
     if (currentStep === 4) renderDashboard();
     updateSavedJDs();
+    if (currentStep === 0) loadVariantBankStatus();
   } catch (e) {
     setDot("dotDocker", "error");
     setLabel("lblDocker", "Cannot reach server");
@@ -189,6 +192,69 @@ function appendLog(el, line, cls) {
 
 function closeLog(id) { el(id).classList.add("hidden"); }
 
+// ── Variant bank (Step 0) ─────────────────────────────────────────────────────
+async function loadVariantBankStatus() {
+  try {
+    const r = await fetch("/api/variant-bank-status");
+    const d = await r.json();
+
+    const icon  = el("bankStatusIcon");
+    const label = el("bankStatusLabel");
+    const hint  = el("bankHint");
+    const btnBuild   = el("btnBuildBank");
+    const btnRebuild = el("btnRebuildBank");
+    const btnDl      = el("btnDownloadBank");
+
+    if (!icon) return;  // card not in DOM yet
+
+    if (!d.bank_exists) {
+      icon.textContent  = "⚠️";
+      label.textContent = `No variant bank yet — ${d.resume_count} resume${d.resume_count === 1 ? "" : "s"} ready to package`;
+      hint.textContent  = "Click 'Build variant bank' to create it from your resumes in output/resume/.";
+      btnBuild.textContent = "Build variant bank";
+      btnBuild.style.display   = "";
+      btnRebuild.style.display = "none";
+      btnDl.style.display      = "none";
+
+    } else if (d.bank_stale) {
+      icon.textContent  = "🟡";
+      label.textContent = `Bank is stale — '${d.newest_variant}' is newer than the bank`;
+      hint.textContent  = "A resume was added or edited since the last build. Rebuild to include the latest changes.";
+      btnBuild.style.display   = "none";
+      btnRebuild.style.display = "";
+      btnDl.style.display      = "";
+
+    } else {
+      const kb = d.bank_size ? Math.round(d.bank_size / 1024) : "?";
+      icon.textContent  = "✅";
+      label.textContent = `Variant bank ready — ${d.resume_count} variant${d.resume_count === 1 ? "" : "s"} packaged (${kb} KB)`;
+      hint.textContent  = "Reuse this file for every job application. Rebuild only when you add or edit resumes.";
+      btnBuild.style.display   = "none";
+      btnRebuild.style.display = "";
+      btnDl.style.display      = "";
+    }
+  } catch(e) {
+    const label = el("bankStatusLabel");
+    if (label) label.textContent = "Could not check bank status.";
+  }
+}
+
+function buildVariantBank(forceRebuild) {
+  const url = "/api/build-variant-bank" + (forceRebuild ? "?rebuild=1" : "");
+  const btn = forceRebuild ? el("btnRebuildBank") : el("btnBuildBank");
+  if (btn) { btn.disabled = true; btn.innerHTML = `<span class="spinner"></span> Building…`; }
+
+  streamToLog(url, "log-bank", "log-bank-body", (ok) => {
+    if (btn) { btn.disabled = false; btn.textContent = forceRebuild ? "Rebuild bank" : "Build variant bank"; }
+    if (ok) {
+      toast("Variant bank built successfully.", "ok");
+      loadVariantBankStatus();
+    } else {
+      toast("Build failed — see log above.", "err");
+    }
+  });
+}
+
 // ── Pipeline actions ──────────────────────────────────────────────────────────
 function runPipeline() {
   streamToLog("/api/run-pipeline", "log-setup", "log-setup-body",
@@ -201,11 +267,14 @@ function ingestEvidence() {
 }
 
 function generateStage1(jd) {
+  // For a specific JD: only run variant_rank.sh (writes jd_current.txt).
+  // Bank must already exist (built in step 0). For "all JDs" batch, the
+  // API endpoint chains build check + variant_rank for each JD.
   const url = jd ? `/api/generate-stage1?jd=${jd}` : "/api/generate-stage1";
   disableBtn("btnGenStage1");
   streamToLog(url, "log-stage1", "log-stage1-body", (ok) => {
     enableBtn("btnGenStage1");
-    if (ok) { toast("Ranking prompts ready.", "ok"); renderRankCards(); }
+    if (ok) { toast("All files verified — download from each JD card below.", "ok"); renderRankCards(); }
   });
 }
 
@@ -226,35 +295,93 @@ function renderRankCards() {
   const container = el("jdRankCards");
   if (!statusData) { container.innerHTML = "<p class='empty-state'>Loading…</p>"; return; }
 
-  const jds = statusData.jds.filter(j => !j.poor_fit);
+  const bank = statusData.variant_bank || {};
+  const jds  = statusData.jds.filter(j => !j.poor_fit);
+
   if (!jds.length) {
-    container.innerHTML = "<p class='empty-state'>No JDs found. Add JD text files and generate prompts.</p>";
+    container.innerHTML = "<p class='empty-state'>No JDs found. Add JDs in step 1 first.</p>";
     return;
   }
 
+  const bankReady  = bank.bank_exists && !bank.bank_stale;
+  const promptFile = bank.prompt_exists ? "prompts/variant_rank_prompt.txt" : null;
+
   container.innerHTML = jds.map(j => {
-    const hasPrompt = j.prompt_file;
+    // j.jd_file     = output/JDx.md  (produced by pipeline — no generation needed)
+    // j.prompt_file = prompts/variant_rank_prompt.txt (shared static, built in Step 0)
+    const hasJdMd   = j.jd_file;     // output/JDx.md exists
+    const hasPrompt = j.prompt_file;  // variant_rank_prompt.txt exists
+    const hasBank   = bank.bank_exists;
     const hasResp   = j.has_response;
+    const allReady  = hasJdMd && hasPrompt && hasBank;
 
     let statusPill = "";
-    if      (!hasPrompt) statusPill = pill("Generate prompt first", "missing");
-    else if (!hasResp)   statusPill = pill("Waiting for Claude.ai response", "waiting");
-    else                 statusPill = pill("Response received ✓", "done");
+    if      (!hasJdMd)  statusPill = pill("Run pipeline first (output/" + j.name + ".md missing)", "missing");
+    else if (!hasBank)  statusPill = pill("Build variant bank first (Step 0)", "missing");
+    else if (!hasResp)  statusPill = pill("Waiting for Claude.ai response", "waiting");
+    else {
+      const verdictColors = { "GOOD FIT": "done", "PARTIAL FIT": "waiting", "POOR FIT": "poor" };
+      const vc = verdictColors[j.fit_verdict] || "done";
+      const vl = j.fit_verdict || "Response received \u2713";
+      statusPill = pill(vl, vc);
+    }
+
+    // Chosen variant display (after response)
+    const variantShort = j.chosen_variant
+      ? j.chosen_variant.replace(/Nanditha_Murthy_Resume_/, "").replace(/_/g, " ")
+      : "";
+
+    const downloadSection = allReady ? `
+      <div class="split-prompt-files">
+        <div class="split-prompt-label">Upload all three files to Claude.ai or ChatGPT in one conversation:</div>
+        <div class="split-prompt-row">
+          <span class="split-file-badge">1</span>
+          <span class="split-file-name">variant_bank.txt
+            <span style="color:var(--text-muted);font-size:11px"> — ${bank.resume_count || "?"} variants, static</span>
+          </span>
+          <a class="btn btn--ghost btn--sm" href="/api/download-bank" download title="Reuse across all JDs">\u2193 Download</a>
+          ${!bankReady ? `<span style="color:var(--yellow);font-size:11px;margin-left:4px">\u26a0 rebuild bank</span>` : ""}
+        </div>
+        <div class="split-prompt-row">
+          <span class="split-file-badge">2</span>
+          <span class="split-file-name">variant_rank_prompt.txt
+            <span style="color:var(--text-muted);font-size:11px"> — instructions, static</span>
+          </span>
+          <a class="btn btn--ghost btn--sm" href="/api/download?path=${encodeURIComponent("prompts/variant_rank_prompt.txt")}" download="variant_rank_prompt.txt" title="Reuse across all JDs">\u2193 Download</a>
+        </div>
+        <div class="split-prompt-row">
+          <span class="split-file-badge">3</span>
+          <span class="split-file-name">${j.name}.md
+            <span style="color:var(--text-muted);font-size:11px"> — this job description</span>
+          </span>
+          <a class="btn btn--ghost btn--sm" href="/api/download?path=${encodeURIComponent(j.jd_file)}" download="${j.name}.md">\u2193 Download</a>
+        </div>
+        <a class="btn btn--ghost btn--sm" href="https://claude.ai" target="_blank"
+           style="margin-top:6px;align-self:flex-start">Open Claude.ai \u2197</a>
+      </div>` : "";
+
+    // Show verify button only if jd.md is missing (pipeline not run)
+    // or bank missing (Step 0 incomplete) — otherwise files are already there
+    const needsAction = !allReady && !hasResp;
 
     return `
     <div class="jd-card ${hasResp ? "jd-card--complete" : ""}">
       <div class="jd-card-header">
         <span class="jd-card-name">${j.name}</span>
         ${statusPill}
+        ${variantShort ? `<span class="jd-card-variant" title="${j.chosen_variant || ""}">→ ${variantShort}</span>` : ""}
       </div>
-      <div class="jd-card-actions">
-        ${hasPrompt
-          ? `<button class="btn btn--ghost btn--sm" onclick="viewPrompt('${j.name}', 's1', '${j.prompt_file}')">View / download prompt</button>
-             <a class="btn btn--ghost btn--sm" href="https://claude.ai" target="_blank">Open Claude.ai ↗</a>
-             <button class="btn btn--primary btn--sm" onclick="openPaste('${j.name}', 's1')">Paste response</button>`
-          : `<button class="btn btn--ghost btn--sm" onclick="generateStage1('${j.name}')">Generate prompt</button>`
-        }
-        ${hasResp ? `<button class="btn btn--ghost btn--sm" onclick="viewResponse('${j.name}', 's1')">View response</button>` : ""}
+      ${allReady
+        ? downloadSection
+        : needsAction
+          ? `<div class="jd-card-actions">
+               <button class="btn btn--ghost btn--sm" onclick="generateStage1('${j.name}')">Verify readiness</button>
+             </div>`
+          : ""
+      }
+      <div class="jd-card-actions" style="margin-top:${allReady ? "10px" : "0"}">
+        ${allReady ? `<button class="btn btn--primary btn--sm" onclick="openPaste('${j.name}', 's1')">Paste Claude response</button>` : ""}
+        ${hasResp  ? `<button class="btn btn--ghost btn--sm" onclick="viewResponse('${j.name}', 's1')">View saved response</button>` : ""}
       </div>
     </div>`;
   }).join("");
@@ -421,10 +548,38 @@ async function viewResponse(jd, stage) {
   const r    = await fetch(`/api/prompt-content?path=${encodeURIComponent(path)}`);
   const data = await r.json();
   if (!data.ok) { toast("Could not load response.", "err"); return; }
-  el("modalTitle").textContent = `${jd} — Response (${stage})`;
+
+  const text = data.content;
+  let verdictBanner = "";
+
+  if (stage === "s1") {
+    // Extract Stage 0 verdict for banner
+    const goodFit    = /GOOD\s+FIT/i.test(text);
+    const partialFit = /PARTIAL\s+FIT/i.test(text);
+    const poorFit    = /POOR\s+FIT/i.test(text);
+
+    // Extract the Stage 0 section text (up to Stage 1 or end)
+    const s0Match = text.match(/##\s*Stage\s*0[^\n]*\n([\s\S]*?)(?=\n##\s*Stage\s*1|\n---|\n#\s|$)/i);
+    const s0Text  = s0Match ? s0Match[1].trim() : "";
+
+    const [bgColor, label] =
+      goodFit    ? ["var(--green)",  "✅ GOOD FIT"]    :
+      partialFit ? ["var(--yellow)", "⚠ PARTIAL FIT"] :
+      poorFit    ? ["var(--red)",    "❌ POOR FIT"]    :
+                   ["var(--gray)",   "Stage 0 verdict not detected"];
+
+    verdictBanner = `
+      <div style="background:${bgColor}22;border:1px solid ${bgColor};border-radius:6px;padding:12px 16px;margin-bottom:14px;">
+        <div style="font-weight:700;font-size:14px;color:${bgColor};margin-bottom:${s0Text ? "6px" : "0"}">${label}</div>
+        ${s0Text ? `<div style="font-size:13px;color:var(--text);line-height:1.6">${escHtml(s0Text)}</div>` : ""}
+      </div>`;
+  }
+
+  el("modalTitle").textContent = `${jd} — Response (${stage === "s1" ? "Stage 0/1 Ranking" : stage})`;
   el("modalBody").innerHTML = `
     <p class="modal-label">Saved response from Claude.ai</p>
-    <pre class="prompt-preview">${escHtml(data.content)}</pre>`;
+    ${verdictBanner}
+    <pre class="prompt-preview" style="margin-top:0">${escHtml(text)}</pre>`;
   openModal();
 }
 
@@ -495,7 +650,7 @@ function enableBtn(id) {
   if (!b) return;
   b.disabled = false;
   const labels = {
-    btnGenStage1:    "Generate all ranking prompts",
+    btnGenStage1:    "Check all JDs",
     btnGenStages24:  "Generate ATS prompts for all ready JDs",
     btnRunStage2Api: "⚡ Run Stage 2 via API (Pro)",
   };
