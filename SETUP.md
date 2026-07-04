@@ -116,6 +116,10 @@ Your browser opens automatically to **http://localhost:5001**. You should see th
 2. In the web app, click **"Run pipeline (run.sh)"** on the Setup page
 3. Wait 1–2 minutes. Resumes are converted and placed in `output/resume/` automatically.
 
+> ⚠️ Name resume PDFs with no spaces (use `_` or `-` instead) — e.g.
+> `Firstname_Lastname_Resume_Company.pdf`, not `Firstname Lastname Resume.pdf`.
+> Spaces in the filename break Stage 3/4 prompt generation downstream.
+
 > ℹ️ Claude.ai is the default, but generated prompt files work with any LLM.
 
 ---
@@ -189,6 +193,10 @@ Click **"Refresh evidence"** on the Setup page. Re-run whenever you add new evid
 
 In the web UI: click **"Add JD"** and paste the JD text, or drag a `.txt` file.
 
+> ℹ️ After adding a JD, click **"Convert JDs → output/JDx.md"** (available on
+> both Step 1 and Step 2) instead of going back to Step 0 — it runs the same
+> pipeline conversion in place.
+
 ### Step B — Check readiness (Step 2 in the UI)
 
 Each JD card in Step 2 shows three numbered download buttons when all files are ready:
@@ -252,7 +260,7 @@ You do **not** need to rebuild between job applications.
 → You uploaded fewer than three files. All three must be attached before sending.
 
 **Step 2 shows "Run pipeline first (output/JDx.md missing)"**
-→ The JD was added but the pipeline hasn't run yet. Click "Run pipeline" in Step 0.
+→ Click **"Convert JDs → output/JDx.md"** on Step 1 or 2 — no need to go back to Step 0.
 
 **Stage 2 API returns "Reauthentication is needed"** (Vertex AI)
 → On your local terminal: `gcloud auth application-default login`, then restart the server.

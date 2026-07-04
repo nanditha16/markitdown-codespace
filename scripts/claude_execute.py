@@ -336,7 +336,7 @@ Setup:
     parser.add_argument(
         "--stages",
         default="2",
-        help="Comma-separated stage numbers to run (default: 2,3,4)",
+        help="Comma-separated stage numbers to run (default: 2)",
     )
     parser.add_argument("--dry-run", action="store_true", help="Show what would run without calling the API")
     parser.add_argument("--force", action="store_true", help="Re-run even if response already exists")
@@ -427,10 +427,14 @@ Setup:
         warn("Claude Sonnet is the SAME model as Claude.ai — output is authoritative quality.")
         warn("Citation accuracy (Stage 4) should still be spot-checked.")
         print()
-        resp = input("  Continue? [y/N]: ").strip().lower()
-        if resp != "y":
-            print("  Aborted.")
-            sys.exit(0)
+        if sys.stdin.isatty():
+            resp = input("  Continue? [y/N]: ").strip().lower()
+            if resp != "y":
+                print("  Aborted.")
+                sys.exit(0)
+        else:
+            info("  Non-interactive invocation (no TTY) — proceeding without prompt.")
+            info("  The caller's own confirmation step (e.g. a UI button click) stands in for this.")
         print()
 
     # Load API key (skip for dry run)

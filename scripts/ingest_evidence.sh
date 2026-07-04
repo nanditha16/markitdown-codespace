@@ -19,6 +19,15 @@ EVIDENCE_OUT="output/career_wealth_chunk"
 CHUNK_SIZE_THRESHOLD=8192   # bytes — files larger than this get chunked
 CHUNK_LINE_LIMIT=120        # fallback: split every N lines if no headings found
 
+# Respect INSIDE_DOCKER so this script works both when invoked from the host
+# (app.py sets INSIDE_DOCKER=1 because it itself runs inside the container)
+# and when invoked directly on the host shell.
+[ "$INSIDE_DOCKER" = "1" ] && INSIDE_DOCKER=true
+[ "$INSIDE_DOCKER" != "true" ] && INSIDE_DOCKER=false
+[ -f "/.dockerenv" ] && INSIDE_DOCKER=true
+drun() { if $INSIDE_DOCKER; then "$@"; else docker exec markitdown "$@"; fi; }
+drun_i() { if $INSIDE_DOCKER; then "$@"; else docker exec -i markitdown "$@"; fi; }
+
 echo "📂 Ingesting evidence files from $EVIDENCE_DIR/ ..."
 
 if [ ! -d "$EVIDENCE_DIR" ] || [ -z "$(ls -A "$EVIDENCE_DIR" 2>/dev/null | grep -v '^[.]')" ]; then
@@ -28,14 +37,14 @@ if [ ! -d "$EVIDENCE_DIR" ] || [ -z "$(ls -A "$EVIDENCE_DIR" 2>/dev/null | grep 
 fi
 
 echo "🗑️  Clearing stale chunks from $EVIDENCE_OUT/ ..."
-docker exec markitdown bash -c "rm -f /output/career_wealth_chunk/*.md 2>/dev/null || true"
+drun bash -c "rm -f /output/career_wealth_chunk/*.md 2>/dev/null || true"
 mkdir -p "$EVIDENCE_OUT"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 sanitize() { echo "$1" | tr ' ' '_' | tr -d "'" | tr -d '(' | tr -d ')'; }
 
 container_size() {
-  docker exec markitdown bash -c "wc -c < '$1' 2>/dev/null || echo 0" | tr -d '[:space:]'
+  drun bash -c "wc -c < '$1' 2>/dev/null || echo 0" | tr -d '[:space:]'
 }
 
 # ── PDFs: pdfplumber → MarkItDown → Tesseract OCR ─────────────────────────────
@@ -48,19 +57,25 @@ while IFS= read -r -d '' f; do
   echo "📄 PDF → $filename"
 
   # Pass 1: pdfplumber (best text fidelity for digital PDFs)
-  PLUMBER_RESULT=$(docker exec -i markitdown python3 << PYEOF
-import pdfplumber, sys
+  PLUMBER_RESULT=$(drun_i python3 << PYEOF
+import pdfplumber, sys, re
 src = "/input/evidence/${filename}"
 out = "${out_md}"
+JUNK_RE = re.compile(r"^\s*scanned\s+(with|by)\s+camscanner\s*$", re.IGNORECASE)
 try:
     with pdfplumber.open(src) as pdf:
         text = "\n\n".join(p.extract_text() or "" for p in pdf.pages).strip()
-    if len(text) >= 200:
+    # Measure signal, not noise: strip known scanner-app watermark lines
+    # before deciding OK vs WEAK, or a watermark-only scan (real content is
+    # an unextractable image, watermark is real embedded text) falsely
+    # clears the threshold and skips the OCR fallback that's actually needed.
+    signal_text = "\n".join(l for l in text.split("\n") if not JUNK_RE.match(l)).strip()
+    if len(signal_text) >= 200:
         with open(out, "w") as fh:
-            fh.write("# ${safe_name}\n\n" + text)
-        print("OK:" + str(len(text)))
+            fh.write("# ${safe_name}\n\n" + signal_text)
+        print("OK:" + str(len(signal_text)))
     else:
-        print("WEAK:" + str(len(text)))
+        print("WEAK:" + str(len(signal_text)))
 except Exception as e:
     print("ERROR:" + str(e))
 PYEOF
@@ -75,19 +90,43 @@ PYEOF
   echo "   ↳ pdfplumber ${PLUMBER_RESULT} — trying MarkItDown"
 
   # Pass 2: MarkItDown
-  docker exec markitdown markitdown "/input/evidence/${filename}" -o "${out_md}" 2>/dev/null || true
-  SIZE=$(container_size "$out_md")
+  drun markitdown "/input/evidence/${filename}" -o "${out_md}" 2>/dev/null || true
 
-  if [ "$SIZE" -ge 200 ]; then
-    echo "   ✅ MarkItDown: ${SIZE} chars"
+  # Measure signal, not noise: on a scanned PDF, MarkItDown can "succeed" by
+  # extracting nothing but the CamScanner watermark line repeated per page.
+  # Strip it before judging OK vs WEAK, same as the pdfplumber pass above —
+  # otherwise a watermark-only extraction (real content is an unextractable
+  # image, watermark is real embedded text) falsely clears the byte threshold
+  # and skips the OCR fallback that's actually needed.
+  MARKITDOWN_RESULT=$(drun_i python3 << PYEOF
+import re
+out = "${out_md}"
+JUNK_RE = re.compile(r"^\s*scanned\s+(with|by)\s+camscanner\s*$", re.IGNORECASE)
+try:
+    with open(out, encoding="utf-8", errors="replace") as fh:
+        lines = fh.readlines()
+    signal_text = "".join(l for l in lines if not JUNK_RE.match(l)).strip()
+    if len(signal_text) >= 200:
+        print("OK:" + str(len(signal_text)))
+    else:
+        print("WEAK:" + str(len(signal_text)))
+except FileNotFoundError:
+    print("WEAK:0")
+PYEOF
+)
+
+  if echo "$MARKITDOWN_RESULT" | grep -qE "^OK:"; then
+    CHARS=$(echo "$MARKITDOWN_RESULT" | sed 's/OK://')
+    echo "   ✅ MarkItDown: ${CHARS} signal chars"
     continue
   fi
 
-  echo "   ↳ MarkItDown weak (${SIZE} chars) — trying Tesseract OCR"
+  WEAK_CHARS=$(echo "$MARKITDOWN_RESULT" | sed 's/WEAK://')
+  echo "   ↳ MarkItDown weak (${WEAK_CHARS} signal chars) — trying Tesseract OCR"
 
   # Pass 3: Tesseract OCR (for scanned/image-only PDFs)
   # Convert PDF pages to images via pdftoppm, then OCR each page
-  OCR_RESULT=$(docker exec -i markitdown python3 << PYEOF
+  OCR_RESULT=$(drun_i python3 << PYEOF
 import subprocess, os, glob, sys
 
 src = "/input/evidence/${filename}"
@@ -169,7 +208,7 @@ while IFS= read -r -d '' f; do
   name="${filename%.*}"
   safe_name=$(sanitize "$name")
   echo "📊 XLSX → $filename"
-  docker exec markitdown markitdown "/input/evidence/${filename}" \
+  drun markitdown "/input/evidence/${filename}" \
     -o "/output/career_wealth_chunk/${safe_name}.md"
 done < <(find "$EVIDENCE_DIR" -maxdepth 2 \( -name "*.xlsx" -o -name "*.xls" \) -print0)
 
@@ -179,7 +218,7 @@ while IFS= read -r -d '' f; do
   name="${filename%.*}"
   safe_name=$(sanitize "$name")
   echo "📝 DOCX → $filename"
-  docker exec markitdown markitdown "/input/evidence/${filename}" \
+  drun markitdown "/input/evidence/${filename}" \
     -o "/output/career_wealth_chunk/${safe_name}.md"
 done < <(find "$EVIDENCE_DIR" -maxdepth 2 -name "*.docx" -print0)
 
@@ -193,8 +232,40 @@ while IFS= read -r -d '' f; do
     echo "# ${safe_name}"
     echo ""
     cat "$f"
-  } | docker exec -i markitdown bash -c "cat > /output/career_wealth_chunk/${safe_name}.md"
+  } | drun_i bash -c "cat > /output/career_wealth_chunk/${safe_name}.md"
 done < <(find "$EVIDENCE_DIR" -maxdepth 2 \( -name "*.txt" -o -name "*.md" \) -print0)
+
+# ── Strip known scanner-app watermark noise ────────────────────────────────────
+# Free/unregistered CamScanner stamps "Scanned by CamScanner" on every page of
+# scanned PDFs. It survives OCR/text extraction verbatim — pure noise, adds
+# tokens with zero signal to every downstream prompt. Strip before chunking.
+echo "🧹 Stripping scanner watermark noise ..."
+drun_i python3 << 'PYEOF_CLEAN'
+import os, re
+
+CHUNK_DIR = "output/career_wealth_chunk"
+import subprocess
+cwd = subprocess.run(["pwd"], capture_output=True, text=True).stdout.strip()
+chunk_dir = os.path.join(cwd, CHUNK_DIR)
+if not os.path.isdir(chunk_dir):
+    chunk_dir = "/" + CHUNK_DIR
+
+JUNK_RE = re.compile(r"^\s*scanned\s+(with|by)\s+camscanner\s*$", re.IGNORECASE)
+stripped = 0
+for fname in os.listdir(chunk_dir):
+    if not fname.endswith(".md"):
+        continue
+    fpath = os.path.join(chunk_dir, fname)
+    with open(fpath, encoding="utf-8", errors="replace") as fh:
+        lines = fh.readlines()
+    kept = [l for l in lines if not JUNK_RE.match(l)]
+    if len(kept) != len(lines):
+        with open(fpath, "w", encoding="utf-8") as fh:
+            fh.writelines(kept)
+        stripped += (len(lines) - len(kept))
+if stripped:
+    print(f"   Removed {stripped} watermark line(s).")
+PYEOF_CLEAN
 
 # ── Chunk large files ──────────────────────────────────────────────────────────
 # Two strategies:
@@ -203,7 +274,7 @@ done < <(find "$EVIDENCE_DIR" -maxdepth 2 \( -name "*.txt" -o -name "*.md" \) -p
 echo "✂️  Chunking large evidence files ..."
 
 # Write chunk script to a temp file and execute — avoids heredoc quoting/path issues
-docker exec -i markitdown python3 << 'PYEOF_CHUNK'
+drun_i python3 << 'PYEOF_CHUNK'
 import os, re
 
 THRESHOLD = 8192

@@ -8,7 +8,7 @@ INSIDE_DOCKER=false
 
 # Helper: run a command directly if inside Docker, else via docker exec
 drun() { if $INSIDE_DOCKER; then "$@"; else docker exec markitdown "$@"; fi; }
-drun_bash() { if $INSIDE_DOCKER; then bash -c "$1"; else drun_bash "$1"; fi; }
+drun_bash() { if $INSIDE_DOCKER; then bash -c "$1"; else docker exec markitdown bash -c "$1"; fi; }
 
 
 echo "🧠 Routing files..."

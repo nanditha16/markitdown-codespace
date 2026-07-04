@@ -106,6 +106,7 @@
           <button class="btn btn--ghost" onclick="loadStatus()">↻ Recheck</button>
         </div>
         <p class="hint">Run the pipeline after adding new resume PDFs to <code>input/pdf/</code>. Evidence ingest is separate — run it once when you add files to <code>input/evidence/</code>.</p>
+        <p class="hint" style="color:var(--yellow)">⚠️ Name resume PDFs with no spaces (use <code>_</code> or <code>-</code> instead) — e.g. <code>Nanditha_Murthy_Resume_Deloitte.pdf</code>, not <code>Nanditha Murthy Resume.pdf</code>. Spaces in the filename break Stage 3/4 prompt generation downstream.</p>
       </div>
 
       <!-- Variant Bank card — shown after resumes exist in output/resume/ -->
@@ -199,6 +200,20 @@
         </div>
 
         <div class="saved-jds" id="savedJDs"></div>
+
+        <div class="action-row" style="margin-top:14px">
+          <button class="btn btn--ghost" onclick="convertAndCheckJDs('btnConvertJDsStep1','log-stage1-step1','log-stage1-step1-body',false)" id="btnConvertJDsStep1">
+            Convert JDs → output/JDx.md
+          </button>
+        </div>
+        <p class="hint">Runs the pipeline so your new JD(s) are ready for Step 2. Skip this if you're about to add more JDs first.</p>
+        <div class="log-panel hidden" id="log-stage1-step1">
+          <div class="log-header">
+            <span class="log-title">Output — run.sh</span>
+            <button class="log-close" onclick="closeLog('log-stage1-step1')">✕</button>
+          </div>
+          <pre class="log-body" id="log-stage1-step1-body"></pre>
+        </div>
       </div>
 
       <div class="next-row">
@@ -236,6 +251,11 @@
             <button class="log-close" onclick="closeLog('log-stage1')">✕</button>
           </div>
           <pre class="log-body" id="log-stage1-body"></pre>
+        </div>
+        <div class="action-row hidden" id="log-stage1-fix" style="margin-top:8px">
+          <button class="btn btn--ghost" onclick="convertAndCheckJDs()" id="btnConvertJDs">
+            ⚠️ Missing output/JDx.md — run pipeline now
+          </button>
         </div>
       </div>
 
@@ -291,14 +311,20 @@
             <option value="vertex">Google Vertex AI (~$0.001/JD)</option>
             <option value="claude">Anthropic Claude (~$0.03/JD)</option>
           </select>
-          <button class="btn btn--primary" style="background:var(--green)" onclick="runStage2API()" id="btnRunStage2Api">
+          <button class="btn btn--primary" style="background:var(--green)" onclick="runStageAPI(2)" id="btnRunStage2Api">
             ⚡ Run Stage 2 via API
+          </button>
+          <button class="btn btn--primary" style="background:var(--green)" onclick="runStageAPI(3)" id="btnRunStage3Api">
+            ⚡ Run Stage 3 via API
+          </button>
+          <button class="btn btn--primary" style="background:var(--green)" onclick="runStageAPI(4)" id="btnRunStage4Api">
+            ⚡ Run Stage 4 via API
           </button>
           <span class="hint">Runs for all JDs with prompts ready — responses saved automatically</span>
         </div>
         <div class="log-panel hidden" id="log-stage2-api">
           <div class="log-header">
-            <span class="log-title">Stage 2 API — Live output</span>
+            <span class="log-title" id="log-stage2-api-title">Stage API — Live output</span>
             <button class="log-close" onclick="closeLog('log-stage2-api')">✕</button>
           </div>
           <pre class="log-body" id="log-stage2-api-body"></pre>
