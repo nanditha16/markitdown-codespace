@@ -259,6 +259,8 @@ FORCE=1 ./scripts/batch_prep.sh --continue    # Force regenerate even if prompts
 ./scripts/ingest_evidence.sh
 # → output/career_wealth_chunk/*.md
 # Re-run when evidence files change (idempotent)
+# Strips known scanner-app watermark noise (e.g. "Scanned by CamScanner")
+# before chunking, both from the extraction-threshold check and final output.
 ```
 
 ---
@@ -293,14 +295,24 @@ system behavior — no script hardcodes rules.
 | Stage 0/1 Variant Rank | variant_rank.sh | `manual_only` | — |
 | Stage 1.5 Prepare | prepare_variant.sh | `local_always` | N/A (no LLM) |
 | Stage 2 ATS Optimize | ats_optimize.sh | `local_allowed` | advisory |
-| Stage 3 ATS Recommend | ats_recommend.sh | `manual_only` | — |
-| Stage 3.5 Evidence Gap | ats_evidence_gap.sh | `manual_only` | — |
+| Stage 3 ATS Recommend | ats_recommend.sh | `manual_only`* | — |
+| Stage 3.5 Evidence Gap | ats_evidence_gap.sh | `manual_only`* | — |
 | Cover Letter | cover_letter.sh | `untested` | — |
+
+\* Pro tier can run Stage 3/4 via API (Claude or Vertex/Gemini) with an
+explicit override — the CLI/UI print the untested-model warning and require
+acknowledgment before proceeding non-interactively. This is not a policy
+downgrade: `execution_policy.json` still classifies these `manual_only`;
+override is a per-run user decision, not a default.
 
 **Why manual_only for Stage 0/1 and Stage 3:** three models tested
 (llama3:8b, llama3.1:8b, deepseek-r1:14b). All three failed Stage 0/1
 (hallucinated variant names) and Stage 3 (formatting audits instead of
-paraphrase edits). Stage 2 worked adequately on all three.
+paraphrase edits). Stage 2 worked adequately on all three. Gemini has been
+run against Stages 2/3/4 in production use (5 JDs, all three stages) with
+no fabricated filenames observed in that sample — but unlike the local-model
+tests above, this wasn't scored against a labeled correctness set. Treat as
+"ran without an obvious failure," not "evidence-tested to the same bar."
 
 ---
 

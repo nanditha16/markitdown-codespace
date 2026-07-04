@@ -74,6 +74,26 @@ def _find_response_file(directory: Path):
 def _has_prompt(prep_dir: Path, names):
     return any((prep_dir / "prom" / n).exists() for n in names)
 
+_COST_RE = re.compile(r'Cost:\s*~?\$([\d.]+)')
+
+def _extract_cost_header(resp_path: Path):
+    """Read only the first few lines (API-generated responses prepend a
+    '<!-- Cost: ~$X.XXXXX (...) -->' header) instead of loading the whole
+    file, which can be large. Returns None for manually-pasted responses
+    that have no such header — that's expected, not an error."""
+    try:
+        with resp_path.open(encoding="utf-8", errors="replace") as f:
+            for _ in range(6):
+                line = f.readline()
+                if not line:
+                    break
+                m = _COST_RE.search(line)
+                if m:
+                    return float(m.group(1))
+    except Exception:
+        pass
+    return None
+
 def variant_bank_status() -> dict:
     """
     Return status of the two static files built in Step 0:
@@ -118,22 +138,24 @@ def jd_status(jd_name: str) -> dict:
     prep_dir     = PROMPTS / f"{jd_name}_PREP"
     no_dir       = PROMPTS / "JD_Analysis" / f"{jd_name}_NO"
 
-    # prompt_exists = the JD's converted .md exists in output/ (pipeline already ran)
+    # prompt_exists = the JD's converted .md exists in output/ (pipeline already ran).
+    # prepare_variant.sh moves every non-current JD's .md into output/_archive/
+    # to keep smart_chunk.sh from mixing variants — check both locations.
     OUTPUT_JD_MD = ROOT / "output" / f"{jd_name}.md"
+    ARCHIVE_JD_MD = ROOT / "output" / "_archive" / f"{jd_name}.md"
     prompt_exists = (
         OUTPUT_JD_MD.exists() or
+        ARCHIVE_JD_MD.exists() or
         (analysis_dir / "variant_rank_prompt.txt").exists() or   # legacy monolithic
         (prep_dir / "prom" / "1_variant_rank_prompt.txt").exists()
     )
-    resp_path = (_find_response_file(analysis_dir) or
-                 _find_response_file(prep_dir / "resp"))
+    resp_path = _find_response_file(analysis_dir)
     has_response = resp_path is not None
-    poor_fit = (
-        no_dir.exists() or
-        (resp_path and "POOR FIT" in resp_path.read_text(errors="replace"))
-    )
 
-    # Extract Stage 0 verdict for UI display
+    # Extract Stage 0 verdict for UI display. Checked in priority order
+    # (GOOD > PARTIAL > POOR) so a response that mentions "POOR FIT" only
+    # in passing (e.g. describing one weak variant among many) doesn't
+    # override an actual GOOD/PARTIAL overall verdict.
     fit_verdict = None
     if resp_path and resp_path.exists():
         resp_text = resp_path.read_text(errors="replace")
@@ -143,6 +165,8 @@ def jd_status(jd_name: str) -> dict:
             fit_verdict = "PARTIAL FIT"
         elif "POOR FIT" in resp_text:
             fit_verdict = "POOR FIT"
+
+    poor_fit = no_dir.exists() or fit_verdict == "POOR FIT"
 
     s2 = _has_prompt(prep_dir, ["2_ats_prompt.txt", "ats_prompt.txt"])
     s3 = _has_prompt(prep_dir, ["3_ats_recommend_prompt.txt", "ats_recommend_prompt.txt"])
@@ -154,15 +178,13 @@ def jd_status(jd_name: str) -> dict:
         cv_file = prep_dir / ".chosen_variant"
     chosen = cv_file.read_text().strip() if cv_file.exists() else None
     if not chosen:
-        for rfile in [prep_dir / "resp" / "variant_rank_prompt_response.txt",
-                      analysis_dir / "variant_rank_prompt_response.txt"]:
-            if rfile.exists():
-                txt = rfile.read_text(errors="replace")
-                import re as _re
-                m = _re.search(r'Nanditha_Murthy_Resume_[\w\-_ ]+', txt)
-                if m:
-                    chosen = m.group(0).strip().rstrip('.')
-                    break
+        rfile = analysis_dir / "variant_rank_prompt_response.txt"
+        if rfile.exists():
+            txt = rfile.read_text(errors="replace")
+            import re as _re
+            m = _re.search(r'Nanditha_Murthy_Resume_[\w\-_ ]+', txt)
+            if m:
+                chosen = m.group(0).strip().rstrip('.')
 
     if poor_fit:             stage = "poor_fit"
     elif not prompt_exists:  stage = "needs_stage1_prompt"
@@ -177,7 +199,13 @@ def jd_status(jd_name: str) -> dict:
 
     # JD text lives at output/JDx.md — produced by the pipeline, no copy needed
     OUTPUT_JD_MD  = ROOT / "output" / f"{jd_name}.md"
-    jd_file_path  = str(OUTPUT_JD_MD.relative_to(ROOT)) if OUTPUT_JD_MD.exists() else None
+    ARCHIVE_JD_MD = ROOT / "output" / "_archive" / f"{jd_name}.md"
+    if OUTPUT_JD_MD.exists():
+        jd_file_path = str(OUTPUT_JD_MD.relative_to(ROOT))
+    elif ARCHIVE_JD_MD.exists():
+        jd_file_path = str(ARCHIVE_JD_MD.relative_to(ROOT))
+    else:
+        jd_file_path = None
 
     stage_prompts = {}
     for key, names in [
@@ -193,6 +221,7 @@ def jd_status(jd_name: str) -> dict:
                 break
 
     responses = {}
+    costs = {}
     for key, names in [
         ("s1", ["variant_rank_prompt_response.txt", "1_variant_rank_prompt_response.txt"]),
         ("s2", ["ats_prompt_response.txt"]),
@@ -204,6 +233,7 @@ def jd_status(jd_name: str) -> dict:
                 p = base / n
                 if p.exists():
                     responses[key] = str(p.relative_to(ROOT))
+                    costs[key] = _extract_cost_header(p)
                     break
             if key in responses:
                 break
@@ -221,6 +251,7 @@ def jd_status(jd_name: str) -> dict:
         "jd_file": jd_file_path,
         "stage_prompts": stage_prompts,
         "responses": responses,
+        "costs": costs,
     }
 
 def all_jds() -> list:
@@ -253,6 +284,7 @@ def stream_cmd(cmd: str):
            "TERM": "dumb", "PYTHONUNBUFFERED": "1"}
     proc = subprocess.Popen(
         ["bash", "-c", cmd], cwd=str(ROOT),
+        stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
         text=True, bufsize=1, env=env
     )
@@ -637,6 +669,7 @@ def run_stage2():
     jd       = request.args.get("jd", "").strip()
     force    = request.args.get("force", "0") == "1"
     provider = request.args.get("provider", "auto").strip()
+    stages   = request.args.get("stages", "2").strip()
 
     config_file = Path.home() / ".markitdown-codespace" / "config.json"
     cfg = {}
@@ -658,16 +691,17 @@ def run_stage2():
     claude_env_key = os.environ.get("ANTHROPIC_API_KEY", "")
     claude_key     = claude_key_file.read_text().strip() if claude_key_file.exists() else claude_env_key
 
-    force_flag = "--force" if force else ""
-    jd_flag    = ("--jd " + jd) if jd else "--all"
+    force_flag  = "--force" if force else ""
+    jd_flag     = ("--jd " + jd) if jd else "--all"
+    stages_flag = "--stages " + stages
 
     use_vertex = (provider == "vertex") or (provider == "auto" and gcp_creds.exists() and gcp_project)
     use_claude = (provider == "claude") or (provider == "auto" and not use_vertex and claude_key)
 
     if use_vertex and gcp_project:
-        cmd = "GCP_PROJECT=" + gcp_project + " python3 /app/scripts/vertex_execute.py " + jd_flag + " " + force_flag
+        cmd = "GCP_PROJECT=" + gcp_project + " python3 /app/scripts/vertex_execute.py " + jd_flag + " " + stages_flag + " " + force_flag
     elif use_claude and claude_key:
-        cmd = "ANTHROPIC_API_KEY=" + claude_key + " python3 /app/scripts/claude_execute.py " + jd_flag + " " + force_flag
+        cmd = "ANTHROPIC_API_KEY=" + claude_key + " python3 /app/scripts/claude_execute.py " + jd_flag + " " + stages_flag + " " + force_flag
     else:
         def _no_key():
             msg = "ERROR: No API key configured."

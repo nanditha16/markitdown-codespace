@@ -266,6 +266,27 @@ function ingestEvidence() {
     (ok) => ok && toast("Evidence ingested.", "ok"));
 }
 
+function convertAndCheckJDs(btnId, logId, bodyId, chainCheck) {
+  // Re-runs router+clean+chunk (same as Step 0 "Run pipeline") so newly
+  // added JD .txt files in input/other/ get converted to output/JDx.md.
+  // Callable from Step 1 (right after saving a JD) or Step 2 (2a).
+  btnId  = btnId  || "btnConvertJDs";
+  logId  = logId  || "log-stage1";
+  bodyId = bodyId || "log-stage1-body";
+  if (chainCheck === undefined) chainCheck = true;
+
+  disableBtn(btnId);
+  streamToLog("/api/run-pipeline", logId, bodyId, (ok) => {
+    enableBtn(btnId);
+    if (ok) {
+      toast(chainCheck ? "JDs converted — checking readiness…" : "JDs converted.", "ok");
+      if (chainCheck) generateStage1();
+    } else {
+      toast("Pipeline run failed — see log above.", "err");
+    }
+  });
+}
+
 function generateStage1(jd) {
   // For a specific JD: only run variant_rank.sh (writes jd_current.txt).
   // Bank must already exist (built in step 0). For "all JDs" batch, the
@@ -274,7 +295,11 @@ function generateStage1(jd) {
   disableBtn("btnGenStage1");
   streamToLog(url, "log-stage1", "log-stage1-body", (ok) => {
     enableBtn("btnGenStage1");
-    if (ok) { toast("All files verified — download from each JD card below.", "ok"); renderRankCards(); }
+    const fixBar = el("log-stage1-fix");
+    const missing = el("log-stage1-body").textContent.includes("not found");
+    if (fixBar) fixBar.classList.toggle("hidden", !missing);
+    if (ok && !missing) { toast("All files verified — download from each JD card below.", "ok"); renderRankCards(); }
+    else if (missing) { renderRankCards(); }
   });
 }
 
@@ -414,14 +439,19 @@ function renderAtsCards() {
       const path = j.stage_prompts[s.pathKey];
       if (!path) return "";
       const hasResp = j.responses && j.responses[s.key];
+      const cost = j.costs && j.costs[s.key];
       return `
         <div class="jd-card" style="border:none;background:var(--surface-2);padding:10px 14px;">
           <div class="jd-card-header">
             <span style="font-size:12px;color:var(--text-muted)">${s.label}</span>
-            ${hasResp ? pill("Response saved ✓", "done") : pill("Waiting for response", "waiting")}
+            <span>
+              ${hasResp ? pill("Response saved ✓", "done") : pill("Waiting for response", "waiting")}
+              ${cost != null ? `<span style="font-size:11px;color:var(--text-muted);margin-left:8px">~$${cost.toFixed(5)}</span>` : ""}
+            </span>
           </div>
           <div class="jd-card-actions">
-            <button class="btn btn--ghost btn--sm" onclick="viewPrompt('${j.name}', '${s.key}', '${path}')">View / download</button>
+            <button class="btn btn--ghost btn--sm" onclick="viewPrompt('${j.name}', '${s.key}', '${path}')">View prompt</button>
+            ${hasResp ? `<button class="btn btn--ghost btn--sm" onclick="viewResponse('${j.name}', '${s.key}')">View response</button>` : ""}
             <a class="btn btn--ghost btn--sm" href="https://claude.ai" target="_blank">Claude.ai ↗</a>
             <button class="btn btn--primary btn--sm" onclick="openPaste('${j.name}', '${s.key}')">Paste response</button>
           </div>
@@ -429,12 +459,15 @@ function renderAtsCards() {
     }).join("");
 
     const allReady = j.s2 && j.s3 && j.s4;
+    const costVals = j.costs ? Object.values(j.costs).filter(c => c != null) : [];
+    const totalCost = costVals.length ? costVals.reduce((a, b) => a + b, 0) : null;
 
     return `
     <div class="jd-card ${allReady ? "jd-card--complete" : ""}">
       <div class="jd-card-header">
         <span class="jd-card-name">${j.name}</span>
         <span class="jd-card-variant">${j.chosen_variant || ""}</span>
+        ${totalCost != null ? `<span style="font-size:12px;color:var(--text-muted)">~$${totalCost.toFixed(5)} so far</span>` : ""}
         <div class="stage-pills">${pills}</div>
       </div>
       ${!allReady
@@ -652,7 +685,9 @@ function enableBtn(id) {
   const labels = {
     btnGenStage1:    "Check all JDs",
     btnGenStages24:  "Generate ATS prompts for all ready JDs",
-    btnRunStage2Api: "⚡ Run Stage 2 via API (Pro)",
+    btnRunStage2Api: "⚡ Run Stage 2 via API",
+    btnRunStage3Api: "⚡ Run Stage 3 via API",
+    btnRunStage4Api: "⚡ Run Stage 4 via API",
   };
   b.textContent = labels[id] || "Run";
 }
@@ -733,28 +768,27 @@ async function checkAndShowApiButton() {
   } catch(e) {}
 }
 
-// ── Stage 2 API automation ────────────────────────────────────────────────────
-function runStage2API(jd, forceOverride) {
+// ── Stage 2/3/4 API automation ────────────────────────────────────────────────
+function runStageAPI(stageNum, jd, forceOverride) {
   const force = forceOverride || false;
-
-  // Ask user which provider if both could be available
   const provider = el("apiProviderSelect") ? el("apiProviderSelect").value : "auto";
+  const btnId = `btnRunStage${stageNum}Api`;
 
   let url = "/api/run-stage2";
-  const params = [];
+  const params = ["stages=" + stageNum];
   if (jd)       params.push("jd=" + jd);
   if (force)    params.push("force=1");
   if (provider && provider !== "auto") params.push("provider=" + provider);
-  if (params.length) url += "?" + params.join("&");
+  url += "?" + params.join("&");
 
-  // Show the dedicated API log panel
+  el("log-stage2-api-title").textContent = `Stage ${stageNum} API — Live output`;
   el("log-stage2-api").classList.remove("hidden");
   el("log-stage2-api-body").textContent = "";
 
-  disableBtn("btnRunStage2Api");
+  disableBtn(btnId);
   streamToLog(url, "log-stage2-api", "log-stage2-api-body", (ok) => {
-    enableBtn("btnRunStage2Api");
-    if (ok) { toast("Stage 2 complete. Responses saved automatically.", "ok"); renderAtsCards(); }
-    else     { toast("Stage 2 failed — see log above.", "err"); }
+    enableBtn(btnId);
+    if (ok) { toast(`Stage ${stageNum} complete. Responses saved automatically.`, "ok"); renderAtsCards(); }
+    else     { toast(`Stage ${stageNum} failed — see log above.`, "err"); }
   });
 }

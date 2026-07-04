@@ -71,13 +71,25 @@ GCP_LOCATION = os.environ.get("GCP_LOCATION", "us-central1")
 # gemini-2.0-flash is available on Vertex AI and uses ADC auth
 VERTEX_MODEL = "gemini-2.5-flash"
 
-# ── Stage definition (Stage 2 only) ──────────────────────────────────────────
+# ── Stage definitions ─────────────────────────────────────────────────────────
 STAGES = {
     "2": {
         "prompt_names": ["2_ats_prompt.txt", "ats_prompt.txt"],
         "response_name": "ats_prompt_response.txt",
         "label": "Stage 2 — ATS evaluation",
         "trust": "advisory",
+    },
+    "3": {
+        "prompt_names": ["3_ats_recommend_prompt.txt", "ats_recommend_prompt.txt"],
+        "response_name": "ats_recommend_prompt_response.txt",
+        "label": "Stage 3 — Paraphrase recommendations",
+        "trust": "advisory (UNTESTED for Gemini — local models failed this task shape)",
+    },
+    "4": {
+        "prompt_names": ["4_ats_evidence_gap_prompt.txt", "ats_evidence_gap_prompt.txt"],
+        "response_name": "ats_evidence_gap_response.txt",
+        "label": "Stage 4 — Evidence gap analysis",
+        "trust": "advisory (UNTESTED for Gemini — citation accuracy failed on every local model tried)",
     },
 }
 
@@ -307,15 +319,19 @@ Override project/location:
         """,
     )
     parser.add_argument("--jd",       help="Single JD name (e.g. JD2)")
-    parser.add_argument("--all",      action="store_true", help="All JDs with stage 2 prompts")
-    parser.add_argument("--stages",   default="2", help="Stage to run (only 2 supported)")
+    parser.add_argument("--all",      action="store_true", help="All JDs with requested stage prompts")
+    parser.add_argument("--stages",   default="2", help="Comma-separated stage numbers to run (default: 2)")
     parser.add_argument("--dry-run",  action="store_true")
     parser.add_argument("--force",    action="store_true", help="Re-run even if response exists")
     parser.add_argument("--list",     action="store_true", help="List ready JDs and exit")
     parser.add_argument("--estimate", action="store_true", help="Show cost estimate and exit")
     args = parser.parse_args()
 
-    stages = ["2"]  # Stage 2 only
+    stages = [s.strip() for s in args.stages.split(",")]
+    for s in stages:
+        if s not in STAGES:
+            err(f"Unknown stage: {s}. Valid: {', '.join(STAGES.keys())}")
+            sys.exit(1)
 
     if args.jd:
         jd_list = [args.jd]
@@ -328,10 +344,11 @@ Override project/location:
         sys.exit(1)
 
     if args.list:
-        hdr(f"\nJDs with Stage 2 prompt ready:")
+        hdr(f"\nJDs with stage {', '.join(stages)} prompt(s) ready:")
         for jd in jd_list:
             prep = resolve_prep_dir(jd)
-            status = "response exists" if response_exists(prep, "2") else "needs response"
+            missing = [s for s in stages if not response_exists(prep, s)]
+            status = "needs response" if missing else "responses exist"
             print(f"  {jd:<12} {status}")
         print()
         return
@@ -340,21 +357,39 @@ Override project/location:
         show_estimate(jd_list, stages)
         return
 
+    has_manual_only = any(s in ("3", "4") for s in stages)
+    if has_manual_only and not args.dry_run:
+        print()
+        warn("Stages 3 and 4 are marked manual_only in execution_policy.json.")
+        warn("Gemini has not been evidence-tested against this task shape — every")
+        warn("local model tried fabricated filenames/citations on Stage 3 and 4.")
+        warn("Spot-check every recommendation and citation before acting on it.")
+        print()
+        if sys.stdin.isatty():
+            resp = input("  Continue? [y/N]: ").strip().lower()
+            if resp != "y":
+                print("  Aborted.")
+                sys.exit(0)
+        else:
+            info("  Non-interactive invocation (no TTY) — proceeding without prompt.")
+        print()
+
     if not args.dry_run:
         if not check_credentials():
             sys.exit(1)
 
-    hdr(f"\n{'[DRY RUN] ' if args.dry_run else ''}Running Stage 2 for: {', '.join(jd_list)}")
+    hdr(f"\n{'[DRY RUN] ' if args.dry_run else ''}Running stages {', '.join(stages)} for: {', '.join(jd_list)}")
     hdr(f"Project: {GCP_PROJECT} | Model: {VERTEX_MODEL}")
     print()
 
     total = succeeded = 0
     for jd_name in jd_list:
         hdr(f"── {jd_name} ──")
-        total += 1
-        if run_stage(jd_name, "2", None, None, None,
-                     args.dry_run, args.force):
-            succeeded += 1
+        for stage_key in stages:
+            total += 1
+            if run_stage(jd_name, stage_key, None, None, None,
+                         args.dry_run, args.force):
+                succeeded += 1
         print()
 
     hdr("── Summary ──")

@@ -71,6 +71,7 @@ for arg in "$@"; do
   case "$arg" in
     --continue) MODE="continue" ;;
     --status)   MODE="status" ;;
+    --force)    FORCE="1" ;;
     --jd)       shift; SINGLE_JD="${1:-}" ;;
     JD[0-9]*)   SINGLE_JD="$arg" ;;
   esac
@@ -507,7 +508,7 @@ run_sequence3() {
         ok "    Stage 4 done" || warn "    Stage 4 failed — check ats_evidence_gap.sh"
 
       # STEP 7: Move all *prompt.txt from prompts/ to prompts/JDx_PREP/prom/
-      mkdir -p "${PREP_DIR}/prom" "${PREP_DIR}/resp"
+      mkdir -p "${PREP_DIR}/prom"
       log "    Step 7: Collecting prompts → ${PREP_DIR}/prom/"
 
       # Move Stage 2-4 prompts produced by the scripts
@@ -524,10 +525,11 @@ run_sequence3() {
         fi
       done
 
-      # Copy Stage 0/1 prompt + response into PREP dir
+      # Copy Stage 0/1 prompt into PREP dir. The response stays single-sourced
+      # in ${ANALYSIS_DIR}/variant_rank_prompt_response.txt — jd_status() reads
+      # from there only now, so no PREP/resp/ copy is made.
       local PROM1="${ANALYSIS_DIR}/variant_rank_prompt.txt"
       [ -f "$PROM1" ] && cp "$PROM1" "${PREP_DIR}/prom/1_variant_rank_prompt.txt"
-      [ -n "$RESP_FILE" ] && cp "$RESP_FILE" "${PREP_DIR}/resp/variant_rank_prompt_response.txt"
 
       # Write .chosen_variant record
       echo "$VARIANT_BASENAME" > "${ANALYSIS_DIR}/.chosen_variant"
