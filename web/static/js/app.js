@@ -15,8 +15,30 @@ document.addEventListener("DOMContentLoaded", () => {
   loadStatus();
   loadVariantBankStatus();
   checkAndShowApiButton();
+  refreshStageButtonLabels();
+  el("apiProviderSelect")?.addEventListener("change", refreshStageButtonLabels);
   setInterval(loadStatus, 30000);
 });
+
+// ── Per-stage cost estimates ───────────────────────────────────────────────────
+// Stage 2 is a single resume+JD pass; Stage 3 re-reads all resume chunks;
+// Stage 4 also pulls in the full evidence corpus — costs scale accordingly.
+const STAGE_COST = {
+  vertex: { 2: 0.001, 3: 0.001, 4: 0.01 },
+  claude: { 2: 0.03,  3: 0.10,  4: 0.45  },
+};
+function costForStage(stageNum) {
+  const provider = el("apiProviderSelect") ? el("apiProviderSelect").value : "auto";
+  const key = provider === "vertex" ? "vertex" : "claude"; // "auto" defaults to claude estimate
+  const cost = STAGE_COST[key][stageNum];
+  return cost < 0.01 ? `~$${cost.toFixed(3)}/JD` : `~$${cost.toFixed(2)}/JD`;
+}
+function refreshStageButtonLabels() {
+  [2, 3, 4].forEach((n) => {
+    const b = el(`btnRunStage${n}Api`);
+    if (b && !b.disabled) b.textContent = `⚡ Run Stage ${n} via API (${costForStage(n)})`;
+  });
+}
 
 // ── Navigation ────────────────────────────────────────────────────────────────
 function showStep(n) {
@@ -682,12 +704,14 @@ function enableBtn(id) {
   const b = el(id);
   if (!b) return;
   b.disabled = false;
+  const stageMatch = id.match(/^btnRunStage(\d)Api$/);
+  if (stageMatch) {
+    b.textContent = `⚡ Run Stage ${stageMatch[1]} via API (${costForStage(Number(stageMatch[1]))})`;
+    return;
+  }
   const labels = {
     btnGenStage1:    "Check all JDs",
     btnGenStages24:  "Generate ATS prompts for all ready JDs",
-    btnRunStage2Api: "⚡ Run Stage 2 via API",
-    btnRunStage3Api: "⚡ Run Stage 3 via API",
-    btnRunStage4Api: "⚡ Run Stage 4 via API",
   };
   b.textContent = labels[id] || "Run";
 }
