@@ -12,7 +12,8 @@ inline markup.
 
 TWO RENDERING PATHS, auto-detected:
 
-  RESUME path — for output/{JD}_new_resume.md and output/resume/*.md.
+  RESUME path — for output/review_resume/{JD}_new_resume.md and
+  output/resume/*.md.
   These files use this project's specific resume-bank convention: a bare
   name line, a title line, a contact line, ALL-CAPS section names with no
   '#'/'##' markdown, "Role - Company | dates" role headers, and '•'
@@ -91,23 +92,28 @@ def is_resume_format(text: str) -> bool:
 
 
 def build_resume_styles():
+    # Tightened from an earlier version after a real resume overflowed by
+    # just ~6 lines onto a 3rd page. Small reductions spread across many
+    # dimensions (margins, leading, inter-element spacing) reclaim that
+    # space without any single change reading as cramped -- a single big
+    # font-size cut would have been more noticeable than this combination.
     return {
         "name": ParagraphStyle("Name", fontName="LiberationSerif-Bold", fontSize=17,
                                 leading=19, spaceAfter=2, alignment=TA_CENTER),
         "title": ParagraphStyle("Title", fontName="LiberationSerif", fontSize=10.5,
-                                 leading=13, spaceAfter=2, alignment=TA_CENTER),
+                                 leading=12.5, spaceAfter=2, alignment=TA_CENTER),
         "contact": ParagraphStyle("Contact", fontName="LiberationSerif", fontSize=9,
-                                   leading=11, spaceAfter=10, alignment=TA_CENTER),
+                                   leading=11, spaceAfter=8, alignment=TA_CENTER),
         "section": ParagraphStyle("Section", fontName="LiberationSerif-Bold", fontSize=11,
-                                   leading=13, spaceBefore=8, spaceAfter=4,
+                                   leading=13, spaceBefore=6, spaceAfter=3,
                                    borderWidth=0, borderPadding=0),
         "role": ParagraphStyle("Role", fontName="LiberationSerif-Bold", fontSize=10,
-                                leading=12.5, spaceBefore=5, spaceAfter=1),
+                                leading=12, spaceBefore=4, spaceAfter=1),
         "bullet": ParagraphStyle("Bullet", fontName="LiberationSerif", fontSize=9.5,
-                                  leading=12, spaceAfter=3, leftIndent=16,
+                                  leading=11.3, spaceAfter=2, leftIndent=16,
                                   bulletIndent=4, alignment=TA_LEFT),
         "body": ParagraphStyle("ResumeBody", fontName="LiberationSerif", fontSize=9.5,
-                                leading=12.5, spaceAfter=6, alignment=TA_LEFT),
+                                leading=11.5, spaceAfter=4, alignment=TA_LEFT),
     }
 
 
@@ -237,7 +243,7 @@ def md_to_pdf(input_path, output_path):
         text = f.read()
 
     resume_mode = is_resume_format(text)
-    margin = 0.55 * inch if resume_mode else 1 * inch
+    margin = 0.5 * inch if resume_mode else 1 * inch
     doc = SimpleDocTemplate(
         output_path,
         pagesize=letter,

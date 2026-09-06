@@ -866,6 +866,61 @@ def generate_resume_pdf():
     }), (200 if ok else 400)
 
 
+# ── Stage 7 — trim over-long roles against the real JD text ─────────────────
+# Same shape as Stage 6: a script computes candidates as data, a page lets a
+# human pick which ones to actually apply, nothing is deleted without an
+# explicit approved id list. See scripts/trim_review.py's own docstring for
+# why this needs no LLM call despite sounding like a judgment task.
+
+@app.route("/trim/<jd>")
+def trim_page(jd):
+    return render_template("trim.html", jd=jd)
+
+
+@app.route("/api/trim-manifest")
+def trim_manifest():
+    jd = request.args.get("jd", "").strip()
+    cap = request.args.get("cap", "5").strip()
+    if not jd:
+        return jsonify({"ok": False, "error": "jd required"}), 400
+
+    result = subprocess.run(
+        ["python3", "/app/scripts/trim_review.py", jd, "--cap", cap, "--manifest-only"],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    try:
+        data = json.loads(result.stdout)
+    except Exception:
+        return jsonify({"ok": False, "error": f"could not parse trim_review.py output: {result.stdout or result.stderr}"}), 500
+    return jsonify(data), (200 if data.get("ok") else 404)
+
+
+@app.route("/api/trim-apply", methods=["POST"])
+def trim_apply():
+    data = request.get_json(silent=True) or {}
+    jd = (data.get("jd") or "").strip()
+    accepted_ids = data.get("accepted_ids") or []
+    if not jd:
+        return jsonify({"ok": False, "error": "jd required"}), 400
+    if not isinstance(accepted_ids, list):
+        return jsonify({"ok": False, "error": "accepted_ids must be a list"}), 400
+
+    if not accepted_ids:
+        return jsonify({"ok": True, "log": "No bullets selected — nothing deleted.", "deleted": 0})
+
+    ids_arg = ",".join(str(i) for i in accepted_ids)
+    result = subprocess.run(
+        ["python3", "/app/scripts/trim_review.py", jd, "--apply-ids", ids_arg],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    ok = result.returncode == 0
+    return jsonify({
+        "ok": ok,
+        "log": result.stdout if ok else (result.stderr or result.stdout),
+        "deleted": ids_arg.count(",") + 1 if ok else 0,
+    }), (200 if ok else 400)
+
+
 def _word_diff_html(before: str, after: str) -> dict:
     """Server-side word-level diff (Python stdlib only -- no client-side diff
     library dependency) rendered as two HTML strings with <del>/<ins> spans,

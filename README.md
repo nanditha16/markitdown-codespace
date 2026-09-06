@@ -53,6 +53,11 @@ markitdown-codespace/
 │   └── other/                JD text files (JD1.txt, JD2.txt …)
 ├── output/
 │   ├── resume/               Variant bank — one .md per target role/company
+│   ├── review_resume/        Stage 5/6 output — finalized/merged resumes and
+│   │                         their exported PDFs (kept separate from the
+│   │                         untouched variant bank so "what you're about to
+│   │                         submit" is never confused with "the raw variant
+│   │                         Stage 0/1 picked")
 │   ├── JDx.md                Converted JD files (used directly by variant_rank.sh)
 │   ├── cover/                Cover letters and exported PDFs
 │   ├── career_wealth_chunk/  Evidence chunks (from ingest_evidence.sh)
@@ -68,7 +73,12 @@ markitdown-codespace/
 │   └── JDx_PREP/
 │       ├── prom/             2_ats_prompt.txt, 3_ats_recommend_prompt.txt,
 │       │                     4_ats_evidence_gap_prompt.txt, 5_cover_letter_prompt.txt
-│       └── resp/             Paste Stage 2-4 Claude.ai responses here
+│       └── resp/             Paste Stage 2-4 Claude.ai responses here.
+│                             Stage 5 also writes 5_synthesis_report.md and
+│                             5_changes.json here (the decision log and the
+│                             manifest the Stage 6 review UI renders) —
+│                             both regenerable any time by re-running Stage 5,
+│                             so neither is precious to lose.
 ├── policy/
 │   ├── execution_policy.json Stage trust classifications (single source of truth)
 │   └── policy_check.py       Enforcement layer
@@ -147,8 +157,29 @@ Five guided steps:
 - **Step 2 — Rank Variants:** download all three files, upload to Claude.ai,
   paste response back
 - **Step 3 — ATS Analysis:** generate Stages 2-4, upload each to Claude.ai,
-  paste responses
-- **Step 4 — Dashboard:** full status across all JDs
+  paste responses. Stage 3/4 generation is skipped automatically for a JD
+  whose Stage 2 response already says `Shortlist: NO` (the cost gate — see
+  ROADMAP.md) rather than generating prompts nobody should upload.
+- **Step 4 — Review Board:** every JD with all three Stage 2-4 responses,
+  grouped by what needs doing next rather than a flat status table:
+  - 🟢 **Ready to review & merge** — click through to `/review/{JD}` (Stage
+    5/6): approve or reject each candidate paraphrase edit and evidence-backed
+    addition in a diff view, with a live word-count/page estimate, before
+    anything is written to `output/review_resume/{JD}_new_resume.md`.
+  - 🚫 **Gated — Stage 2 said NO** — Stage 5/6 refuses to synthesize a resume
+    here at all (see "Why some JDs stop at Stage 2" below) unless overridden.
+  - ⏳ **Still generating** — shows exactly which Stage 2-4 response is missing.
+  - ⚪ **Poor fit (archived)** — Stage 0/1 rejects.
+
+  Once a JD's resume is merged, its card gains two more controls, both gated
+  behind a single checkbox ("Manual review completed — ready to create
+  resume") so nothing downstream runs against a `.md` nobody has actually
+  read:
+  - **Review bullet trims (Stage 7)** — only relevant once a role has more
+    than 5 bullets; scores every bullet in an over-cap role against the real
+    JD text and proposes which ones to cut. Optional.
+  - **Convert md to pdf resume** — deterministic reportlab render (see
+    "Stage 5-7" below); prints the actual page count, not an estimate.
 
 ---
 
@@ -234,6 +265,64 @@ Stages 2-4 can be uploaded in parallel across JDs — each is self-contained.
 FORCE=1 ./scripts/batch_prep.sh --continue    # Force regenerate even if prompts exist
 ```
 
+`--continue` skips Stage 3/4 *generation* for a JD when a Stage 2 response
+already on disk says `Shortlist: NO` — nothing to upload, so nothing is
+generated. Set `FORCE=1` to generate anyway (e.g. to re-check after editing
+the resume). See ROADMAP.md for why this gate exists and where its
+automated-execution counterpart lives.
+
+---
+
+### Stage 5-7 — Synthesize, review, and trim (deterministic, $0 every run)
+
+Everything from here on makes **zero LLM calls**. Stages 2-4 already did
+every judgment call that requires a model — what the gaps are, whether
+evidence closes them, how confident that closure is. Stages 5-7 only parse,
+score, and rewrite text using what Stages 2-4 already produced (Stage 5/6)
+or the JD's own wording (Stage 7); no stage here asks a model anything.
+
+```bash
+# Stage 5 — apply the default policy (Stage 3 edits always, Stage 4
+# HIGH-confidence insertions that land cleanly) directly from the CLI:
+./scripts/synthesize_resume.py JD2
+
+# Inspect every candidate change as JSON without writing anything —
+# this is what the Stage 6 web review page calls under the hood:
+./scripts/synthesize_resume.py JD2 --manifest-only
+
+# Apply an exact, explicit set of approved changes instead of the default:
+./scripts/synthesize_resume.py JD2 --apply-ids "p3-0,p3-4,p4-2" --force
+
+# Stage 6 web review: http://localhost:5001/review/JD2
+# → approve/reject each change in a diff view, live word-count/page
+#   estimate, "Apply approved changes" writes output/review_resume/JD2_new_resume.md
+
+# Stage 7 — score existing bullets in over-cap roles against the real JD text:
+./scripts/trim_review.py JD2 --manifest-only
+./scripts/trim_review.py JD2 --apply-ids "trim-1-0,trim-1-3"
+# Stage 7 web review: http://localhost:5001/trim/JD2
+
+# Deterministic resume → PDF (reportlab; auto-detects resume vs. generic
+# markdown and renders each differently — see the script's own docstring):
+./scripts/md_to_pdf.py output/review_resume/JD2_new_resume.md output/review_resume/JD2_new_resume.pdf
+```
+
+**Why a resume never gets auto-trimmed by ATS score.** It's tempting to
+cut low-scoring bullets automatically, but "scores 0 against the JD's
+literal keyword list" is not the same as "not worth keeping" — a strong,
+evidence-backed bullet about a real platform migration can legitimately
+score 0 just because it doesn't happen to contain one of the JD's specific
+missing terms. Stage 7 surfaces a recommended cut list with reasons; a
+human still clicks Apply.
+
+**Why Stage 2's own "Recommended Improvements" never get auto-applied.**
+Stage 2's Current/Improved quotes are often truncated fragments ("...
+enterprise-scale..."), not the full sentence Stage 3 quotes verbatim —
+there's no safe way to compute a find-and-replace boundary from a
+fragment. Stage 6 shows Stage 2's alternative alongside the matching
+Stage 3 edit for comparison (with its own ATS-relevance score) but never
+turns it into a checkbox.
+
 ---
 
 ### Single resume, manual
@@ -297,6 +386,9 @@ system behavior — no script hardcodes rules.
 | Stage 2 ATS Optimize | ats_optimize.sh | `local_allowed` | advisory |
 | Stage 3 ATS Recommend | ats_recommend.sh | `manual_only`* | — |
 | Stage 3.5 Evidence Gap | ats_evidence_gap.sh | `manual_only`* | — |
+| Stage 5 Synthesize | synthesize_resume.py | `local_always` | N/A (no LLM — parses Stage 2-4's own already-reviewed output) |
+| Stage 6 Review & Merge | web `/review/{JD}` | `local_always` | N/A (human approves every change; zero LLM) |
+| Stage 7 Trim to Fit | trim_review.py | `local_always` | N/A (frequency-scores existing bullets against the real JD text; zero LLM) |
 | Cover Letter | cover_letter.sh | `untested` | — |
 
 \* Pro tier can run Stage 3/4 via API (Claude or Vertex/Gemini) with an
@@ -304,6 +396,17 @@ explicit override — the CLI/UI print the untested-model warning and require
 acknowledgment before proceeding non-interactively. This is not a policy
 downgrade: `execution_policy.json` still classifies these `manual_only`;
 override is a per-run user decision, not a default.
+
+**Why Stages 5-7 aren't on the trust spectrum above.** Every row above is
+answering "should we trust a model to do this." Stages 5-7 aren't a trust
+question at all — they never call a model. Stage 5/6 parse and apply the
+judgments Stage 2-4 already made; Stage 7 counts word frequency against the
+JD's own text. `local_always` here means something different from Stage
+1.5's `local_always`: it's not "safe enough to skip human review," it's
+"there's no model in the loop to have a trust level about." Human review
+still happens — Stage 6's whole UI *is* that review — it just isn't gating
+a model's output, it's gating what to keep from output a human is looking
+at directly.
 
 **Why manual_only for Stage 0/1 and Stage 3:** three models tested
 (llama3:8b, llama3.1:8b, deepseek-r1:14b). All three failed Stage 0/1
@@ -335,3 +438,36 @@ already have `4_ats_evidence_gap_prompt.txt`.
 
 **gcloud token expiry:** run `gcloud auth application-default login` on
 the Mac host when Stage 2 returns `Reauthentication is needed`.
+
+**A code fix that "didn't work" is usually a deploy that didn't happen.**
+`docker restart` re-runs whatever is already on disk *inside* the
+container — it does not fetch new file content from anywhere. Two
+different failure modes look identical from the browser (old behavior
+after you were told it's fixed):
+- **Bind mount** (check: `docker inspect <container> --format '{{json .Mounts}}'`
+  shows a `"Type":"bind"` entry mapping your project folder to `/app`) —
+  the host file *is* the container file. If a fix doesn't appear, the
+  file on your **host** was never actually overwritten; verify with
+  `grep` or `wc -l` run directly on the host path, not through
+  `docker exec`. Once the host file is correct, `docker restart` is
+  genuinely enough — no rebuild needed.
+- **Image-baked** (no bind mount; `Dockerfile` uses `COPY`) — the file
+  is frozen into the image at build time. No restart, however many times
+  repeated, will ever see a host-side edit. This needs
+  `docker compose build` (or `--no-cache` if layer caching is stale)
+  followed by `up -d`.
+Confirming which situation applies *before* debugging further saves
+real time — a stale file and a stale image look the same from a
+browser tab but need entirely different fixes.
+
+**LLM output format can drift between runs of the same prompt.** Stage
+3/4 responses have, in real sessions, changed heading case
+(`# Phase B` vs `# PHASE B`), dropped quote-wrapping around
+Current/Paraphrase text, and swapped blockquote (`>`) markers for plain
+dash bullets under "Proposed Addition to Resume" — all with an unchanged
+prompt template. Stage 5's parsers were made tolerant of every variant
+observed so far, but this list is not guaranteed exhaustive: if a JD's
+Review Board shows "No candidate changes parsed" or a suspicious "0
+changes" despite real Stage 3/4 content on disk, check whether the raw
+response actually matches the expected heading/quote shape before
+assuming the resume is genuinely edit-free.

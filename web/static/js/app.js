@@ -583,6 +583,10 @@ function reviewBoardCard(j, group) {
           <input type="checkbox" id="pdfReady-${j.name}" onchange="togglePdfButton('${j.name}')">
           Manual review completed — ready to create resume
         </label>
+        <a id="trimBtn-${j.name}" class="btn btn--ghost btn--sm btn--disabled-link" href="/trim/${j.name}"
+           onclick="return !this.classList.contains('btn--disabled-link')">
+          Review bullet trims (Stage 7)
+        </a>
         <button id="pdfBtn-${j.name}" class="btn btn--ghost btn--sm" disabled onclick="convertToPdf('${j.name}')">
           Convert md to pdf resume
         </button>
@@ -619,7 +623,9 @@ function reviewBoardCard(j, group) {
 function togglePdfButton(jdName) {
   const chk = document.getElementById(`pdfReady-${jdName}`);
   const btn = document.getElementById(`pdfBtn-${jdName}`);
+  const trimLink = document.getElementById(`trimBtn-${jdName}`);
   if (btn && chk) btn.disabled = !chk.checked;
+  if (trimLink && chk) trimLink.classList.toggle("btn--disabled-link", !chk.checked);
 }
 
 async function convertToPdf(jdName) {
