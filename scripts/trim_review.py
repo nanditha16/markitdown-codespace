@@ -88,10 +88,22 @@ def extract_jd_keywords(jd_text: str, top_words: int = 60, top_bigrams: int = 30
 
 
 def score_against_jd(text: str, jd_keywords: dict) -> float:
+    """Word-boundary matching, not plain substring. Plain 'term in text'
+    produced two confirmed false positives in real runs: 'engine' credited
+    for appearing inside 'engineering', and 'work' credited for appearing
+    inside 'frameworks' -- both coincidental, neither meaning anything
+    about actual relevance. \\b on both ends of the (possibly multi-word)
+    term fixes both without changing genuine matches: 'ai-forward' still
+    matches 'ai-forward operator' since word boundaries sit at the phrase's
+    edges either way, but 'work' no longer matches inside 'framework'."""
     if not text or not jd_keywords:
         return 0.0
     lower = text.lower()
-    return round(sum(w for term, w in jd_keywords.items() if term in lower), 1)
+    total = 0.0
+    for term, w in jd_keywords.items():
+        if re.search(r"\b" + re.escape(term) + r"\b", lower):
+            total += w
+    return round(total, 1)
 
 
 # ── Resume parsing: PROFESSIONAL EXPERIENCE roles + bullets, with line spans
