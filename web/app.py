@@ -41,6 +41,7 @@ PROMPTS        = ROOT / "prompts"
 INPUT_OTHER    = ROOT / "input" / "other"
 INPUT_EVIDENCE = ROOT / "input" / "evidence"
 OUTPUT_RESUME  = ROOT / "output" / "resume"
+OUTPUT_REVIEW  = ROOT / "output" / "review_resume"
 EVIDENCE_CHUNKS= ROOT / "output" / "career_wealth_chunk"
 POLICY_FILE    = ROOT / "policy" / "execution_policy.json"
 
@@ -806,8 +807,9 @@ def stage6_manifest():
 
 @app.route("/api/stage6-apply", methods=["POST"])
 def stage6_apply():
-    """Write output/{JD}_new_resume.md using EXACTLY the change ids the user
-    approved in the review page -- nothing more, nothing less."""
+    """Write output/review_resume/{JD}_new_resume.md using EXACTLY the
+    change ids the user approved in the review page -- nothing more,
+    nothing less."""
     data = request.get_json(silent=True) or {}
     jd = (data.get("jd") or "").strip()
     accepted_ids = data.get("accepted_ids") or []
@@ -825,7 +827,97 @@ def stage6_apply():
     return jsonify({
         "ok": ok,
         "log": result.stdout if ok else (result.stderr or result.stdout),
-        "resume_path": f"output/{jd}_new_resume.md" if ok else None,
+        "resume_path": f"output/review_resume/{jd}_new_resume.md" if ok else None,
+    }), (200 if ok else 400)
+
+
+@app.route("/api/generate-resume-pdf")
+def generate_resume_pdf():
+    """Convert an already-merged output/review_resume/{JD}_new_resume.md
+    into a PDF via scripts/md_to_pdf.py (deterministic, reportlab, zero
+    LLM calls -- see that script's own module docstring). This is a
+    separate, later action from Stage 6 apply on purpose: the Review
+    Board only enables it once the person has explicitly checked "I've
+    manually reviewed this" for that JD -- the checkbox state lives in
+    the frontend, but the file-existence check here is the real gate
+    against converting a resume nobody has actually looked at yet."""
+    jd = request.args.get("jd", "").strip()
+    if not jd:
+        return jsonify({"ok": False, "error": "jd required"}), 400
+
+    md_path = OUTPUT_REVIEW / f"{jd}_new_resume.md"
+    if not md_path.exists():
+        return jsonify({
+            "ok": False,
+            "error": f"No merged resume found at output/review_resume/{jd}_new_resume.md yet — "
+                     f"use Review & merge first, then come back to convert it.",
+        }), 404
+
+    pdf_path = OUTPUT_REVIEW / f"{jd}_new_resume.pdf"
+    result = subprocess.run(
+        ["python3", "/app/scripts/md_to_pdf.py", str(md_path), str(pdf_path)],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    ok = result.returncode == 0
+    return jsonify({
+        "ok": ok,
+        "log": (result.stdout + result.stderr).strip() if ok else (result.stderr or result.stdout),
+        "pdf_path": f"output/review_resume/{jd}_new_resume.pdf" if ok else None,
+    }), (200 if ok else 400)
+
+
+# ── Stage 7 — trim over-long roles against the real JD text ─────────────────
+# Same shape as Stage 6: a script computes candidates as data, a page lets a
+# human pick which ones to actually apply, nothing is deleted without an
+# explicit approved id list. See scripts/trim_review.py's own docstring for
+# why this needs no LLM call despite sounding like a judgment task.
+
+@app.route("/trim/<jd>")
+def trim_page(jd):
+    return render_template("trim.html", jd=jd)
+
+
+@app.route("/api/trim-manifest")
+def trim_manifest():
+    jd = request.args.get("jd", "").strip()
+    cap = request.args.get("cap", "5").strip()
+    if not jd:
+        return jsonify({"ok": False, "error": "jd required"}), 400
+
+    result = subprocess.run(
+        ["python3", "/app/scripts/trim_review.py", jd, "--cap", cap, "--manifest-only"],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    try:
+        data = json.loads(result.stdout)
+    except Exception:
+        return jsonify({"ok": False, "error": f"could not parse trim_review.py output: {result.stdout or result.stderr}"}), 500
+    return jsonify(data), (200 if data.get("ok") else 404)
+
+
+@app.route("/api/trim-apply", methods=["POST"])
+def trim_apply():
+    data = request.get_json(silent=True) or {}
+    jd = (data.get("jd") or "").strip()
+    accepted_ids = data.get("accepted_ids") or []
+    if not jd:
+        return jsonify({"ok": False, "error": "jd required"}), 400
+    if not isinstance(accepted_ids, list):
+        return jsonify({"ok": False, "error": "accepted_ids must be a list"}), 400
+
+    if not accepted_ids:
+        return jsonify({"ok": True, "log": "No bullets selected — nothing deleted.", "deleted": 0})
+
+    ids_arg = ",".join(str(i) for i in accepted_ids)
+    result = subprocess.run(
+        ["python3", "/app/scripts/trim_review.py", jd, "--apply-ids", ids_arg],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    ok = result.returncode == 0
+    return jsonify({
+        "ok": ok,
+        "log": result.stdout if ok else (result.stderr or result.stdout),
+        "deleted": ids_arg.count(",") + 1 if ok else 0,
     }), (200 if ok else 400)
 
 

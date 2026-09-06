@@ -7,7 +7,7 @@ Stages 2-4 all produce judgments in prose. Nothing in the pipeline turns
 those judgments into an actual edited resume — a human was expected to
 read three response files and manually retype the accepted changes.
 Stage 5 closes that loop: it reads the three existing response files and
-writes output/{JD}_new_resume.md automatically.
+writes output/review_resume/{JD}_new_resume.md automatically.
 
 WHY THIS IS DETERMINISTIC, NOT ANOTHER LLM CALL
 Stages 2-4 already did every judgment call that requires reasoning: what
@@ -61,7 +61,7 @@ INPUT (all already produced by Stages 2-4 - nothing new to generate):
     output/resume/{chosen_variant}.md
 
 OUTPUT:
-    output/{JD}_new_resume.md                    <- the tailored resume
+    output/review_resume/{JD}_new_resume.md      <- the tailored resume
     prompts/{JD}_PREP/resp/5_synthesis_report.md <- decision log
 """
 import argparse
@@ -74,6 +74,11 @@ from pathlib import Path
 ROOT = Path(__file__).parent.parent.resolve()
 PROMPTS = ROOT / "prompts"
 OUTPUT = ROOT / "output"
+# Finalized/merged resumes live in their own subfolder, separate from the
+# untouched per-JD base variants in output/resume/ -- keeps "the file you
+# review and submit" visually distinct from "the raw variant Stage 0/1
+# picked," which used to sit side by side in the same flat output/ dir.
+REVIEW_RESUME_DIR = OUTPUT / "review_resume"
 
 KNOWN_SECTIONS = [
     "SUMMARY", "CORE COMPETENCIES", "TECHNICAL STACK", "CAREER HIGHLIGHTS",
@@ -816,7 +821,7 @@ def load_jd_inputs(jd_name: str):
         "edits": edits,
         "recs": recs,
         "structural_gaps": structural_gaps,
-        "out_file": OUTPUT / f"{jd_name}_new_resume.md",
+        "out_file": REVIEW_RESUME_DIR / f"{jd_name}_new_resume.md",
         "report_file": resp_dir / "5_synthesis_report.md",
         "manifest_file": resp_dir / "5_changes.json",
     }
@@ -834,7 +839,7 @@ def load_jd_inputs(jd_name: str):
 def main():
     ap = argparse.ArgumentParser(description="Stage 5 — synthesize final tailored resume from Stage 2-4 responses.")
     ap.add_argument("jd", help="JD name, e.g. JD2")
-    ap.add_argument("--force", action="store_true", help="Overwrite existing output/{JD}_new_resume.md")
+    ap.add_argument("--force", action="store_true", help="Overwrite existing output/review_resume/{JD}_new_resume.md")
     ap.add_argument("--ignore-gate", action="store_true",
                      help="Synthesize a resume even if Stage 2's verdict is NO (explicit override)")
     ap.add_argument("--manifest-only", action="store_true",
@@ -904,6 +909,7 @@ def main():
         resume_text, edits, recs, accepted_ids, s2_additions
     )
 
+    out_file.parent.mkdir(parents=True, exist_ok=True)
     out_file.write_text(new_text, encoding="utf-8")
     report = build_report(jd_name, variant, s2, applied, skipped, inserted, deferred, structural_gaps)
     report_file.write_text(report, encoding="utf-8")

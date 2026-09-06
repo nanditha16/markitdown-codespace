@@ -401,6 +401,25 @@ body {
 }
 .review-card-action { margin-top: 2px; }
 
+.pdf-convert-row {
+  margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.pdf-review-check {
+  font-size: 11px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 6px;
+  cursor: pointer; line-height: 1.4;
+}
+.pdf-review-check input[type="checkbox"] {
+  margin-top: 1px; accent-color: var(--accent); cursor: pointer;
+}
+.pdf-status { font-size: 11px; line-height: 1.4; }
+.pdf-status--ok  { color: var(--green); }
+.pdf-status--err { color: var(--red); }
+
+.btn--disabled-link {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+}
+
 .stage-pills { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 .stage-pill {
   font-size: 11px;
