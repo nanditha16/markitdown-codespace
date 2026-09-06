@@ -186,6 +186,15 @@ the JD:
 - Do not propose a paraphrase for a structural gap (see Boundary above).
   A reworded sentence that implies experience the candidate doesn't have
   is a worse outcome than an honestly named gap.
+- LENGTH DISCIPLINE: a resume has a hard page limit; every word added
+  here is a word that has to come from somewhere else later. Your
+  Paraphrase should be word-count-neutral versus Current wherever
+  possible — substitute JD terminology for existing words rather than
+  appending a new clause on top of the original sentence. If a genuine
+  improvement requires net-new words, keep the addition to single digits
+  and say in Why why a substitution alone couldn't cover it. A Paraphrase
+  that is meaningfully longer than Current should be the exception you
+  can justify, not the default shape of every edit.
 
 # Output Format
 

@@ -223,6 +223,30 @@ is_poor_fit() {
   [ -f "$f" ] && grep -qi "POOR FIT" "$f"
 }
 
+# ── Cost gate: has a Stage 2 response already come back with Shortlist: NO? ──
+# batch_prep.sh never calls an LLM itself (every stage here only assembles a
+# prompt FILE — see execution_policy.json's "generate_prompt_file_only"
+# default), so there's no token cost inside this script to save. What this
+# gate actually avoids is a MANUAL waste: the README tells users Stage 2-4
+# prompts "can be uploaded in parallel," which means someone can spend a
+# Claude.ai upload on Stage 3/4 before ever reading Stage 2's verdict. If a
+# Stage 2 response already exists on disk (from a prior run of this JD) and
+# it says NO, Stage 3/4 prompt generation is skipped so there's nothing
+# tempting to upload. First-time runs (no Stage 2 response yet) always
+# proceed — the verdict isn't known yet, so nothing can be gated on it.
+find_stage2_response() {
+  local prep_dir="$1"
+  for f in "${prep_dir}/resp/ats_prompt_response.txt"; do
+    [ -f "$f" ] && echo "$f" && return
+  done
+  echo ""
+}
+
+is_stage2_no() {
+  local f="$1"
+  [ -f "$f" ] && grep -qiE '\*\*Shortlist:\*\*[[:space:]]*NO\b' "$f"
+}
+
 # ══════════════════════════════════════════════════════════════════════════════
 # SEQUENCE 1 — Generate variant_rank prompts for all JDs
 # ══════════════════════════════════════════════════════════════════════════════
@@ -497,15 +521,35 @@ run_sequence3() {
         warn "    Stage 2 skipped — $RESUME_IN_OUTPUT not found (prepare_variant may have failed)"
       fi
 
+      # ── COST GATE ── (see is_stage2_no() above for why this lives here)
+      local EXISTING_S2_RESP
+      EXISTING_S2_RESP=$(find_stage2_response "$PREP_DIR")
+      if [ -z "$EXISTING_S2_RESP" ]; then
+        EXISTING_S2_RESP=$(find_stage2_response "${ANALYSIS_DIR}")
+      fi
+      local SKIP_S3_S4=0
+      if [ "${FORCE:-}" != "1" ] && is_stage2_no "$EXISTING_S2_RESP"; then
+        SKIP_S3_S4=1
+      fi
+
       # STEP 5: Stage 3 — ATS recommend
-      log "    Step 5: Stage 3 — ats_recommend"
-      ./scripts/ats_recommend.sh "$JD_MD" "$VARIANT_BASENAME" 2>/dev/null && \
-        ok "    Stage 3 done" || warn "    Stage 3 failed — check ats_recommend.sh"
+      if [ "$SKIP_S3_S4" = "1" ]; then
+        warn "    Step 5: Stage 3 SKIPPED — existing Stage 2 response says Shortlist: NO"
+        warn "      (nothing to upload for this JD — set FORCE=1 to generate anyway)"
+      else
+        log "    Step 5: Stage 3 — ats_recommend"
+        ./scripts/ats_recommend.sh "$JD_MD" "$VARIANT_BASENAME" 2>/dev/null && \
+          ok "    Stage 3 done" || warn "    Stage 3 failed — check ats_recommend.sh"
+      fi
 
       # STEP 6: Stage 4 — Evidence gap
-      log "    Step 6: Stage 4 — ats_evidence_gap"
-      ./scripts/ats_evidence_gap.sh "$JD_MD" "$VARIANT_BASENAME" 2>/dev/null && \
-        ok "    Stage 4 done" || warn "    Stage 4 failed — check ats_evidence_gap.sh"
+      if [ "$SKIP_S3_S4" = "1" ]; then
+        warn "    Step 6: Stage 4 SKIPPED — existing Stage 2 response says Shortlist: NO"
+      else
+        log "    Step 6: Stage 4 — ats_evidence_gap"
+        ./scripts/ats_evidence_gap.sh "$JD_MD" "$VARIANT_BASENAME" 2>/dev/null && \
+          ok "    Stage 4 done" || warn "    Stage 4 failed — check ats_evidence_gap.sh"
+      fi
 
       # STEP 7: Move all *prompt.txt from prompts/ to prompts/JDx_PREP/prom/
       mkdir -p "${PREP_DIR}/prom"
@@ -610,6 +654,15 @@ show_status() {
       STATUS="⏳ Run --continue"
     elif [ "$P4" = "✅" ]; then
       STATUS="✅ All prompts ready"
+    fi
+
+    # Cost gate: Stage 2 came back but said NO — Stage 3/4 were intentionally
+    # not generated (see is_stage2_no() in run_sequence3). Distinct from
+    # "⏳ Run --continue" so it doesn't read as still-pending work.
+    local S2_RESP_FILE
+    S2_RESP_FILE=$(find_stage2_response "$PDIR")
+    if is_stage2_no "$S2_RESP_FILE" && [ "$P3" = "❌" ]; then
+      STATUS="🚫 Stage 2: NO — S3/4 gated (cost saved)"
     fi
 
     # Check _NO folders

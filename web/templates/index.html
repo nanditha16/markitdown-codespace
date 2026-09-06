@@ -55,7 +55,7 @@
       </button>
       <button class="step-btn" id="navBtn4" onclick="showStep(4)">
         <span class="step-num" id="navNum4">4</span>
-        <span>Dashboard</span>
+        <span>Review Board</span>
       </button>
       <button class="step-btn" id="navBtn5" onclick="showStep(5)">
         <span class="step-num" id="navNum5">⚙</span>
@@ -351,30 +351,36 @@
       </div>
     </section>
 
-    <!-- Step 4: Dashboard -->
+    <!-- Step 4: Review Board -->
     <section class="step-panel hidden" id="step-4">
       <div class="guide-bubble">
         <div class="guide-avatar">✦</div>
         <div class="guide-body">
-          <p class="guide-text">Full picture across all JDs. Click any prompt badge to view/download it, or to paste a Claude.ai response.</p>
+          <p class="guide-text">Every JD with Stage 2/3/4 responses, grouped by what to do next: review &amp; merge, or see why one was gated. Everything still generating stays out of the way below.</p>
         </div>
       </div>
 
       <div class="dashboard-header">
-        <h2 class="card-title" style="margin:0">All JDs</h2>
+        <h2 class="card-title" style="margin:0">Review Board</h2>
         <button class="btn btn--ghost btn--sm" onclick="loadStatus()">↻ Refresh</button>
       </div>
 
-      <div class="db-row db-row--header">
-        <div>JD</div>
-        <div>Chosen variant</div>
-        <div>Status</div>
-        <div>S1</div><div>S2</div><div>S3</div><div>S4</div>
-      </div>
-
-      <div id="dashboardRows">
+      <div id="reviewBoard">
         <p class="empty-state">Loading…</p>
       </div>
+
+      <details class="detail-table" style="margin-top:24px;">
+        <summary class="card-title" style="cursor:pointer;font-size:14px;">Detailed stage status (all JDs) ▾</summary>
+        <div class="db-row db-row--header" style="margin-top:12px;">
+          <div>JD</div>
+          <div>Chosen variant</div>
+          <div>Status</div>
+          <div>S1</div><div>S2</div><div>S3</div><div>S4</div>
+        </div>
+        <div id="dashboardRows">
+          <p class="empty-state">Loading…</p>
+        </div>
+      </details>
     </section>
 
     <!-- Step 5: Settings / BYOK -->

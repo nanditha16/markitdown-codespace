@@ -201,6 +201,12 @@ Name it honestly.
 - Do not reference content from one stage's output as if it were evidence.
   The gap list and the evidence corpus are separate inputs.
 - Preserve all numbers exactly if they appear in the evidence.
+- LENGTH DISCIPLINE: every accepted addition is pure new length on a
+  resume with a hard page limit — there is no offsetting cut the way a
+  paraphrase can absorb one. One tight sentence (roughly 25-35 words)
+  beats a three-sentence paragraph covering the same fact. Prefer the
+  single most compelling metric or outcome from the evidence over an
+  exhaustive summary of everything the evidence file contains.
 
 # Two-Phase Output Required
 
