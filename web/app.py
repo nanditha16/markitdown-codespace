@@ -41,6 +41,7 @@ PROMPTS        = ROOT / "prompts"
 INPUT_OTHER    = ROOT / "input" / "other"
 INPUT_EVIDENCE = ROOT / "input" / "evidence"
 OUTPUT_RESUME  = ROOT / "output" / "resume"
+OUTPUT_REVIEW  = ROOT / "output" / "review_resume"
 EVIDENCE_CHUNKS= ROOT / "output" / "career_wealth_chunk"
 POLICY_FILE    = ROOT / "policy" / "execution_policy.json"
 
@@ -806,8 +807,9 @@ def stage6_manifest():
 
 @app.route("/api/stage6-apply", methods=["POST"])
 def stage6_apply():
-    """Write output/{JD}_new_resume.md using EXACTLY the change ids the user
-    approved in the review page -- nothing more, nothing less."""
+    """Write output/review_resume/{JD}_new_resume.md using EXACTLY the
+    change ids the user approved in the review page -- nothing more,
+    nothing less."""
     data = request.get_json(silent=True) or {}
     jd = (data.get("jd") or "").strip()
     accepted_ids = data.get("accepted_ids") or []
@@ -825,7 +827,42 @@ def stage6_apply():
     return jsonify({
         "ok": ok,
         "log": result.stdout if ok else (result.stderr or result.stdout),
-        "resume_path": f"output/{jd}_new_resume.md" if ok else None,
+        "resume_path": f"output/review_resume/{jd}_new_resume.md" if ok else None,
+    }), (200 if ok else 400)
+
+
+@app.route("/api/generate-resume-pdf")
+def generate_resume_pdf():
+    """Convert an already-merged output/review_resume/{JD}_new_resume.md
+    into a PDF via scripts/md_to_pdf.py (deterministic, reportlab, zero
+    LLM calls -- see that script's own module docstring). This is a
+    separate, later action from Stage 6 apply on purpose: the Review
+    Board only enables it once the person has explicitly checked "I've
+    manually reviewed this" for that JD -- the checkbox state lives in
+    the frontend, but the file-existence check here is the real gate
+    against converting a resume nobody has actually looked at yet."""
+    jd = request.args.get("jd", "").strip()
+    if not jd:
+        return jsonify({"ok": False, "error": "jd required"}), 400
+
+    md_path = OUTPUT_REVIEW / f"{jd}_new_resume.md"
+    if not md_path.exists():
+        return jsonify({
+            "ok": False,
+            "error": f"No merged resume found at output/review_resume/{jd}_new_resume.md yet — "
+                     f"use Review & merge first, then come back to convert it.",
+        }), 404
+
+    pdf_path = OUTPUT_REVIEW / f"{jd}_new_resume.pdf"
+    result = subprocess.run(
+        ["python3", "/app/scripts/md_to_pdf.py", str(md_path), str(pdf_path)],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    ok = result.returncode == 0
+    return jsonify({
+        "ok": ok,
+        "log": (result.stdout + result.stderr).strip() if ok else (result.stderr or result.stdout),
+        "pdf_path": f"output/review_resume/{jd}_new_resume.pdf" if ok else None,
     }), (200 if ok else 400)
 
 

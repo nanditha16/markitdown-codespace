@@ -497,16 +497,11 @@ function renderAtsCards() {
          </div>`
       : "";
 
-    // Stage 5/6 becomes available once all three responses (not just
-    // prompts) are on disk — that's what synthesize_resume.py itself reads.
-    const allResponsesIn = j.responses && j.responses.s2 && j.responses.s3 && j.responses.s4;
-    const reviewRow = allResponsesIn
-      ? `<div class="action-row">
-           <a class="btn btn--primary btn--sm" href="/review/${j.name}">
-             ${j.ats_no_shortlist ? "Open Stage 5/6 (gated — view reason)" : "Review & merge (Stage 5/6) →"}
-           </a>
-         </div>`
-      : "";
+    // Stage 5/6 review link used to also live here as a per-card button,
+    // but Step 4 (Review Board) now does that job better -- grouped by
+    // status, with score/cost visible, without needing to scan every JD
+    // card in this step to find which ones are ready. Removed here to
+    // avoid showing the same action in two places.
 
     return `
     <div class="jd-card ${allReady ? "jd-card--complete" : ""}">
@@ -523,7 +518,6 @@ function renderAtsCards() {
            </div>`
         : ""}
       <div style="display:flex;flex-direction:column;gap:6px;">${stageButtons}</div>
-      ${reviewRow}
     </div>`;
   }).join("");
 }
@@ -582,7 +576,18 @@ function reviewBoardCard(j, group) {
 
   let action;
   if (group === "ready") {
-    action = `<a class="btn btn--primary btn--sm" href="/review/${j.name}">Review &amp; merge →</a>`;
+    action = `
+      <a class="btn btn--primary btn--sm" href="/review/${j.name}">Review &amp; merge →</a>
+      <div class="pdf-convert-row">
+        <label class="pdf-review-check">
+          <input type="checkbox" id="pdfReady-${j.name}" onchange="togglePdfButton('${j.name}')">
+          Manual review completed — ready to create resume
+        </label>
+        <button id="pdfBtn-${j.name}" class="btn btn--ghost btn--sm" disabled onclick="convertToPdf('${j.name}')">
+          Convert md to pdf resume
+        </button>
+        <div id="pdfStatus-${j.name}" class="pdf-status"></div>
+      </div>`;
   } else if (group === "gated") {
     action = `<a class="btn btn--ghost btn--sm" href="/review/${j.name}">View reason</a>`;
   } else if (group === "poor_fit") {
@@ -609,6 +614,49 @@ function reviewBoardCard(j, group) {
       </div>
       <div class="review-card-action">${action}</div>
     </div>`;
+}
+
+function togglePdfButton(jdName) {
+  const chk = document.getElementById(`pdfReady-${jdName}`);
+  const btn = document.getElementById(`pdfBtn-${jdName}`);
+  if (btn && chk) btn.disabled = !chk.checked;
+}
+
+async function convertToPdf(jdName) {
+  const btn = document.getElementById(`pdfBtn-${jdName}`);
+  const statusEl = document.getElementById(`pdfStatus-${jdName}`);
+  const chk = document.getElementById(`pdfReady-${jdName}`);
+  btn.disabled = true;
+  btn.textContent = "Converting…";
+  if (statusEl) { statusEl.textContent = ""; statusEl.className = "pdf-status"; }
+
+  try {
+    const res = await fetch(`/api/generate-resume-pdf?jd=${encodeURIComponent(jdName)}`);
+    const data = await res.json();
+    if (data.ok) {
+      toast(`${jdName}: PDF saved → ${data.pdf_path}`, "ok");
+      if (statusEl) {
+        statusEl.textContent = `✅ ${data.pdf_path} — ${data.log}`;
+        statusEl.className = "pdf-status pdf-status--ok";
+      }
+    } else {
+      toast(`${jdName}: ${data.error || "PDF conversion failed"}`, "err");
+      if (statusEl) {
+        statusEl.textContent = `❌ ${data.error || data.log || "Conversion failed"}`;
+        statusEl.className = "pdf-status pdf-status--err";
+      }
+    }
+  } catch (e) {
+    toast(`${jdName}: ${e}`, "err");
+    if (statusEl) statusEl.textContent = `❌ ${e}`;
+  } finally {
+    btn.textContent = "Convert md to pdf resume";
+    // Re-checking is required each time -- the checkbox isn't "sticky
+    // approval," it's "I looked at THIS specific version," and a fresh
+    // Review & merge apply can change the .md without the page reloading.
+    if (chk) chk.checked = false;
+    btn.disabled = true;
+  }
 }
 
 // ── Dashboard (Step 4 detail table) ──────────────────────────────────────────
