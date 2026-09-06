@@ -50,7 +50,7 @@ function showStep(n) {
   });
   currentStep = n;
   if (n === 0) loadVariantBankStatus();
-  if (n === 4) renderDashboard();
+  if (n === 4) { renderReviewBoard(); renderDashboard(); }
   if (n === 2) renderRankCards();
   if (n === 3) { renderAtsCards(); checkAndShowApiButton(); }
   if (n === 5) loadTierStatus();
@@ -64,7 +64,7 @@ async function loadStatus() {
     updateHealth(statusData.system);
     if (currentStep === 2) renderRankCards();
     if (currentStep === 3) renderAtsCards();
-    if (currentStep === 4) renderDashboard();
+    if (currentStep === 4) { renderReviewBoard(); renderDashboard(); }
     updateSavedJDs();
     if (currentStep === 0) loadVariantBankStatus();
   } catch (e) {
@@ -484,6 +484,30 @@ function renderAtsCards() {
     const costVals = j.costs ? Object.values(j.costs).filter(c => c != null) : [];
     const totalCost = costVals.length ? costVals.reduce((a, b) => a + b, 0) : null;
 
+    // Cost gate banner: Stage 2's response already came back NO. Stage 3/4
+    // responses (if pasted) can't be un-spent, but there's no reason to keep
+    // pasting more for this JD, and Stage 5/6 refuse to run past this point
+    // without an explicit override — see synthesize_resume.py's own gate.
+    const s2HasResp = j.responses && j.responses.s2;
+    const gateBanner = (s2HasResp && j.ats_no_shortlist)
+      ? `<div class="banner banner--warn" style="margin:8px 0;font-size:12px;">
+           ⚠️ Stage 2 verdict: <strong>NO</strong>${j.s2_score != null ? ` (${j.s2_score}/100)` : ""} —
+           this JD is a structural mismatch. Stage 3/4 paraphrasing/evidence-mining can't fix that;
+           Stage 5/6 will refuse to synthesize a resume for it unless overridden.
+         </div>`
+      : "";
+
+    // Stage 5/6 becomes available once all three responses (not just
+    // prompts) are on disk — that's what synthesize_resume.py itself reads.
+    const allResponsesIn = j.responses && j.responses.s2 && j.responses.s3 && j.responses.s4;
+    const reviewRow = allResponsesIn
+      ? `<div class="action-row">
+           <a class="btn btn--primary btn--sm" href="/review/${j.name}">
+             ${j.ats_no_shortlist ? "Open Stage 5/6 (gated — view reason)" : "Review & merge (Stage 5/6) →"}
+           </a>
+         </div>`
+      : "";
+
     return `
     <div class="jd-card ${allReady ? "jd-card--complete" : ""}">
       <div class="jd-card-header">
@@ -492,17 +516,102 @@ function renderAtsCards() {
         ${totalCost != null ? `<span style="font-size:12px;color:var(--text-muted)">~$${totalCost.toFixed(5)} so far</span>` : ""}
         <div class="stage-pills">${pills}</div>
       </div>
+      ${gateBanner}
       ${!allReady
         ? `<div class="action-row">
              <button class="btn btn--ghost btn--sm" onclick="generateStages24('${j.name}')">Generate this JD's prompts</button>
            </div>`
         : ""}
       <div style="display:flex;flex-direction:column;gap:6px;">${stageButtons}</div>
+      ${reviewRow}
     </div>`;
   }).join("");
 }
 
-// ── Dashboard (Step 4) ────────────────────────────────────────────────────────
+// ── Review Board (Step 4) ────────────────────────────────────────────────────
+// Groups every JD by what actually needs doing next, instead of a flat
+// checklist of which stages have run. A JD only shows up in "Ready to
+// review" once it has all three responses AND isn't gated -- that's the
+// same condition renderAtsCards() uses for its own review link, computed
+// here independently so the two views can't silently disagree.
+function reviewGroupFor(j) {
+  if (j.poor_fit) return "poor_fit";
+  const allResponsesIn = j.responses && j.responses.s2 && j.responses.s3 && j.responses.s4;
+  if (allResponsesIn && j.ats_no_shortlist) return "gated";
+  if (allResponsesIn) return "ready";
+  return "in_progress";
+}
+
+function renderReviewBoard() {
+  const container = el("reviewBoard");
+  if (!statusData) { container.innerHTML = "<p class='empty-state'>Loading…</p>"; return; }
+  if (!statusData.jds.length) {
+    container.innerHTML = "<p class='empty-state'>No JDs found. Add JD text files to input/other/ and run step 1.</p>";
+    return;
+  }
+
+  const groups = { ready: [], gated: [], in_progress: [], poor_fit: [] };
+  statusData.jds.forEach(j => groups[reviewGroupFor(j)].push(j));
+
+  const sections = [
+    { key: "ready",       title: "🟢 Ready to review & merge",        empty: "Nothing waiting on you right now." },
+    { key: "gated",       title: "🚫 Gated — Stage 2 said NO",         empty: "No gated JDs." },
+    { key: "in_progress", title: "⏳ Still generating / awaiting responses", empty: "Nothing in progress." },
+    { key: "poor_fit",    title: "⚪ Poor fit (Stage 0/1 — archived)",  empty: "None archived." },
+  ];
+
+  container.innerHTML = sections.map(s => {
+    const jds = groups[s.key];
+    const cards = jds.length
+      ? jds.map(j => reviewBoardCard(j, s.key)).join("")
+      : `<p class="empty-state" style="padding:8px 0;">${s.empty}</p>`;
+    // Collapse empty/low-priority groups by default so the board reads as
+    // an inbox (what needs you) rather than a status report (everything).
+    const collapsedByDefault = jds.length === 0 || s.key === "poor_fit" || s.key === "in_progress";
+    return `
+      <details class="review-group" ${collapsedByDefault ? "" : "open"}>
+        <summary class="review-group-title">${s.title} <span class="review-group-count">${jds.length}</span></summary>
+        <div class="review-group-cards">${cards}</div>
+      </details>`;
+  }).join("");
+}
+
+function reviewBoardCard(j, group) {
+  const cost = j.costs ? Object.values(j.costs).filter(c => c != null).reduce((a, b) => a + b, 0) : 0;
+  const scoreLine = j.s2_score != null ? `${j.s2_score}/100` : "—";
+
+  let action;
+  if (group === "ready") {
+    action = `<a class="btn btn--primary btn--sm" href="/review/${j.name}">Review &amp; merge →</a>`;
+  } else if (group === "gated") {
+    action = `<a class="btn btn--ghost btn--sm" href="/review/${j.name}">View reason</a>`;
+  } else if (group === "poor_fit") {
+    action = `<span class="hint">Archived at Stage 0/1 — no further action.</span>`;
+  } else {
+    const missing = [];
+    if (!(j.responses && j.responses.s2)) missing.push("Stage 2");
+    if (!(j.responses && j.responses.s3)) missing.push("Stage 3");
+    if (!(j.responses && j.responses.s4)) missing.push("Stage 4");
+    action = missing.length
+      ? `<span class="hint">Waiting on: ${missing.join(", ")}</span>`
+      : `<button class="btn btn--ghost btn--sm" onclick="showStep(3)">Go to Step 3</button>`;
+  }
+
+  return `
+    <div class="review-card">
+      <div class="review-card-top">
+        <span class="jd-card-name">${j.name}</span>
+        <span class="jd-card-variant">${j.chosen_variant || ""}</span>
+      </div>
+      <div class="review-card-meta">
+        <span>Stage 2: <strong>${scoreLine}</strong></span>
+        <span>~$${cost.toFixed(4)} so far</span>
+      </div>
+      <div class="review-card-action">${action}</div>
+    </div>`;
+}
+
+// ── Dashboard (Step 4 detail table) ──────────────────────────────────────────
 function renderDashboard() {
   const container = el("dashboardRows");
   if (!statusData) { container.innerHTML = "<p class='empty-state'>Loading…</p>"; return; }
@@ -810,9 +919,18 @@ function runStageAPI(stageNum, jd, forceOverride) {
   el("log-stage2-api-body").textContent = "";
 
   disableBtn(btnId);
-  streamToLog(url, "log-stage2-api", "log-stage2-api-body", (ok) => {
+  streamToLog(url, "log-stage2-api", "log-stage2-api-body", async (ok) => {
     enableBtn(btnId);
-    if (ok) { toast(`Stage ${stageNum} complete. Responses saved automatically.`, "ok"); renderAtsCards(); }
-    else     { toast(`Stage ${stageNum} failed — see log above.`, "err"); }
+    if (ok) {
+      toast(`Stage ${stageNum} complete. Responses saved automatically.`, "ok");
+      // Re-fetch status before re-rendering -- the API call just wrote new
+      // response files (and possibly a new Stage 2 verdict) on disk, but
+      // `statusData` in memory still reflects whatever was fetched BEFORE
+      // this run started. Calling renderAtsCards() alone re-renders that
+      // stale snapshot, so a fresh NO-verdict gate banner (or a stage
+      // pill flipping to "done") wouldn't show until the next 30s poll.
+      await loadStatus();
+    }
+    else { toast(`Stage ${stageNum} failed — see log above.`, "err"); }
   });
 }

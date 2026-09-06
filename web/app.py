@@ -168,6 +168,24 @@ def jd_status(jd_name: str) -> dict:
 
     poor_fit = no_dir.exists() or fit_verdict == "POOR FIT"
 
+    # Stage 2 verdict (YES/MAYBE/NO), read once here so the UI can gray out
+    # Stage 3/4/5/6 actions the same way it already grays out Stage 2-4 for
+    # a Stage 0/1 POOR FIT — see claude_execute.py / batch_prep.sh for the
+    # execution-side half of this same gate.
+    ats_no_shortlist = False
+    s2_score = None
+    for base in [prep_dir / "resp"]:
+        p = base / "ats_prompt_response.txt"
+        if p.exists():
+            s2_text = p.read_text(errors="replace")
+            vm = re.search(r"\*\*Shortlist:\*\*\s*(YES|NO|MAYBE)", s2_text, re.IGNORECASE)
+            sm = re.search(r"\*\*ATS Score:\*\*\s*(\d+)\s*/\s*100", s2_text)
+            if vm:
+                ats_no_shortlist = vm.group(1).upper() == "NO"
+            if sm:
+                s2_score = int(sm.group(1))
+            break
+
     s2 = _has_prompt(prep_dir, ["2_ats_prompt.txt", "ats_prompt.txt"])
     s3 = _has_prompt(prep_dir, ["3_ats_recommend_prompt.txt", "ats_recommend_prompt.txt"])
     s4 = _has_prompt(prep_dir, ["4_ats_evidence_gap_prompt.txt", "ats_evidence_gap_prompt.txt"])
@@ -186,12 +204,13 @@ def jd_status(jd_name: str) -> dict:
             if m:
                 chosen = m.group(0).strip().rstrip('.')
 
-    if poor_fit:             stage = "poor_fit"
-    elif not prompt_exists:  stage = "needs_stage1_prompt"
-    elif not has_response:   stage = "waiting_response"
-    elif not s2:             stage = "needs_stages_2_4"
-    elif s4:                 stage = "complete"
-    else:                    stage = "needs_stages_2_4"
+    if poor_fit:                       stage = "poor_fit"
+    elif not prompt_exists:            stage = "needs_stage1_prompt"
+    elif not has_response:             stage = "waiting_response"
+    elif not s2:                       stage = "needs_stages_2_4"
+    elif ats_no_shortlist and not s3:  stage = "ats_no_shortlist"  # Stage 2 said NO — gated, matches poor_fit's role but one stage later
+    elif s4:                           stage = "complete"
+    else:                              stage = "needs_stages_2_4"
 
     # Shared static files (built once in Step 0)
     SHARED_PROMPT = PROMPTS / "variant_rank_prompt.txt"
@@ -245,6 +264,8 @@ def jd_status(jd_name: str) -> dict:
         "has_response": has_response,
         "poor_fit": poor_fit,
         "fit_verdict": fit_verdict,
+        "ats_no_shortlist": ats_no_shortlist,
+        "s2_score": s2_score,
         "s2": s2, "s3": s3, "s4": s4, "s5": s5,
         "chosen_variant": chosen,
         "prompt_file": prompt_file,
@@ -721,6 +742,117 @@ def run_stage2():
         )
 
     return _sse(cmd.strip())
+
+
+# ── Stage 5/6 — synthesize + human review/merge ─────────────────────────────
+# Same design constraint as the rest of this file: no pipeline logic lives
+# here. Every route below shells out to scripts/synthesize_resume.py (which
+# makes zero LLM calls — see that script's own module docstring) and either
+# streams its stdout (generate) or parses its JSON stdout (manifest/apply).
+# The manifest and apply-by-id contract is documented in that script's
+# argparse help; this file must not reimplement the accept/reject or
+# insertion-placement logic independently of it.
+
+@app.route("/review/<jd>")
+def review_page(jd):
+    """Stage 6 diff-review page: approve/reject each Stage 3/4 candidate
+    change, then merge only the approved ones into the final resume."""
+    return render_template("review.html", jd=jd)
+
+
+@app.route("/api/generate-stage5")
+def generate_stage5():
+    """Stage 5: run the default (hands-off) synthesis policy. Kept available
+    for anyone who wants the old zero-click behavior; the review page below
+    calls --manifest-only / --apply-ids directly instead of this route."""
+    jd = request.args.get("jd", "").strip()
+    force = request.args.get("force", "0") == "1"
+    if not jd:
+        return jsonify({"ok": False, "error": "jd required"}), 400
+    force_flag = " --force" if force else ""
+    return _sse(f"python3 /app/scripts/synthesize_resume.py {jd}{force_flag}")
+
+
+@app.route("/api/stage6-manifest")
+def stage6_manifest():
+    """Return the base resume text + every candidate change (paraphrase or
+    evidence-backed insertion) for the diff-review UI, with a server-computed
+    word-level diff per change so the frontend never has to reimplement
+    diffing. If Stage 2 said NO, `gated` is true and `changes` is empty --
+    the UI shows the reason instead of a review list."""
+    jd = request.args.get("jd", "").strip()
+    if not jd:
+        return jsonify({"ok": False, "error": "jd required"}), 400
+
+    result = subprocess.run(
+        ["python3", "/app/scripts/synthesize_resume.py", jd, "--manifest-only"],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    try:
+        data = json.loads(result.stdout)
+    except Exception:
+        return jsonify({"ok": False, "error": f"could not parse synthesize_resume.py output: {result.stdout or result.stderr}"}), 500
+
+    if not data.get("ok"):
+        return jsonify(data), 404
+
+    for change in data.get("changes", []):
+        change["diff_html"] = _word_diff_html(change.get("before", ""), change.get("after", ""))
+
+    variant_file = OUTPUT_RESUME / f"{data['variant']}.md" if data.get("variant") else None
+    data["base_resume_available"] = bool(variant_file and variant_file.exists())
+    return jsonify(data)
+
+
+@app.route("/api/stage6-apply", methods=["POST"])
+def stage6_apply():
+    """Write output/{JD}_new_resume.md using EXACTLY the change ids the user
+    approved in the review page -- nothing more, nothing less."""
+    data = request.get_json(silent=True) or {}
+    jd = (data.get("jd") or "").strip()
+    accepted_ids = data.get("accepted_ids") or []
+    if not jd:
+        return jsonify({"ok": False, "error": "jd required"}), 400
+    if not isinstance(accepted_ids, list):
+        return jsonify({"ok": False, "error": "accepted_ids must be a list"}), 400
+
+    ids_arg = ",".join(str(i) for i in accepted_ids)
+    result = subprocess.run(
+        ["python3", "/app/scripts/synthesize_resume.py", jd, "--force", "--apply-ids", ids_arg],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    ok = result.returncode == 0
+    return jsonify({
+        "ok": ok,
+        "log": result.stdout if ok else (result.stderr or result.stdout),
+        "resume_path": f"output/{jd}_new_resume.md" if ok else None,
+    }), (200 if ok else 400)
+
+
+def _word_diff_html(before: str, after: str) -> dict:
+    """Server-side word-level diff (Python stdlib only -- no client-side diff
+    library dependency) rendered as two HTML strings with <del>/<ins> spans,
+    for a diffchecker-style before/after view."""
+    import difflib
+    import html as _html
+    before_words = before.split(" ")
+    after_words = after.split(" ")
+    sm = difflib.SequenceMatcher(None, before_words, after_words)
+    before_html, after_html = [], []
+    for tag, i1, i2, j1, j2 in sm.get_opcodes():
+        b_chunk = _html.escape(" ".join(before_words[i1:i2]))
+        a_chunk = _html.escape(" ".join(after_words[j1:j2]))
+        if tag == "equal":
+            before_html.append(b_chunk)
+            after_html.append(a_chunk)
+        elif tag == "delete":
+            before_html.append(f"<del>{b_chunk}</del>")
+        elif tag == "insert":
+            after_html.append(f"<ins>{a_chunk}</ins>")
+        elif tag == "replace":
+            before_html.append(f"<del>{b_chunk}</del>")
+            after_html.append(f"<ins>{a_chunk}</ins>")
+    return {"before": " ".join(before_html), "after": " ".join(after_html)}
 
 
 if __name__ == "__main__":

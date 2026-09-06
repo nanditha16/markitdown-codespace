@@ -341,6 +341,8 @@ Setup:
     parser.add_argument("--dry-run", action="store_true", help="Show what would run without calling the API")
     parser.add_argument("--force", action="store_true", help="Re-run even if response already exists")
     parser.add_argument("--list", action="store_true", help="List JDs that have prompts ready and exit")
+    parser.add_argument("--ignore-gate", action="store_true",
+                         help="Run Stage 3/4 even if Stage 2's verdict is NO (explicit override, mirrors policy_check.py's --override)")
     parser.add_argument("--estimate", action="store_true", help="Show token counts and cost estimate without calling API")
 
     args = parser.parse_args()
@@ -452,7 +454,29 @@ Setup:
 
     for jd_name in jd_list:
         hdr(f"── {jd_name} ──")
+        gated = False
         for stage_key in stages:
+            # ── COST GATE ──
+            # Stage 2's own verdict already says whether this JD is worth
+            # pursuing. Stage 3 (~3x Stage 2's cost) and Stage 4 (~10x,
+            # since it includes the full evidence corpus — see ROADMAP.md's
+            # session cost example) are pure spend if Stage 2 said NO:
+            # paraphrasing or adding evidence-backed bullets cannot fix a
+            # structural mismatch a Shortlist:NO verdict already flagged.
+            # This check only fires when Stage 2 ran *in this same
+            # invocation* (or its response already exists on disk) and
+            # only blocks stages 3/4 — Stage 2 itself always runs, since
+            # its verdict is what the gate depends on.
+            if stage_key in ("3", "4") and not args.ignore_gate:
+                prep_dir = resolve_prep_dir(jd_name)
+                s2_resp = prep_dir / "resp" / STAGES["2"]["response_name"]
+                if s2_resp.exists():
+                    verdict_m = re.search(r"\*\*Shortlist:\*\*\s*(YES|NO|MAYBE)", s2_resp.read_text(errors="replace"), re.IGNORECASE)
+                    if verdict_m and verdict_m.group(1).upper() == "NO":
+                        warn(f"  {jd_name} Stage {stage_key}: SKIPPED — Stage 2 verdict is NO "
+                             f"(cost gate; re-run with --ignore-gate to force this stage anyway)")
+                        gated = True
+                        continue
             total += 1
             # Rate limit: 15 req/min on free tier → wait 5s between calls
             if not args.dry_run and total > 1:
@@ -460,6 +484,9 @@ Setup:
             success = run_stage(jd_name, stage_key, api_key, args.dry_run, args.force)
             if success:
                 succeeded += 1
+        if gated:
+            info(f"  {jd_name}: Stage 3/4 spend avoided by the cost gate. Run "
+                 f"'python3 scripts/synthesize_resume.py {jd_name}' to see why Stage 2 said NO.")
         print()
 
     # Summary
