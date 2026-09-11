@@ -2,74 +2,137 @@
 #
 # cover_letter.sh — Build a facts-only cover letter generation prompt.
 #
-# Given a job description (text file or inline string) and a converted
-# resume markdown file, this:
-#   1. Runs two-stage semantic retrieval to pull the resume sections most
-#      relevant to the JD (same retrieval used by ats_optimize.sh)
-#   2. Wraps those sections in a structured prompt that produces a
-#      ready-to-send cover letter, under a strict no-fabrication constraint
-#      — a fabricated claim in a cover letter is worse than one in a resume
-#      bullet, since it's the first thing a human reads and the easiest to
-#      probe in an interview.
-#
-# This is prompt-only: paste cover_letter_prompt.txt into Claude.ai (or any
-# LLM) to get the actual letter. Nothing in this script calls an API.
-#
-# Usage:
+# TWO CALLING MODES:
+#   ./scripts/cover_letter.sh JD2
+#       "JD-name mode" — auto-resolves everything: JD text, the FINAL
+#       reviewed/trimmed resume (not the raw variant), and a short excerpt
+#       of Stage 2's own Critical Gaps. This is what the web UI's cover
+#       letter button calls.
 #   ./scripts/cover_letter.sh "path/to/jd.txt" "output/Resume.md"
-#   ./scripts/cover_letter.sh "Senior TPM role requiring..." "output/Resume.md"
+#       Original two-argument mode, unchanged, for existing manual use and
+#       batch_prep.sh --cover's call site.
+#
+# WHY THIS DROPPED THE SEMANTIC-RETRIEVAL STEP THE OLD VERSION HAD
+# The old version pulled "top-matching sections" from chunks/ via
+# retrieve.py. Two problems with that for a cover letter specifically:
+#   1. chunks/ reflects whatever variant smart_chunk.sh last processed --
+#      NOT the Stage 5/6/7-trimmed final resume. A bullet Stage 7 deleted
+#      could still get retrieved and referenced in the letter. That's a
+#      resume/cover-letter alignment bug waiting to happen, not a
+#      hypothetical one.
+#   2. The final resume is already ~2 pages by design (the whole point of
+#      Stage 5-7) -- roughly 1,500-2,000 tokens. Retrieval's job was
+#      avoiding sending an entire multi-variant resume BANK; there's no
+#      bank being sent here, just one already-curated resume. Sending it
+#      in full costs about the same as retrieval would have and removes
+#      an entire moving part (embedding model load, chunk staleness) that
+#      could silently drift from what's actually being submitted.
+#
+# WHY A SHORT EXCERPT OF STAGE 2'S CRITICAL GAPS GETS INJECTED
+# Stage 2 already did the work of identifying what's missing for this
+# specific JD -- re-deriving that from scratch here would cost tokens for
+# an answer that already exists on disk. A few lines of "these are known
+# gaps, address honestly or omit" costs almost nothing and is exactly the
+# job-specific signal a generic cover-letter prompt doesn't have.
+#
+# STILL PROMPT-ONLY: this writes prompts/{JD}_PREP/prom/5_cover_letter_prompt.txt
+# (JD-name mode) or prompts/cover_letter_prompt.txt (legacy mode). Nothing
+# in this script calls an API -- see scripts/claude_execute.py --stages cover
+# for the automated-execution path, which is explicitly override-gated
+# (policy/execution_policy.json still classifies this stage "untested").
 #
 set -e
 
-JD_INPUT="$1"
-RESUME_FILE="$2"
+resolve_jd_text() {
+  local jd_name="$1"
+  if [ -f "output/${jd_name}.md" ]; then
+    cat "output/${jd_name}.md"
+  elif [ -f "output/_archive/${jd_name}.md" ]; then
+    cat "output/_archive/${jd_name}.md"
+  else
+    echo "❌ No JD text found at output/${jd_name}.md or output/_archive/${jd_name}.md" >&2
+    exit 1
+  fi
+}
 
-if [ -z "$JD_INPUT" ] || [ -z "$RESUME_FILE" ]; then
-  echo "❌ Usage: ./scripts/cover_letter.sh <jd_file_or_text> <resume_markdown_path>"
-  exit 1
-fi
+resolve_resume_file() {
+  # Deliberately does NOT fall back to the raw variant in output/resume/ --
+  # that file has never been through Stage 5/6 review, and silently using
+  # it here would violate the whole point of aligning the cover letter to
+  # the resume actually being submitted. Consistent with how the PDF and
+  # Trim buttons already refuse rather than guess when no merged resume
+  # exists yet.
+  local jd_name="$1"
+  if [ -f "output/review_resume/${jd_name}_new_resume.md" ]; then
+    echo "output/review_resume/${jd_name}_new_resume.md"
+  elif [ -f "output/${jd_name}_new_resume.md" ]; then
+    echo "output/${jd_name}_new_resume.md"
+  else
+    echo ""
+  fi
+}
 
-# ✅ Accept either a path to a JD file or raw JD text on the command line.
-# Same guard as ats_optimize.sh: a path-like argument that doesn't exist
-# fails loudly instead of silently being treated as literal JD text.
-if [ -f "$JD_INPUT" ]; then
-  JD_TEXT=$(cat "$JD_INPUT")
-elif [[ "$JD_INPUT" == *"/"* || "$JD_INPUT" == *.txt || "$JD_INPUT" == *.md ]]; then
-  echo "❌ '$JD_INPUT' looks like a file path but doesn't exist."
-  echo "   If this JD was routed through input/other/, check for it at"
-  echo "   output/$(basename "${JD_INPUT%.*}").md (router converts to .md)."
-  exit 1
+extract_critical_gaps() {
+  local jd_name="$1"
+  local resp="prompts/${jd_name}_PREP/resp/ats_prompt_response.txt"
+  [ -f "$resp" ] || return 0
+  awk 'tolower($0) ~ /critical gaps/{flag=1; next} /^---/{if(flag) exit} flag' "$resp" | head -20
+}
+
+JD_NAME_MODE=0
+if [ $# -eq 1 ] && [[ "$1" =~ ^JD[0-9]+$ ]]; then
+  JD_NAME_MODE=1
+  JD_NAME="$1"
+  JD_TEXT=$(resolve_jd_text "$JD_NAME")
+  RESUME_FILE=$(resolve_resume_file "$JD_NAME")
+  if [ -z "$RESUME_FILE" ]; then
+    echo "❌ No resume found for $JD_NAME (checked output/review_resume/, output/, and the chosen variant)."
+    echo "   Run Review & merge (Stage 5/6) first."
+    exit 1
+  fi
+  CRITICAL_GAPS=$(extract_critical_gaps "$JD_NAME")
+  OUTPUT_DIR="prompts/${JD_NAME}_PREP/prom"
+  mkdir -p "$OUTPUT_DIR"
+  OUTPUT_FILE="${OUTPUT_DIR}/5_cover_letter_prompt.txt"
 else
-  JD_TEXT="$JD_INPUT"
+  JD_INPUT="$1"
+  RESUME_FILE="$2"
+  if [ -z "$JD_INPUT" ] || [ -z "$RESUME_FILE" ]; then
+    echo "❌ Usage: ./scripts/cover_letter.sh <JDx | jd_file_or_text> [resume_markdown_path]"
+    exit 1
+  fi
+  if [ -f "$JD_INPUT" ]; then
+    JD_TEXT=$(cat "$JD_INPUT")
+  elif [[ "$JD_INPUT" == *"/"* || "$JD_INPUT" == *.txt || "$JD_INPUT" == *.md ]]; then
+    echo "❌ '$JD_INPUT' looks like a file path but doesn't exist."
+    exit 1
+  else
+    JD_TEXT="$JD_INPUT"
+  fi
+  if [ ! -f "$RESUME_FILE" ]; then
+    echo "❌ Resume file not found: $RESUME_FILE"
+    exit 1
+  fi
+  CRITICAL_GAPS=""
+  OUTPUT_FILE="prompts/cover_letter_prompt.txt"
+  mkdir -p prompts
 fi
 
-if [ ! -f "$RESUME_FILE" ]; then
-  echo "❌ Resume file not found: $RESUME_FILE"
-  exit 1
+RESUME_TEXT=$(cat "$RESUME_FILE")
+
+GAPS_BLOCK=""
+if [ -n "$CRITICAL_GAPS" ]; then
+  GAPS_BLOCK="
+
+# KNOWN GAPS (from Stage 2's ATS analysis of this exact resume against this exact JD)
+Address these honestly if a natural opening exists, or omit them entirely.
+Never write around them in a way that implies the gap is closed -- that's
+exactly the fabrication risk the constraints above exist to prevent.
+
+${CRITICAL_GAPS}"
 fi
 
-echo "🧠 Retrieving resume sections relevant to this JD..."
-
-RETRIEVAL_START=$(date +%s)
-if [ -f "/.dockerenv" ]; then
-  python3 /app/scripts/retrieve.py "$JD_TEXT"
-else
-  docker exec markitdown python /app/scripts/retrieve.py "$JD_TEXT"
-fi
-RETRIEVAL_END=$(date +%s)
-echo "⏱️  Retrieval took $((RETRIEVAL_END - RETRIEVAL_START))s"
-
-if [ ! -f "prompts/semantic_prompt.txt" ]; then
-  echo "❌ Retrieval failed — prompts/semantic_prompt.txt not produced"
-  exit 1
-fi
-
-RELEVANT_SECTIONS=$(awk '/RELEVANT CONTEXT:/{flag=1; next} flag' prompts/semantic_prompt.txt)
-
-mkdir -p prompts
-OUTPUT_FILE="prompts/cover_letter_prompt.txt"
-
-cat > "$OUTPUT_FILE" << EOF
+cat > "$OUTPUT_FILE" << INNER_EOF
 # Role
 You are an executive career writer who writes cover letters for senior
 technical and leadership candidates (Engineering Manager, Director, Staff/
@@ -81,15 +144,15 @@ not a keyword-stuffed restatement of the resume.
 # Constraints — DO NOT BREAK THESE
 Never:
 - Invent experience, employers, titles, metrics, tools, or outcomes not
-  present in the resume sections below. A cover letter claim is easier to
-  probe in an interview than a resume bullet — fabrication here is higher
-  risk, not lower.
+  present in the resume below. A cover letter claim is easier to probe in
+  an interview than a resume bullet — fabrication here is higher risk,
+  not lower.
 - Claim direct experience in a domain the JD requires if the resume
-  sections below don't support it. Name the closest real, adjacent
-  experience instead and let it stand on its own merit.
+  below doesn't support it. Name the closest real, adjacent experience
+  instead and let it stand on its own merit.
 - Use generic openers like "I am excited to apply for..." or "I believe I
   would be a great fit..." without immediately backing the claim with a
-  specific, verifiable fact from the resume sections.
+  specific, verifiable fact from the resume.
 - Restate the resume's bullet points verbatim in paragraph form. Select 2-3
   of the most JD-relevant facts and develop them with context the resume
   doesn't have room for (why it mattered, what changed because of it).
@@ -98,7 +161,7 @@ Always:
 - Open with something specific to this company/role drawn from the JD
   text below (a product, a stated priority, a named team) — not a
   generic statement that could apply to any employer.
-- Preserve all numbers exactly as stated in the resume sections (years,
+- Preserve all numbers exactly as stated in the resume (years,
   percentages, dollar amounts, team sizes).
 - Keep it to 3-4 short paragraphs, under 350 words total. A longer letter
   signals the writer didn't prioritize.
@@ -108,6 +171,7 @@ Always:
   paper over it in the letter — either omit it or address it honestly in
   one clause (e.g. "while my background is in X rather than Y, the
   underlying skill of Z transfers directly").
+${GAPS_BLOCK}
 
 # Output Format
 Write the letter only — no preamble, no explanation of choices, no
@@ -127,20 +191,22 @@ ${JD_TEXT}
 
 ---
 
-# RESUME SECTIONS RETRIEVED AS MOST RELEVANT (ranked by semantic similarity)
-NOTE: these are the top-matching excerpts only, not the full resume. If the
-letter needs a fact likely covered elsewhere (e.g. full work history,
-education, certifications), request the complete output/*.md file instead.
-
-${RELEVANT_SECTIONS}
+# FINALIZED RESUME (this is the exact version being submitted — reference only what's here)
+${RESUME_TEXT}
 
 ---
 Now write the cover letter following the constraints and output format
 above.
-EOF
+INNER_EOF
 
 echo "✅ Cover letter prompt saved to $OUTPUT_FILE"
+if [ "$JD_NAME_MODE" = "1" ]; then
+  echo "   Resume used: $RESUME_FILE"
+  [ -n "$CRITICAL_GAPS" ] && echo "   Included Stage 2's Critical Gaps for this exact JD/resume pair."
+fi
 echo ""
-echo "👉 Upload $OUTPUT_FILE directly to Claude.ai as a file attachment."
+echo "👉 Upload $OUTPUT_FILE directly to Claude.ai as a file attachment,"
+echo "   or run: python3 scripts/claude_execute.py --jd ${JD_NAME:-<JD>} --stages cover --ignore-gate"
+echo "   (cover letter automation is explicit-override-only — see policy/execution_policy.json)"
 echo "   (Use file upload, not copy/paste — clipboard round-trips have"
 echo "   been shown to corrupt non-ASCII characters like em-dashes.)"

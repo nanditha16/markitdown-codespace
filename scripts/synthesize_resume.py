@@ -81,9 +81,9 @@ OUTPUT = ROOT / "output"
 REVIEW_RESUME_DIR = OUTPUT / "review_resume"
 
 KNOWN_SECTIONS = [
-    "SUMMARY", "CORE COMPETENCIES", "TECHNICAL STACK", "CAREER HIGHLIGHTS",
-    "PROFESSIONAL EXPERIENCE", "AI PLATFORM PROJECT", "AI ENABLED PROJECT",
-    "EDUCATION", "CERTIFICATIONS",
+    "SUMMARY", "CORE COMPETENCIES", "TECHNICAL STACK", "TOOLS & METHODS",
+    "CAREER HIGHLIGHTS", "PROFESSIONAL EXPERIENCE", "AI PLATFORM PROJECT",
+    "AI ENABLED PROJECT", "EDUCATION", "CERTIFICATIONS",
 ]
 
 
@@ -251,11 +251,19 @@ def parse_stage2_suggestions(text: str):
 # drifts run to run even with an unchanged prompt template.
 FILE_HEADING_RE = re.compile(r"^#{2,3}\s*FILE:\s*(?P<file>.+?)\s*$", re.MULTILINE)
 EDIT_TRIPLE_RE = re.compile(
-    r"\*\*Current:\*\*\s*\n?\s*\"?(?P<current>.*?)\"?\s*\n\s*\n"
-    r"\*\*Paraphrase:\*\*\s*\n?\s*\"?(?P<paraphrase>.*?)\"?\s*\n\s*\n"
+    r"\*\*Current:\*\*\s*\n?\s*\"?(?P<current>.*?)\"?\s*\n+"
+    r"\*\*Paraphrase:\*\*\s*\n?\s*\"?(?P<paraphrase>.*?)\"?\s*\n+"
     r"\*\*Why:\*\*\s*\n?\s*(?P<why>.*?)(?=\n---|\n#{2,3}|\Z)",
     re.DOTALL,
 )
+# NOTE: \n+ (one or more newlines) between fields, not \s*\n\s*\n (a
+# mandatory blank line). A real run put Current/Paraphrase/Why on three
+# consecutive lines with NO blank line between them -- the previous
+# blank-line-mandatory pattern matched zero edits against a response that
+# had 12+ well-formed, correctly-quoted edits sitting right there. \n+
+# matches a single newline OR a blank line, so both this run's tighter
+# formatting and every earlier run's blank-line-separated formatting work
+# through the same pattern.
 # NOTE: quotes around Current/Paraphrase text are now OPTIONAL (\"?, not \").
 # A real run dropped the "..." quoting convention entirely -- "**Current:**"
 # followed by a markdown line-break then several lines of raw unquoted text

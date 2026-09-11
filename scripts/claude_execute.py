@@ -80,6 +80,30 @@ STAGES = {
         "trust": "authoritative",
         "policy": "manual_only (overridden — Gemini Flash, not 8B local model)",
     },
+    "cover": {
+        "prompt_names": ["5_cover_letter_prompt.txt", "cover_letter_prompt.txt"],
+        "response_name": "cover_letter_response.txt",
+        "label": "Cover Letter",
+        "trust": "untested",
+        # Same override pattern as Stage 3/4, NOT a policy downgrade -- see
+        # policy/execution_policy.json's own "cover_letter" entry, which
+        # still reads execution_policy: "untested" and
+        # local_execution_allowed: false. Running this via --stages cover
+        # is a per-run user decision (--ignore-gate required, same flag
+        # Stage 3/4 already use), not a default the tool picks for you.
+        "policy": "untested (overridden — Claude Sonnet via API, explicit user choice, not a default)",
+    },
+    "rescore": {
+        "prompt_names": ["9_ats_rescore_prompt.txt"],
+        "response_name": "ats_rescore_response.txt",
+        "label": "Stage 9 — Final ATS re-score",
+        "trust": "advisory",
+        # Same policy as Stage 2 itself -- this is the identical task
+        # (ats_optimize.sh, unchanged) pointed at the finalized resume
+        # instead of the original variant, not a new task shape needing
+        # its own evidence basis.
+        "policy": "local_allowed (same evidence basis as Stage 2 — identical prompt, different resume content)",
+    },
 }
 
 
@@ -467,7 +491,7 @@ Setup:
             # invocation* (or its response already exists on disk) and
             # only blocks stages 3/4 — Stage 2 itself always runs, since
             # its verdict is what the gate depends on.
-            if stage_key in ("3", "4") and not args.ignore_gate:
+            if stage_key in ("3", "4", "cover") and not args.ignore_gate:
                 prep_dir = resolve_prep_dir(jd_name)
                 s2_resp = prep_dir / "resp" / STAGES["2"]["response_name"]
                 if s2_resp.exists():
@@ -485,7 +509,7 @@ Setup:
             if success:
                 succeeded += 1
         if gated:
-            info(f"  {jd_name}: Stage 3/4 spend avoided by the cost gate. Run "
+            info(f"  {jd_name}: Stage 3/4/cover spend avoided by the cost gate. Run "
                  f"'python3 scripts/synthesize_resume.py {jd_name}' to see why Stage 2 said NO.")
         print()
 

@@ -110,19 +110,31 @@ def score_against_jd(text: str, jd_keywords: dict) -> float:
 # so a deletion can remove the exact original lines (including any wrapped
 # continuation lines merged into one logical bullet during scoring). ───────
 def parse_experience_roles(resume_text: str):
+    """Scans PROFESSIONAL EXPERIENCE (split into one group per role header)
+    AND CAREER HIGHLIGHTS (treated as a single group -- it has no role
+    headers to split on, just a flat bulleted list). CAREER HIGHLIGHTS was
+    missing entirely until a real resume showed why that's a problem: Stage
+    4 inserted 2 new bullets there, pushing it to 9 bullets -- the single
+    most over-cap section in the whole resume -- while every Professional
+    Experience role sat at or under 5. The trim page correctly reported
+    "0 roles over cap" by its own logic and still missed the actual
+    bloat, because the section that needed trimming wasn't a place this
+    function ever looked."""
     lines = resume_text.split("\n")
-    roles, current, in_experience = [], None, False
+    roles, current, active_section = [], None, None
     for i, raw in enumerate(lines):
         s = raw.strip()
         if s in KNOWN_SECTIONS:
             if current:
                 roles.append(current)
                 current = None
-            in_experience = (s == "PROFESSIONAL EXPERIENCE")
+            active_section = s if s in ("PROFESSIONAL EXPERIENCE", "CAREER HIGHLIGHTS") else None
+            if active_section == "CAREER HIGHLIGHTS":
+                current = {"role": "CAREER HIGHLIGHTS", "bullets": []}
             continue
-        if not in_experience:
+        if active_section is None:
             continue
-        if is_role_header(s):
+        if active_section == "PROFESSIONAL EXPERIENCE" and is_role_header(s):
             if current:
                 roles.append(current)
             current = {"role": s, "bullets": []}

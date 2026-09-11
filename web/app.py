@@ -187,6 +187,19 @@ def jd_status(jd_name: str) -> dict:
                 s2_score = int(sm.group(1))
             break
 
+    # Stage 9 -- the SAME Stage 2 evaluation re-run against the finalized,
+    # Stage 5/6/7-edited resume, so the "before" score above (from the
+    # original, pre-edit resume) has something to actually compare against.
+    # Without this, the score shown on the Review Board is a stale snapshot
+    # that never reflects anything Stage 5/6/7 changed.
+    s2_score_after = None
+    rescore_resp = prep_dir / "resp" / "ats_rescore_response.txt"
+    if rescore_resp.exists():
+        rescore_text = rescore_resp.read_text(errors="replace")
+        sm2 = re.search(r"\*\*ATS Score:\*\*\s*(\d+)\s*/\s*100", rescore_text)
+        if sm2:
+            s2_score_after = int(sm2.group(1))
+
     s2 = _has_prompt(prep_dir, ["2_ats_prompt.txt", "ats_prompt.txt"])
     s3 = _has_prompt(prep_dir, ["3_ats_recommend_prompt.txt", "ats_recommend_prompt.txt"])
     s4 = _has_prompt(prep_dir, ["4_ats_evidence_gap_prompt.txt", "ats_evidence_gap_prompt.txt"])
@@ -247,6 +260,8 @@ def jd_status(jd_name: str) -> dict:
         ("s2", ["ats_prompt_response.txt"]),
         ("s3", ["ats_recommend_prompt_response.txt"]),
         ("s4", ["ats_evidence_gap_response.txt"]),
+        ("s8", ["cover_letter_response.txt"]),
+        ("s9", ["ats_rescore_response.txt"]),
     ]:
         for n in names:
             for base in [analysis_dir, prep_dir / "resp"]:
@@ -267,6 +282,7 @@ def jd_status(jd_name: str) -> dict:
         "fit_verdict": fit_verdict,
         "ats_no_shortlist": ats_no_shortlist,
         "s2_score": s2_score,
+        "s2_score_after": s2_score_after,
         "s2": s2, "s3": s3, "s4": s4, "s5": s5,
         "chosen_variant": chosen,
         "prompt_file": prompt_file,
@@ -918,6 +934,121 @@ def trim_apply():
         "ok": ok,
         "log": result.stdout if ok else (result.stderr or result.stdout),
         "deleted": ids_arg.count(",") + 1 if ok else 0,
+    }), (200 if ok else 400)
+
+
+# ── Cover letter (Stage 8) ───────────────────────────────────────────────────
+# Generation is deterministic prompt-building (no LLM, instant) -- exactly
+# like every prompt-building step elsewhere in this app. Execution calls the
+# Claude API and is explicitly override-gated: policy/execution_policy.json's
+# own "cover_letter" entry still reads execution_policy: "untested" and
+# local_execution_allowed: false. --ignore-gate here is not this app
+# bypassing its own policy -- it's the same per-run user decision Stage 3/4
+# already require, with the button click itself serving as the explicit
+# confirmation step (mirrors the non-interactive-invocation convention
+# already used for Stage 2-4's web-triggered API calls).
+
+@app.route("/api/generate-cover-letter-prompt")
+def generate_cover_letter_prompt():
+    jd = request.args.get("jd", "").strip()
+    if not jd:
+        return jsonify({"ok": False, "error": "jd required"}), 400
+    result = subprocess.run(
+        ["bash", "/app/scripts/cover_letter.sh", jd],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    ok = result.returncode == 0
+    return jsonify({
+        "ok": ok,
+        "log": result.stdout if ok else (result.stderr or result.stdout),
+    }), (200 if ok else 400)
+
+
+@app.route("/api/generate-cover-letter")
+def generate_cover_letter():
+    """Build the prompt (free, instant), call the Claude API for the actual
+    letter (--ignore-gate — the button click is the user's explicit
+    override decision), then convert to PDF via md_to_pdf.py's generic
+    path. Plain JSON, not SSE, to match this page's other action buttons
+    (Convert to PDF, Delete trims) rather than introduce a live-log pattern
+    this page doesn't otherwise have — the tradeoff is no incremental
+    progress during the ~20-90s API call, only a final result."""
+    jd = request.args.get("jd", "").strip()
+    if not jd:
+        return jsonify({"ok": False, "error": "jd required"}), 400
+
+    strip_header = (
+        f"python3 -c \""
+        f"import re; "
+        f"t = open('prompts/{jd}_PREP/resp/cover_letter_response.txt').read(); "
+        f"t = re.sub(r'^(<!--.*-->\\n)+\\n*', '', t); "
+        f"open('output/review_resume/{jd}_cover_letter.md', 'w').write(t)\""
+    )
+    cmd = (
+        f"bash /app/scripts/cover_letter.sh {jd} && "
+        f"python3 /app/scripts/claude_execute.py --jd {jd} --stages cover --ignore-gate --force && "
+        f"{strip_header} && "
+        f"python3 /app/scripts/md_to_pdf.py "
+        f"output/review_resume/{jd}_cover_letter.md "
+        f"output/review_resume/{jd}_cover_letter.pdf"
+    )
+    try:
+        result = subprocess.run(
+            ["bash", "-c", cmd], capture_output=True, text=True, cwd=str(ROOT), timeout=180,
+        )
+    except subprocess.TimeoutExpired:
+        return jsonify({"ok": False, "error": "Timed out after 180s waiting on the Claude API call."}), 504
+
+    ok = result.returncode == 0
+    return jsonify({
+        "ok": ok,
+        "log": (result.stdout + result.stderr).strip() if ok else (result.stderr or result.stdout),
+        "md_path": f"output/review_resume/{jd}_cover_letter.md" if ok else None,
+        "pdf_path": f"output/review_resume/{jd}_cover_letter.pdf" if ok else None,
+    }), (200 if ok else 400)
+
+
+# ── Final ATS re-score (Stage 9) ─────────────────────────────────────────────
+# Re-runs the exact Stage 2 evaluation against the Stage 5/6/7-finalized
+# resume, so "Stage 2: 72/100" on the Review Board isn't a permanently
+# stale snapshot from before any editing happened. Same policy/trust as
+# Stage 2 itself (advisory, local_allowed) -- see rescore_resume.sh's own
+# docstring for why this isn't a new task shape needing new evidence.
+
+@app.route("/api/rescore-resume")
+def rescore_resume():
+    """One call, two steps: build the prompt (retrieval + templating, no
+    LLM, same as any other prompt-building call in this app), then call
+    the Claude API for the actual score. Plain JSON, matching this page's
+    other action buttons."""
+    jd = request.args.get("jd", "").strip()
+    if not jd:
+        return jsonify({"ok": False, "error": "jd required"}), 400
+
+    cmd = (
+        f"bash /app/scripts/rescore_resume.sh {jd} && "
+        f"python3 /app/scripts/claude_execute.py --jd {jd} --stages rescore --force"
+    )
+    try:
+        result = subprocess.run(
+            ["bash", "-c", cmd], capture_output=True, text=True, cwd=str(ROOT), timeout=180,
+        )
+    except subprocess.TimeoutExpired:
+        return jsonify({"ok": False, "error": "Timed out after 180s waiting on the Claude API call."}), 504
+
+    ok = result.returncode == 0
+    score_after = None
+    if ok:
+        resp_path = PROMPTS / f"{jd}_PREP" / "resp" / "ats_rescore_response.txt"
+        if resp_path.exists():
+            m = re.search(r"\*\*ATS Score:\*\*\s*(\d+)\s*/\s*100", resp_path.read_text(errors="replace"))
+            if m:
+                score_after = int(m.group(1))
+
+    return jsonify({
+        "ok": ok,
+        "log": (result.stdout + result.stderr).strip() if ok else (result.stderr or result.stdout),
+        "score_after": score_after,
     }), (200 if ok else 400)
 
 
