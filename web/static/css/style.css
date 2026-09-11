@@ -236,6 +236,10 @@ body {
 .btn--primary:disabled { background: var(--border); color: var(--text-dim); cursor: not-allowed; }
 .btn--ghost { background: var(--surface-2); color: var(--text); border: 1px solid var(--border-light); }
 .btn--ghost:hover { background: var(--border); }
+.btn--ghost:disabled {
+  opacity: 0.4; cursor: not-allowed; background: var(--surface-2);
+}
+.btn--ghost:disabled:hover { background: var(--surface-2); }
 .btn--next { background: var(--surface-2); color: var(--accent);
              border: 1px solid var(--accent-dim); margin-left: auto; }
 .btn--next:hover { background: var(--accent-dim); }

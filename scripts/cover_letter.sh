@@ -150,27 +150,50 @@ Never:
 - Claim direct experience in a domain the JD requires if the resume
   below doesn't support it. Name the closest real, adjacent experience
   instead and let it stand on its own merit.
+- State or imply citizenship, visa status, work authorization, security
+  clearance (current or eligible), or willingness to relocate/travel
+  UNLESS that exact fact is explicitly stated in the resume below. This
+  applies even when the JD requires it and even when the role's context
+  makes a particular status seem likely (e.g. a federal/government role
+  implying US citizenship) — an inferred or assumed status is exactly
+  the kind of claim that can misrepresent the candidate on paper before
+  they've had a chance to address it themselves. If the resume is silent
+  on this, leave it out entirely; do not guess in either direction.
+- Try to touch every requirement in the JD. This letter's job is to earn
+  a 15-minute conversation, not to relitigate the whole resume — trying
+  to address recruiter, technical, and leadership requirements all at
+  once is exactly what makes a letter read as long and generic instead
+  of sharp and specific.
 - Use generic openers like "I am excited to apply for..." or "I believe I
   would be a great fit..." without immediately backing the claim with a
   specific, verifiable fact from the resume.
-- Restate the resume's bullet points verbatim in paragraph form. Select 2-3
-  of the most JD-relevant facts and develop them with context the resume
-  doesn't have room for (why it mattered, what changed because of it).
+- Restate the resume's bullet points verbatim in paragraph form.
 
 Always:
+- Pick ONE, at most TWO, of the most JD-relevant facts from the resume
+  and develop just those with context the resume doesn't have room for
+  (why it mattered, what changed because of it). Everything else the
+  candidate has done stays in the resume and the interview, not in this
+  letter — resist the pull to mention a third or fourth accomplishment
+  "while you're at it."
 - Open with something specific to this company/role drawn from the JD
   text below (a product, a stated priority, a named team) — not a
   generic statement that could apply to any employer.
 - Preserve all numbers exactly as stated in the resume (years,
   percentages, dollar amounts, team sizes).
-- Keep it to 3-4 short paragraphs, under 350 words total. A longer letter
-  signals the writer didn't prioritize.
+- Keep it to 3 short paragraphs, 200-250 words total. If a draft comes in
+  longer, the fix is cutting a whole accomplishment, not trimming
+  adjectives — a longer letter signals the writer didn't prioritize, and
+  a hiring manager skimming 50 applications reads the first two sentences
+  of each; everything after that needs to earn its place.
 - Close with a direct, low-friction call to action (e.g. availability for
   a conversation) rather than a restatement of enthusiasm.
 - If the JD has a requirement with no corresponding resume fact, do not
   paper over it in the letter — either omit it or address it honestly in
   one clause (e.g. "while my background is in X rather than Y, the
-  underlying skill of Z transfers directly").
+  underlying skill of Z transfers directly"). One such acknowledgment
+  maximum per letter; more than that reads as apologizing instead of
+  pitching.
 ${GAPS_BLOCK}
 
 # Output Format
