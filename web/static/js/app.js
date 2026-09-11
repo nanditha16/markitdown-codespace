@@ -8,6 +8,13 @@
 
 let currentStep = 0;
 let statusData  = null;
+// Survives renderReviewBoard() rebuilding the card DOM -- rescoreResume()
+// calls loadStatus() on success to refresh the before->after score line,
+// which replaces this card's HTML entirely. Without caching the log here,
+// the log text you just asked to see would be wiped the instant it
+// appeared. Keyed "<action>-<jdName>" so different actions on the same
+// JD don't collide.
+const lastActionLog = {};
 let modalCtx    = {};
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
@@ -573,6 +580,13 @@ function renderReviewBoard() {
 function reviewBoardCard(j, group) {
   const cost = j.costs ? Object.values(j.costs).filter(c => c != null).reduce((a, b) => a + b, 0) : 0;
   const scoreLine = j.s2_score != null ? `${j.s2_score}/100` : "—";
+  const scoreAfterLine = (() => {
+    if (j.s2_score_after == null) return "";
+    const delta = j.s2_score != null ? j.s2_score_after - j.s2_score : null;
+    const deltaClass = delta == null ? "" : delta > 0 ? "score-delta--up" : delta < 0 ? "score-delta--down" : "score-delta--flat";
+    const deltaText = delta == null ? "" : ` (${delta > 0 ? "+" : ""}${delta})`;
+    return ` → <strong class="${deltaClass}">${j.s2_score_after}/100</strong><span class="${deltaClass}">${deltaText}</span> final`;
+  })();
 
   let action;
   if (group === "ready") {
@@ -590,7 +604,16 @@ function reviewBoardCard(j, group) {
         <button id="pdfBtn-${j.name}" class="btn btn--ghost btn--sm" disabled onclick="convertToPdf('${j.name}')">
           Convert md to pdf resume
         </button>
-        <div id="pdfStatus-${j.name}" class="pdf-status"></div>
+        <div id="pdfStatus-${j.name}" class="${cachedStatus(`pdf-${j.name}`).className}">${cachedStatus(`pdf-${j.name}`).html}</div>
+        <button id="coverBtn-${j.name}" class="btn btn--ghost btn--sm" disabled onclick="generateCoverLetter('${j.name}')">
+          Generate cover letter (Stage 8)
+        </button>
+        <div class="cover-warning">⚠️ Untested model tier — read before sending, same as any Claude.ai draft.</div>
+        <div id="coverStatus-${j.name}" class="${cachedStatus(`cover-${j.name}`).className}">${cachedStatus(`cover-${j.name}`).html}</div>
+        <button id="rescoreBtn-${j.name}" class="btn btn--ghost btn--sm" disabled onclick="rescoreResume('${j.name}')">
+          Get final ATS score (Stage 9)
+        </button>
+        <div id="rescoreStatus-${j.name}" class="${cachedStatus(`rescore-${j.name}`).className}">${cachedStatus(`rescore-${j.name}`).html}</div>
       </div>`;
   } else if (group === "gated") {
     action = `<a class="btn btn--ghost btn--sm" href="/review/${j.name}">View reason</a>`;
@@ -613,7 +636,7 @@ function reviewBoardCard(j, group) {
         <span class="jd-card-variant">${j.chosen_variant || ""}</span>
       </div>
       <div class="review-card-meta">
-        <span>Stage 2: <strong>${scoreLine}</strong></span>
+        <span>Stage 2: <strong>${scoreLine}</strong>${scoreAfterLine}</span>
         <span>~$${cost.toFixed(4)} so far</span>
       </div>
       <div class="review-card-action">${action}</div>
@@ -624,8 +647,31 @@ function togglePdfButton(jdName) {
   const chk = document.getElementById(`pdfReady-${jdName}`);
   const btn = document.getElementById(`pdfBtn-${jdName}`);
   const trimLink = document.getElementById(`trimBtn-${jdName}`);
+  const coverBtn = document.getElementById(`coverBtn-${jdName}`);
+  const rescoreBtn = document.getElementById(`rescoreBtn-${jdName}`);
   if (btn && chk) btn.disabled = !chk.checked;
   if (trimLink && chk) trimLink.classList.toggle("btn--disabled-link", !chk.checked);
+  if (coverBtn && chk) coverBtn.disabled = !chk.checked;
+  if (rescoreBtn && chk) rescoreBtn.disabled = !chk.checked;
+}
+
+// Shared by convertToPdf / generateCoverLetter / rescoreResume so the full
+// backend log is always visible, not silently dropped on success (which is
+// exactly what was happening for the rescore button until this fix) or
+// truncated into an unreadable single line on failure.
+function cachedStatus(cacheKey) {
+  const cached = lastActionLog[cacheKey];
+  return cached ? cached : { className: "pdf-status", html: "" };
+}
+
+function renderLogStatus(statusEl, ok, headline, log, cacheKey) {
+  if (!statusEl) return;
+  statusEl.className = `pdf-status ${ok ? "pdf-status--ok" : "pdf-status--err"}`;
+  const icon = ok ? "✅" : "❌";
+  const logBlock = log ? `<pre class="action-log">${escHtml(log)}</pre>` : "";
+  const html = `${icon} ${escHtml(headline)}${logBlock}`;
+  statusEl.innerHTML = html;
+  if (cacheKey) lastActionLog[cacheKey] = { className: statusEl.className, html };
 }
 
 async function convertToPdf(jdName) {
@@ -634,23 +680,17 @@ async function convertToPdf(jdName) {
   const chk = document.getElementById(`pdfReady-${jdName}`);
   btn.disabled = true;
   btn.textContent = "Converting…";
-  if (statusEl) { statusEl.textContent = ""; statusEl.className = "pdf-status"; }
+  if (statusEl) { statusEl.innerHTML = ""; statusEl.className = "pdf-status"; }
 
   try {
     const res = await fetch(`/api/generate-resume-pdf?jd=${encodeURIComponent(jdName)}`);
     const data = await res.json();
     if (data.ok) {
       toast(`${jdName}: PDF saved → ${data.pdf_path}`, "ok");
-      if (statusEl) {
-        statusEl.textContent = `✅ ${data.pdf_path} — ${data.log}`;
-        statusEl.className = "pdf-status pdf-status--ok";
-      }
+      renderLogStatus(statusEl, true, data.pdf_path, data.log, `pdf-${jdName}`);
     } else {
       toast(`${jdName}: ${data.error || "PDF conversion failed"}`, "err");
-      if (statusEl) {
-        statusEl.textContent = `❌ ${data.error || data.log || "Conversion failed"}`;
-        statusEl.className = "pdf-status pdf-status--err";
-      }
+      renderLogStatus(statusEl, false, data.error || "Conversion failed", data.log, `pdf-${jdName}`);
     }
   } catch (e) {
     toast(`${jdName}: ${e}`, "err");
@@ -662,6 +702,80 @@ async function convertToPdf(jdName) {
     // Review & merge apply can change the .md without the page reloading.
     if (chk) chk.checked = false;
     btn.disabled = true;
+  }
+}
+
+async function generateCoverLetter(jdName) {
+  const btn = document.getElementById(`coverBtn-${jdName}`);
+  const statusEl = document.getElementById(`coverStatus-${jdName}`);
+  const chk = document.getElementById(`pdfReady-${jdName}`);
+  btn.disabled = true;
+  btn.textContent = "Generating… (up to a minute)";
+  if (statusEl) { statusEl.innerHTML = ""; statusEl.className = "pdf-status"; }
+
+  try {
+    const res = await fetch(`/api/generate-cover-letter?jd=${encodeURIComponent(jdName)}`);
+    const data = await res.json();
+    if (data.ok) {
+      toast(`${jdName}: cover letter saved → ${data.pdf_path}`, "ok");
+      renderLogStatus(statusEl, true, `${data.md_path} + PDF — read it before sending.`, data.log, `cover-${jdName}`);
+    } else {
+      toast(`${jdName}: ${data.error || "Cover letter generation failed"}`, "err");
+      renderLogStatus(statusEl, false, data.error || "Failed", data.log, `cover-${jdName}`);
+    }
+  } catch (e) {
+    toast(`${jdName}: ${e}`, "err");
+    if (statusEl) statusEl.textContent = `❌ ${e}`;
+  } finally {
+    btn.textContent = "Generate cover letter (Stage 8)";
+    // Same non-sticky reasoning as the PDF button -- re-confirm each time.
+    if (chk) chk.checked = false;
+    btn.disabled = true;
+  }
+}
+
+async function rescoreResume(jdName) {
+  const btn = document.getElementById(`rescoreBtn-${jdName}`);
+  const statusEl = document.getElementById(`rescoreStatus-${jdName}`);
+  const chk = document.getElementById(`pdfReady-${jdName}`);
+  btn.disabled = true;
+  btn.textContent = "Scoring… (up to a minute)";
+  if (statusEl) { statusEl.innerHTML = ""; statusEl.className = "pdf-status"; }
+
+  try {
+    const res = await fetch(`/api/rescore-resume?jd=${encodeURIComponent(jdName)}`);
+    const data = await res.json();
+    if (data.ok) {
+      toast(`${jdName}: final ATS score ${data.score_after}/100`, "ok");
+      renderLogStatus(
+        statusEl, true,
+        `Final score: ${data.score_after}/100 — see updated Stage 2 line above.`,
+        data.log, `rescore-${jdName}`
+      );
+      // Refresh so the before→after score line above updates with the
+      // new s2_score_after -- rebuilds this card's DOM, which is exactly
+      // why the log above was cached in lastActionLog first: without
+      // that, the log this function just showed would be wiped the
+      // instant loadStatus() replaces the card's HTML.
+      await loadStatus();
+    } else {
+      toast(`${jdName}: ${data.error || "Re-score failed"}`, "err");
+      renderLogStatus(statusEl, false, data.error || "Failed", data.log, `rescore-${jdName}`);
+    }
+  } catch (e) {
+    toast(`${jdName}: ${e}`, "err");
+    if (statusEl) statusEl.textContent = `❌ ${e}`;
+  } finally {
+    // On success, loadStatus() above already rebuilt this card's DOM from
+    // scratch (fresh, correctly-defaulted button) -- touching the old
+    // `btn`/`chk` references here would be a silent no-op on detached
+    // nodes at best. Only run this reset on the error path, where no
+    // re-render happened and the original nodes are still live.
+    if (document.body.contains(btn)) {
+      btn.textContent = "Get final ATS score (Stage 9)";
+      if (chk) chk.checked = false;
+      btn.disabled = true;
+    }
   }
 }
 

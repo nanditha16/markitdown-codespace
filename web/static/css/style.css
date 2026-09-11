@@ -420,6 +420,22 @@ body {
   opacity: 0.4; cursor: not-allowed; pointer-events: none;
 }
 
+.cover-warning {
+  font-size: 10.5px; color: var(--yellow); line-height: 1.4;
+}
+
+.score-delta--up   { color: var(--green); }
+.score-delta--down { color: var(--red); }
+.score-delta--flat { color: var(--text-muted); }
+
+.action-log {
+  margin-top: 6px; padding: 8px 10px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-family: var(--font-mono); font-size: 10.5px; line-height: 1.5;
+  color: var(--text-muted); white-space: pre-wrap; word-break: break-word;
+  max-height: 220px; overflow-y: auto;
+}
+
 .stage-pills { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 .stage-pill {
   font-size: 11px;
