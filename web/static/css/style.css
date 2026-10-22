@@ -432,6 +432,22 @@ body {
 .score-delta--down { color: var(--red); }
 .score-delta--flat { color: var(--text-muted); }
 
+.ats-dash-table {
+  width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 8px;
+}
+.ats-dash-table th {
+  text-align: left; padding: 8px 10px; border-bottom: 2px solid var(--border);
+  color: var(--text-muted); font-weight: 600; white-space: nowrap;
+}
+.ats-dash-table td {
+  padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.ats-dash-jd { font-weight: 600; white-space: nowrap; }
+.ats-dash-variant { font-size: 10.5px; color: var(--text-dim); font-weight: 400; }
+.verdict--good    { color: var(--green); }
+.verdict--partial { color: var(--yellow); }
+.verdict--poor    { color: var(--red); }
+
 .action-log {
   margin-top: 6px; padding: 8px 10px; background: var(--surface);
   border: 1px solid var(--border); border-radius: var(--radius-sm);
@@ -680,3 +696,11 @@ code {
   animation: spin 0.7s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+/* Stage 10 on the Review Board */
+.callback-badge { font-size: 12px; font-weight: 500; margin: 6px 0 2px; padding: 4px 8px; border-radius: var(--radius-sm); display: inline-block; }
+.callback-badge--in   { background: var(--green-bg); color: var(--green); }
+.callback-badge--out  { background: var(--gray-bg);  color: var(--text-muted); }
+.callback-badge--none { background: transparent; color: var(--text-dim); padding-left: 0; }
+.callback-unknown { color: var(--yellow); font-weight: 400; margin-left: 6px; }
+.stage10-btn { margin-top: 8px; }
+.stage10-btn--off { opacity: 0.55; }

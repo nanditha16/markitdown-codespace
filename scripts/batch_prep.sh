@@ -701,7 +701,8 @@ if [ "${1:-}" = "--cover" ] && [ -n "${2:-}" ]; then
   JD_MD="output/${JD_NAME}.md"
   [ ! -f "$JD_MD" ] && JD_MD="output/JD/${JD_NAME}.md"
   RESUME_MD=""
-  for candidate in "output/${JD_NAME}_updated_resume.md" \
+  for candidate in "output/review_resume/${JD_NAME}_new_resume.md" \
+                   "output/${JD_NAME}_updated_resume.md" \
                    "output/Nanditha_Murthy_Resume_${JD_NAME}.md"; do
     [ -f "$candidate" ] && RESUME_MD="$candidate" && break
   done
