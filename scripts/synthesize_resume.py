@@ -69,11 +69,13 @@ import json
 import re
 import sys
 import unicodedata
+from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent.resolve()
 PROMPTS = ROOT / "prompts"
 OUTPUT = ROOT / "output"
+EVIDENCE_DIR = OUTPUT / "career_wealth_chunk"
 # Finalized/merged resumes live in their own subfolder, separate from the
 # untouched per-JD base variants in output/resume/ -- keeps "the file you
 # review and submit" visually distinct from "the raw variant Stage 0/1
@@ -132,16 +134,16 @@ def find_span(resume_text: str, norm_resume: str, idx_map, needle: str):
 
 # ── Stage 2 parsing ─────────────────────────────────────────────────────────
 def parse_stage2(text: str):
-    score_m = re.search(r"\*\*ATS Score:\*\*\s*(\d+)\s*/\s*100", text)
-    # Tolerant of "**Shortlist:**" (closes right after the colon) and
-    # "**Shortlist: MAYBE -> YES (with fixes)**" (the whole phrase bolded,
-    # colon and verdict inside) -- a real run used the second form and the
-    # old \*\*Shortlist:\*\* -exact regex produced "UNKNOWN" for it.
-    verdict_m = re.search(r"Shortlist:?\**\s*(YES|NO|MAYBE)", text, re.IGNORECASE)
+    # Score and verdict come from scripts/ats_parse.py, the single shared
+    # parser (Stage 10 plan, D7) -- the local regexes here had drifted from
+    # app.py's copies before, which is how a whole-phrase-bolded score
+    # ("**ATS Score: 88/100**") ended up shown as null on the Review Board.
+    import ats_parse
+    verdict = ats_parse.extract_shortlist(text)
     reason_m = re.search(r"\*\*Reason:\*\*\s*(.+?)(?=\n\n|\n---|\Z)", text, re.DOTALL)
     return {
-        "score": int(score_m.group(1)) if score_m else None,
-        "verdict": verdict_m.group(1).upper() if verdict_m else "UNKNOWN",
+        "score": ats_parse.extract_ats_score(text),
+        "verdict": verdict or "UNKNOWN",
         "reason": reason_m.group(1).strip() if reason_m else "(no reason parsed)",
     }
 
@@ -373,7 +375,7 @@ def parse_stage4(text: str):
             continue  # not a recommendation block (e.g. leading prose before first ---)
 
         rec_m = re.search(r"##\s*Recommendation\s*\d+:\s*(.+)", chunk)
-        gap_heading_m = re.search(r"###\s*Gap Addressed:\s*(.+)", chunk)
+        gap_heading_m = re.search(r"#{2,3}\s*Gap Addressed:\s*(.+)", chunk)
         gap_field_m = re.search(r"\*\*Gap Addressed:\*\*\s*(.+)", chunk)
 
         title = rec_m.group(1).strip() if rec_m else None
@@ -391,6 +393,22 @@ def parse_stage4(text: str):
             for ln in chunk.splitlines() if ln.strip().startswith(">")
         ]
         addition_text = " ".join(quote_lines).strip()
+        if not addition_text:
+            # A real run used "**New Bullet:**" followed by the proposed
+            # sentence in plain double quotes on the next line, rather
+            # than the blockquote convention the prompt asked for. Without
+            # this, the generic fallback below stops at this exact field
+            # boundary and never reaches it -- worse, it was wrongly
+            # harvesting the "**Location:** CAREER HIGHLIGHTS or ..." line
+            # that sits just before it, since that line has real content
+            # after the label and so isn't a "pure sub-heading" the
+            # fallback's filter would exclude. That produced a real,
+            # visible bug: cards showing "(untitled recommendation)" with
+            # a location suggestion where the actual proposed text should
+            # be -- confirmed against a real response file, not assumed.
+            new_bullet_m = re.search(r'\*\*New Bullet:\*\*\s*\n"(?P<body>.*?)"\s*\n', chunk, re.DOTALL)
+            if new_bullet_m:
+                addition_text = new_bullet_m.group("body").strip()
         if not addition_text:
             addition_text = extract_addition_fallback(chunk)
 
@@ -611,7 +629,316 @@ def find_alt_suggestion(before_text: str, reference_pairs):
     return None
 
 
-def compute_manifest(edits, recs, s2_additions=None, s2_reference=None, s2_keywords=None):
+# ── Verification: metric grounding, identity-drift, topical overlap ────────
+# All three checks below are pure text matching against files already on
+# disk (Stage 4's own cited evidence files, the resume itself) -- zero LLM
+# calls, zero added cost. They exist because an independent manual review
+# of a real Stage 3/4 batch found two fabricated metrics (a "40%" that
+# never appears in the evidence corpus, a "500K+" that appears nowhere at
+# all) and a systemic pattern (many small, individually-defensible edits
+# that together rewrite the candidate's job title) -- neither of which the
+# per-card review UI or the existing near-duplicate check could surface on
+# their own. Confirmed against the real evidence corpus and the real
+# fabricated numbers before being wired in here, not assumed to work.
+
+METRIC_RE = re.compile(
+    r"\$\s?\d[\d,]*\.?\d*\s*[KMB]?\+?"   # dollar amounts: $4.5M, $150,000, $1B+
+    r"|\d[\d,]*\.?\d*\s*%"                # percentages: 60%, 99.99%
+    r"|\d[\d,]*\.?\d*\s*[KMB]\+?\b"       # bare K/M/B counts: 500K+, 2M
+    r"|\d[\d,]*\.?\d*\+"                  # plain plus-counts: 15+, 8+
+)
+
+
+def extract_metrics(text: str) -> list:
+    """Numbers shaped like the kind of padded metric Stage 4 tends to
+    fabricate: percentages, dollar figures, K/M/B or +-suffixed counts.
+    Deliberately excludes plain unsuffixed numbers (years, team sizes) --
+    lower fabrication risk, and including them would flood every insertion
+    with false positives on numbers nobody's actually worried about."""
+    return [m.strip() for m in METRIC_RE.findall(text)]
+
+
+def extract_metrics_with_context(text: str):
+    """Each metric paired with a few significant words from its own
+    sentence/clause. Needed because a bare digit-sequence match against a
+    whole evidence file is too loose: testing this against the real
+    corpus found Career_Wealth.md contains the literal string "40%" eight
+    separate times, for eight unrelated claims (market velocity, downtime,
+    reconciliation effort -- never onboarding), which would have made a
+    plain substring check call a fabricated "40% onboarding" claim
+    "grounded" just because SOME "40%" exists somewhere in a 134KB file.
+    Pairing each metric with nearby context words and requiring both to
+    co-occur closes that hole without needing anything semantic."""
+    results = []
+    for clause in re.split(r"[.;]\s+", text):
+        metrics = extract_metrics(clause)
+        if not metrics:
+            continue
+        words = set(re.findall(r"[a-z]{5,}", clause.lower()))
+        for m in metrics:
+            results.append((m, words))
+    return results
+
+
+def _metric_grounded_in(metric: str, context_words: set, texts: list, window: int = 150, min_shared: int = 2) -> bool:
+    """True if `metric` appears in any of `texts` with at least
+    `min_shared` context words within `window` characters either side.
+    Tightened to 2 shared words / 150 chars (down from an initial 1
+    word / 300 chars) after testing against the real fabricated "40%"
+    claim: Career_Wealth.md's dense, multi-thousand-character project
+    blocks are information-rich enough that a single common word
+    ("through," "service," "tooling") will coincidentally sit within 300
+    characters of almost any number purely by chance. Requiring two
+    co-occurring words is a real precision/recall tradeoff, not a free
+    win -- biased deliberately toward flagging a genuinely-grounded claim
+    for a human's second look (mild friction) over calling a fabricated
+    one "verified" (the actual danger this check exists to prevent)."""
+    metric_lower = metric.lower()
+    for text in texts:
+        lower = text.lower()
+        start = 0
+        while True:
+            idx = lower.find(metric_lower, start)
+            if idx == -1:
+                break
+            span = lower[max(0, idx - window): idx + window]
+            hits = sum(1 for w in context_words if w in span)
+            if hits >= min_shared:
+                return True
+            start = idx + 1
+    return False
+
+
+def check_metric_grounding(addition_text: str, evidence_field: str):
+    """For every metric-shaped number in a Stage 4 insertion, confirm it
+    appears NEAR at least one context word from its own sentence, in the
+    evidence file(s) Stage 4 itself cited (checked first), falling back to
+    the whole evidence corpus (a weaker signal -- Stage 4 may have cited
+    the wrong file for a real number) only if the cited file doesn't have
+    it. Returns (grounded: bool, ungrounded: list) -- the caller downgrades
+    default_accepted when ungrounded is non-empty, regardless of Stage 4's
+    own confidence label, since that label means "the model said so," not
+    "verified against source.\""""
+    metrics_with_context = extract_metrics_with_context(addition_text)
+    if not metrics_with_context:
+        return True, []
+
+    cited_files = re.findall(r"`([^`]+\.md)`", evidence_field)
+    cited_texts = []
+    for fname in cited_files:
+        p = EVIDENCE_DIR / fname
+        if p.exists():
+            cited_texts.append(p.read_text(errors="replace"))
+
+    corpus_texts = None  # lazily loaded only if a cited-file check misses
+    ungrounded = []
+    for metric, context_words in metrics_with_context:
+        if _metric_grounded_in(metric, context_words, cited_texts):
+            continue
+        if corpus_texts is None:
+            corpus_texts = []
+            if EVIDENCE_DIR.exists():
+                corpus_texts = [f.read_text(errors="replace") for f in EVIDENCE_DIR.glob("*.md")]
+        if _metric_grounded_in(metric, context_words, corpus_texts):
+            continue
+        ungrounded.append(metric)
+    return (len(ungrounded) == 0), ungrounded
+
+
+IDENTITY_DRIFT_PAIRS = [
+    {
+        "label": "Technical Program Manager → Product Manager",
+        # Broadened after a real independent review caught a genuine gap:
+        # "End-to-End Product Delivery Ownership... platform product
+        # programs" and "large-scale platform product programs" both
+        # reframe "technical program(s)" as "product program(s)"/"product
+        # delivery" -- the same identity-shift risk as swapping the title
+        # outright, just phrased through the word "program" itself rather
+        # than "manager". The original 4-phrase list missed both because
+        # neither contains "product manager", "product management",
+        # "product strategy", or "product roadmap" literally.
+        "toward": ["product manager", "product management", "product strategy",
+                   "product roadmap", "product program", "product delivery"],
+    },
+]
+IDENTITY_DRIFT_THRESHOLD = 3
+
+
+def scan_identity_drift(stage3_changes: list) -> list:
+    """Batch-level check across ALL Stage 3 edits in one run: a title/
+    identity-sensitive phrase pattern that shows up as a SERIES of small,
+    individually-defensible keyword tweaks -- invisible to a one-card-at-
+    a-time review, only visible once you count across the whole batch.
+    No new parsing: reuses each edit's already-computed before/after text.
+    Deliberately a short, curated list, not a general "detect drift"
+    engine -- a string-presence count generalizes only as far as the
+    pairs actually named here."""
+    warnings = []
+    for pair in IDENTITY_DRIFT_PAIRS:
+        hits = []
+        for c in stage3_changes:
+            before_lower = c["before"].lower()
+            after_lower = c["after"].lower()
+            # Checked PER PHRASE, not collapsed into one any()/not-any() --
+            # a real edit (the Core Competencies swap) had "Product
+            # Delivery" already present in `before` while "Product
+            # Management" was the genuinely new phrase in the same line.
+            # The original any()/not-any() logic let the pre-existing
+            # phrase mask the new one and silently dropped this edit from
+            # the flagged list -- found by re-testing after broadening the
+            # phrase set, not assumed to still work.
+            newly_introduced = [p for p in pair["toward"] if p in after_lower and p not in before_lower]
+            if newly_introduced:
+                hits.append(c["id"])
+        if len(hits) >= IDENTITY_DRIFT_THRESHOLD:
+            lead_phrase = pair["toward"][0]
+            warnings.append({
+                "label": pair["label"],
+                "count": len(hits),
+                "change_ids": hits,
+                "message": (
+                    f"{len(hits)} edits in this batch add \"{lead_phrase}\"-style language. "
+                    f"Review whether this reflects real experience before accepting all of "
+                    f"them -- individually each looks like a reasonable keyword match; "
+                    f"together they rewrite what job you're claiming to have held."
+                ),
+            })
+    return warnings
+
+
+TOPICAL_OVERLAP_WARN_THRESHOLD = 0.20
+
+
+def topical_overlap_score(resume_text: str, addition_text: str):
+    """Word-set (Jaccard) similarity between a proposed insertion and the
+    single highest-overlapping existing bullet already in the resume --
+    NOT the resume as one blob, which dilutes the signal past
+    meaningfulness (a small addition's words are a tiny fraction of a
+    whole resume's vocabulary). Same technique trim_review.py already uses
+    for bullet scoring, reused rather than reinvented. Deliberately a SOFT
+    signal surfaced as a warning, never an auto-defer: verified against a
+    real near-duplicate pair (two differently-worded OKR-tracking bullets)
+    that scored 0.212 -- well under the 0.35 the existing hard duplicate
+    check effectively requires, so this catches a real gap, but shouldn't
+    be trusted with the hard check's certainty. Returns (score, matched
+    bullet text) so the review card can show what it's flagged against."""
+    add_words = set(re.findall(r"[a-z]{4,}", strip_markup(addition_text).lower()))
+    if not add_words:
+        return 0.0, ""
+    lines = [l.strip() for l in resume_text.split("\n")]
+    # Compare against each line AND each line merged with the next one --
+    # a pragmatic fix for hard-wrapped source text (confirmed on the real
+    # Meta variant: a bullet split across two physical lines scored lower
+    # than it should have, because half its words were sitting on the
+    # line after the one being compared). Not a general-purpose logical-
+    # line merger (this variant has no bullet markers at all, so "where
+    # does one claim end and the next begin" isn't cleanly answerable) --
+    # just enough to stop a 2-line wrap from silently halving a real match.
+    candidates = []
+    for i, s in enumerate(lines):
+        if not s or s in KNOWN_SECTIONS or is_role_header(s):
+            continue
+        candidates.append(s.lstrip("•").strip())
+        if i + 1 < len(lines):
+            nxt = lines[i + 1].strip()
+            if nxt and nxt not in KNOWN_SECTIONS and not is_role_header(nxt):
+                candidates.append((s + " " + nxt).lstrip("•").strip())
+
+    best_score, best_bullet = 0.0, ""
+    for s_clean in candidates:
+        if len(s_clean) < 20:
+            continue
+        bullet_words = set(re.findall(r"[a-z]{4,}", s_clean.lower()))
+        if not bullet_words:
+            continue
+        score = len(add_words & bullet_words) / len(add_words | bullet_words)
+        if score > best_score:
+            best_score, best_bullet = score, s_clean
+    return best_score, best_bullet
+
+
+HEDGE_RE = re.compile(
+    r"\blikely\b|\bprobably\b|\bpresumably\b|\bmay have\b|\bmight have\b"
+    r"|\bpossibly\b|\bappears to\b|\bcould have\b|\bseems to\b|\bassuming\b",
+    re.IGNORECASE,
+)
+
+
+def check_hedge_language(why_text: str):
+    """True if the model's OWN justification for a Stage 3 edit contains
+    hedge language. Found by testing against a real batch: an edit that
+    inserted "Python" into a historical job justified itself with "likely
+    used at Apple given the timeframe" -- an admitted guess presented as a
+    resume fact. If the tool's own reasoning hedges, that's not something
+    to infer from the proposed text, it's stated outright. Tested against
+    87 real edits across 6 JDs: exactly one hit, and it was this exact
+    case -- zero false positives elsewhere, the highest-precision check
+    built so far. Stage 3 only: Stage 4's "reason" field is built from
+    "gap — where", not a free-text justification, so there's nothing to
+    scan for hedging there."""
+    m = HEDGE_RE.search(why_text)
+    return (m is not None), (m.group() if m else None)
+
+
+def _ngrams(text: str, n: int) -> set:
+    words = re.findall(r"[a-zA-Z][a-zA-Z\-]{2,}", text.lower())
+    return set(" ".join(words[i:i + n]) for i in range(len(words) - n + 1))
+
+
+PHRASE_REPEAT_MIN_CARDS_3GRAM = 3
+PHRASE_REPEAT_MIN_CARDS_2GRAM = 4
+
+
+def scan_repeated_phrases(changes: list, resume_text: str) -> list:
+    """Batch-level check: a phrase genuinely new to this resume (absent
+    from the original base text) that shows up in several different
+    proposed changes. Verified against six real JDs before being wired in:
+    caught "across multi-cloud environments" (3-4 cards), "owned
+    architectural decisions...including api design" (3-4 cards, matching
+    the single most-flagged pattern in an independent review of that
+    batch), "platform roadmap" (4 cards), "with clear slos" (3 cards) --
+    all zero-cost text matching, no LLM call. 3-word phrases are checked
+    at a lower threshold (3+ cards) since a 3-gram match is a stronger,
+    more specific signal; 2-word phrases need a stricter threshold (4+)
+    since shorter phrases recur more often by chance alone. Overlapping
+    n-grams that flag the exact same set of cards (e.g. "across multi-
+    cloud" and "across multi-cloud environments" both pointing at the same
+    three cards) are reported once, not once per n-gram.
+    Known gap, not handled here: a single word repeated inside a
+    DIFFERENT surrounding phrase each time (e.g. "portfolio" used 9 times
+    in 9 different two-word contexts) isn't caught by phrase matching at
+    all -- confirmed on real JD13 data, where the word existed twice in
+    the base resume and this check can't see that 2-to-9 amplification,
+    only "was this exact phrase in the base resume at all." That needs
+    frequency comparison, not presence matching, and isn't built yet."""
+    base_2gram = _ngrams(resume_text, 2)
+    base_3gram = _ngrams(resume_text, 3)
+
+    phrase_cards_3, phrase_cards_2 = defaultdict(set), defaultdict(set)
+    for c in changes:
+        text = c.get("after", "")
+        if not text:
+            continue
+        for ng in _ngrams(text, 3):
+            if ng not in base_3gram:
+                phrase_cards_3[ng].add(c["id"])
+        for ng in _ngrams(text, 2):
+            if ng not in base_2gram:
+                phrase_cards_2[ng].add(c["id"])
+
+    warnings, seen_card_sets = [], []
+    for ng, ids in sorted(phrase_cards_3.items(), key=lambda x: -len(x[1])):
+        if len(ids) >= PHRASE_REPEAT_MIN_CARDS_3GRAM and ids not in seen_card_sets:
+            seen_card_sets.append(ids)
+            warnings.append({"phrase": ng, "change_ids": sorted(ids)})
+    for ng, ids in sorted(phrase_cards_2.items(), key=lambda x: -len(x[1])):
+        if len(ids) >= PHRASE_REPEAT_MIN_CARDS_2GRAM and ids not in seen_card_sets:
+            seen_card_sets.append(ids)
+            warnings.append({"phrase": ng, "change_ids": sorted(ids)})
+    return warnings
+
+
+def compute_manifest(edits, recs, s2_additions=None, s2_reference=None, s2_keywords=None, resume_text=""):
     """One dict per candidate change, independent of any accept/reject
     decision. `default_accepted` mirrors Stage 5's own auto-apply policy:
       - Stage 3 paraphrase edits: always (exact-quote, reword-only, safe)
@@ -643,6 +970,10 @@ def compute_manifest(edits, recs, s2_additions=None, s2_reference=None, s2_keywo
             "word_delta": word_count(e["paraphrase"]) - word_count(e["current"]),
             "default_accepted": True,
         }
+        hedge_found, hedge_phrase = check_hedge_language(e["why"])
+        if hedge_found:
+            change["default_accepted"] = False
+            change["hedge_flag"] = hedge_phrase
         if alt:
             change["alt_suggestion"] = {
                 "source": "stage2",
@@ -656,6 +987,21 @@ def compute_manifest(edits, recs, s2_additions=None, s2_reference=None, s2_keywo
             }
         changes.append(change)
 
+    # A pattern flagged across the whole batch is stronger evidence than
+    # any single card looks like on its own -- once scan_identity_drift
+    # confirms a real pattern (not just one edit that happens to mention
+    # "product"), un-checking those specific cards by default is the
+    # consistent behavior with how a Stage 4 grounding failure already
+    # downgrades default_accepted. A passive warning banner elsewhere on
+    # the page, with the flagged cards still sitting checked, means a
+    # hands-off Apply click would still apply every one of them -- which
+    # defeats the point of having caught the pattern at all.
+    flagged_ids = {cid for w in scan_identity_drift(changes) for cid in w["change_ids"]}
+    for c in changes:
+        if c["id"] in flagged_ids:
+            c["default_accepted"] = False
+            c["pattern_flag"] = "Part of a batch-wide identity-drift pattern — see the warning above before accepting"
+
     for i, r in enumerate(all_recs):
         source = r.get("source", "stage4")
         addition_text = strip_markup(r["addition_text"]) if r["addition_text"] else ""
@@ -668,6 +1014,16 @@ def compute_manifest(edits, recs, s2_additions=None, s2_reference=None, s2_keywo
             # info isn't lost -- it's still in the Phase A section of the
             # raw ats_evidence_gap_response.txt if anyone needs to check.
             continue
+
+        default_accepted = source == "stage4" and r["confidence"] == "HIGH" and bool(addition_text)
+
+        grounded, ungrounded_numbers = check_metric_grounding(addition_text, r.get("evidence", ""))
+        if not grounded:
+            default_accepted = False
+
+        overlap_score, overlap_match = topical_overlap_score(resume_text, addition_text)
+        possible_duplicate = overlap_score >= TOPICAL_OVERLAP_WARN_THRESHOLD
+
         changes.append({
             "id": f"p4-{i}",
             "type": "insertion",
@@ -679,8 +1035,25 @@ def compute_manifest(edits, recs, s2_additions=None, s2_reference=None, s2_keywo
             "confidence": r["confidence"],
             "ats_score": score_against_keywords(addition_text, s2_keywords),
             "word_delta": word_count(addition_text),
-            "default_accepted": source == "stage4" and r["confidence"] == "HIGH" and bool(addition_text),
+            "default_accepted": default_accepted,
+            "grounded": grounded,
+            "ungrounded_numbers": ungrounded_numbers,
+            "possible_duplicate": possible_duplicate,
+            "duplicate_overlap_score": round(overlap_score, 2) if possible_duplicate else None,
+            "duplicate_match_snippet": overlap_match if possible_duplicate else None,
         })
+
+    # Repeated-phrase check runs across the WHOLE batch (Stage 3 + Stage 4
+    # together), unlike the identity-drift scan above which is Stage-3-only
+    # by design -- verified on real data that the single most-flagged
+    # repeated phrase in one batch spanned three Stage 3 cards AND one
+    # Stage 4 insertion, so checking only one type would have missed it.
+    repeat_flagged_ids = {cid for w in scan_repeated_phrases(changes, resume_text) for cid in w["change_ids"]}
+    for c in changes:
+        if c["id"] in repeat_flagged_ids and c.get("default_accepted"):
+            c["default_accepted"] = False
+            c["repetition_flag"] = "This phrasing repeats across several other proposed changes — see the warning above before accepting"
+
     return changes
 
 
@@ -876,7 +1249,9 @@ def main():
     gated = s2["verdict"] == "NO" and not args.ignore_gate
 
     if args.manifest_only:
-        manifest = [] if gated else compute_manifest(edits, recs, s2_additions, s2_reference, s2_keywords)
+        manifest = [] if gated else compute_manifest(edits, recs, s2_additions, s2_reference, s2_keywords, resume_text)
+        pattern_warnings = [] if gated else scan_identity_drift([c for c in manifest if c["type"] == "paraphrase"])
+        repetition_warnings = [] if gated else scan_repeated_phrases(manifest, resume_text)
         print(json.dumps({
             "ok": True,
             "jd": jd_name,
@@ -885,6 +1260,8 @@ def main():
             "s2": s2,
             "base_word_count": word_count(resume_text),
             "changes": manifest,
+            "pattern_warnings": pattern_warnings,
+            "repetition_warnings": repetition_warnings,
         }, indent=2))
         return
 
@@ -902,7 +1279,19 @@ def main():
         print(f"ERROR: {out_file} already exists. Use --force to overwrite.", file=sys.stderr)
         sys.exit(1)
 
-    manifest = compute_manifest(edits, recs, s2_additions, s2_reference, s2_keywords)
+    manifest = compute_manifest(edits, recs, s2_additions, s2_reference, s2_keywords, resume_text)
+    pattern_warnings = scan_identity_drift([c for c in manifest if c["type"] == "paraphrase"])
+    if pattern_warnings:
+        print("⚠️  Pattern warning(s) — a batch-level check across all Stage 3 edits found:", file=sys.stderr)
+        for w in pattern_warnings:
+            print(f"   {w['label']}: {w['message']}", file=sys.stderr)
+        print("", file=sys.stderr)
+    repetition_warnings = scan_repeated_phrases(manifest, resume_text)
+    if repetition_warnings:
+        print("⚠️  Repetition warning(s) — a phrase new to this resume shows up in several proposed changes:", file=sys.stderr)
+        for w in repetition_warnings:
+            print(f"   \"{w['phrase']}\" — {len(w['change_ids'])} cards: {', '.join(w['change_ids'])}", file=sys.stderr)
+        print("", file=sys.stderr)
     if args.apply_ids is not None:
         accepted_ids = [i.strip() for i in args.apply_ids.split(",") if i.strip()]
         valid_ids = {c["id"] for c in manifest}

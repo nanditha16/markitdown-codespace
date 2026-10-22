@@ -47,6 +47,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 # ── Project root ──────────────────────────────────────────────────────────────
@@ -262,6 +263,47 @@ def all_jds_with_prompts(stages: list[str]) -> list[str]:
     return sorted(set(jds), key=lambda x: int(re.sub(r"\D", "", x) or "0"))
 
 
+# ── Persistent run log ────────────────────────────────────────────────────────
+RUN_LOG_PATH = ROOT / "policy" / "run_log.jsonl"
+
+
+def log_run(jd_name: str, stage_key: str, stage_label: str, cost: float,
+            input_tok: int, output_tok: int, elapsed: int) -> None:
+    """Append one line to policy/run_log.jsonl -- a persistent, cross-session
+    record of every stage run (sequential id, timestamp, JD, stage, cost,
+    tokens, duration). Deliberately a flat append-only file, not a database:
+    the actual need stated was "for now just a simple file write... something
+    that lasts beyond each session" -- a database adds real complexity
+    (schema, migrations, concurrent-write handling) this need doesn't
+    require. JSON Lines specifically because it's append-safe (each line is
+    independently valid, so a crash mid-write never corrupts prior entries
+    the way appending to a single JSON array's closing bracket would) and
+    trivially readable later (grep it, or one line of
+    pandas.read_json(path, lines=True) for anything resembling analysis).
+    run_id increments by counting existing lines -- correct for the
+    sequential, single-process batch runs this tool actually does; not
+    safe against two processes appending at the exact same instant, which
+    isn't a real scenario for a single-user CLI tool run from one terminal."""
+    RUN_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    run_id = 1
+    if RUN_LOG_PATH.exists():
+        with open(RUN_LOG_PATH, "r", encoding="utf-8") as f:
+            run_id = sum(1 for _ in f) + 1
+    entry = {
+        "run_id": run_id,
+        "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds") + "Z",
+        "jd": jd_name,
+        "stage": stage_key,
+        "stage_label": stage_label,
+        "cost_usd": round(cost, 5),
+        "tokens_in": input_tok,
+        "tokens_out": output_tok,
+        "duration_s": elapsed,
+    }
+    with open(RUN_LOG_PATH, "a", encoding="utf-8") as f:
+        f.write(json.dumps(entry) + "\n")
+
+
 # ── Execute one JD + stage ────────────────────────────────────────────────────
 def run_stage(
     jd_name: str,
@@ -332,6 +374,7 @@ def run_stage(
     ok(f"  {jd_name} Stage {stage_key} done ({elapsed}s)")
     info(f"    Cost: ~${cost:.5f} (~{input_tok:,} in + ~{output_tok:,} out tokens)")
     info(f"    Response: {str(resp_file.relative_to(ROOT))}")
+    log_run(jd_name, stage_key, stage["label"], cost, input_tok, output_tok, elapsed)
     import sys; sys.stdout.flush()
     return True
 

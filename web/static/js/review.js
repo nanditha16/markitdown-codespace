@@ -60,7 +60,7 @@ function renderChanges() {
     return;
   }
 
-  list.innerHTML = currentChanges.map(c => {
+  list.innerHTML = currentChanges.map((c, i) => {
     const isInsertion = c.type === "insertion";
     const confClass = (c.confidence || "").toLowerCase().includes("high") ? "high"
                      : (c.confidence || "").toLowerCase().includes("medium") ? "medium"
@@ -94,6 +94,7 @@ function renderChanges() {
         <div class="change-card-top">
           <input type="checkbox" id="chk-${c.id}" ${c.default_accepted ? "checked" : ""}
                  onchange="toggleChange('${c.id}')">
+          <span class="change-card-number" title="Card ${i + 1} of ${currentChanges.length} in the current sort order">${i + 1}.</span>
           <div class="change-card-body">
             <div class="change-card-meta">
               <span class="change-type change-type--${c.type}">${c.type}</span>

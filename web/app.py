@@ -37,6 +37,14 @@ ROOT = Path(os.environ.get("ATS_ROOT", "/app"))
 if not ROOT.exists():
     ROOT = Path(__file__).parent.parent.resolve()
 
+# Stage 10 + shared parser live in scripts/; make them importable here.
+import sys as _sys
+_sys.path.insert(0, str(ROOT / "scripts"))
+import ats_parse        # noqa: E402  shared Stage 2/9 score parser (plan decision D7)
+import callback_score   # noqa: E402  Stage 10 Callback Score
+import jd_meta          # noqa: E402  JD company/title/posted-date/URL
+import network_brief    # noqa: E402  Stage 10 brief + targets store
+
 PROMPTS        = ROOT / "prompts"
 INPUT_OTHER    = ROOT / "input" / "other"
 INPUT_EVIDENCE = ROOT / "input" / "evidence"
@@ -134,6 +142,12 @@ def variant_bank_status() -> dict:
         "resume_count":   resume_count,
     }
 
+def _extract_ats_subscores(text: str) -> dict:
+    """Kept as a thin wrapper so existing callers don't change; the parsing
+    itself lives in scripts/ats_parse.py (single source of truth, D7)."""
+    return ats_parse.extract_subscores(text)
+
+
 def jd_status(jd_name: str) -> dict:
     analysis_dir = PROMPTS / "JD_Analysis" / jd_name
     prep_dir     = PROMPTS / f"{jd_name}_PREP"
@@ -175,16 +189,19 @@ def jd_status(jd_name: str) -> dict:
     # execution-side half of this same gate.
     ats_no_shortlist = False
     s2_score = None
+    s2_subscores = None
     for base in [prep_dir / "resp"]:
         p = base / "ats_prompt_response.txt"
         if p.exists():
             s2_text = p.read_text(errors="replace")
-            vm = re.search(r"\*\*Shortlist:\*\*\s*(YES|NO|MAYBE)", s2_text, re.IGNORECASE)
-            sm = re.search(r"\*\*ATS Score:\*\*\s*(\d+)\s*/\s*100", s2_text)
-            if vm:
-                ats_no_shortlist = vm.group(1).upper() == "NO"
-            if sm:
-                s2_score = int(sm.group(1))
+            # Tolerant of "**Shortlist:**" and "**Shortlist: MAYBE -> YES**"
+            # (whole phrase bolded) -- same fix already applied in
+            # synthesize_resume.py's parse_stage2, which this had drifted
+            # from by still using the old exact-bold-close pattern.
+            verdict = ats_parse.extract_shortlist(s2_text)
+            ats_no_shortlist = verdict == "NO"
+            s2_score = ats_parse.extract_ats_score(s2_text)
+            s2_subscores = _extract_ats_subscores(s2_text)
             break
 
     # Stage 9 -- the SAME Stage 2 evaluation re-run against the finalized,
@@ -196,9 +213,7 @@ def jd_status(jd_name: str) -> dict:
     rescore_resp = prep_dir / "resp" / "ats_rescore_response.txt"
     if rescore_resp.exists():
         rescore_text = rescore_resp.read_text(errors="replace")
-        sm2 = re.search(r"\*\*ATS Score:\*\*\s*(\d+)\s*/\s*100", rescore_text)
-        if sm2:
-            s2_score_after = int(sm2.group(1))
+        s2_score_after = ats_parse.extract_ats_score(rescore_text)
 
     s2 = _has_prompt(prep_dir, ["2_ats_prompt.txt", "ats_prompt.txt"])
     s3 = _has_prompt(prep_dir, ["3_ats_recommend_prompt.txt", "ats_recommend_prompt.txt"])
@@ -273,15 +288,28 @@ def jd_status(jd_name: str) -> dict:
             if key in responses:
                 break
 
+    # Stage 10 -- computed live (deterministic, file reads only). Never allowed
+    # to break the status endpoint: any error degrades to "not_scored".
+    callback = None
+    if rescore_resp.exists():
+        try:
+            cb = callback_score.compute(jd_name)
+            callback = {k: cb.get(k) for k in ("status", "callback_score", "threshold", "gated_in",
+                                                "failed_knockouts", "unknown_knockouts", "reason")}
+        except Exception as e:  # noqa: BLE001
+            callback = {"status": "not_scored", "reason": f"callback error: {e}"}
+
     return {
         "name": jd_name,
         "stage": stage,
+        "callback": callback,
         "prompt_exists": prompt_exists,
         "has_response": has_response,
         "poor_fit": poor_fit,
         "fit_verdict": fit_verdict,
         "ats_no_shortlist": ats_no_shortlist,
         "s2_score": s2_score,
+        "s2_subscores": s2_subscores,
         "s2_score_after": s2_score_after,
         "s2": s2, "s3": s3, "s4": s4, "s5": s5,
         "chosen_variant": chosen,
@@ -1041,15 +1069,117 @@ def rescore_resume():
     if ok:
         resp_path = PROMPTS / f"{jd}_PREP" / "resp" / "ats_rescore_response.txt"
         if resp_path.exists():
-            m = re.search(r"\*\*ATS Score:\*\*\s*(\d+)\s*/\s*100", resp_path.read_text(errors="replace"))
-            if m:
-                score_after = int(m.group(1))
+            score_after = ats_parse.extract_ats_score(resp_path.read_text(errors="replace"))
 
     return jsonify({
         "ok": ok,
         "log": (result.stdout + result.stderr).strip() if ok else (result.stderr or result.stdout),
         "score_after": score_after,
     }), (200 if ok else 400)
+
+
+# ── Stage 10: Callback Score + outreach targets ──────────────────────────────
+# Deterministic and $0: no model calls, no LinkedIn access (plan D1, D6).
+# The brief holds search links the user opens in their own browser session.
+_JD_RE = re.compile(r"^JD\d{1,4}$")
+
+
+def _bad_jd(jd):
+    return None if jd and _JD_RE.match(jd) else (jsonify({"ok": False, "error": f"invalid JD name: {jd!r}"}), 400)
+
+
+@app.route("/network/<jd>")
+def network_page(jd):
+    if not _JD_RE.match(jd):
+        return "invalid JD name", 400
+    return render_template("network.html", jd=jd)
+
+
+@app.route("/api/network/<jd>")
+def network_state(jd):
+    bad = _bad_jd(jd)
+    if bad:
+        return bad
+    score = callback_score.compute(jd)
+    brief_file = network_brief.brief_path(jd)
+    return jsonify({
+        "ok": True,
+        "score": score,
+        "targets": network_brief.load_targets(jd),
+        "brief": brief_file.read_text(errors="replace") if brief_file.exists() else None,
+        "statuses": network_brief.TARGET_STATUSES,
+        "outcomes": network_brief.OUTCOMES,
+    })
+
+
+@app.route("/api/network-brief", methods=["POST"])
+def network_generate():
+    body = request.get_json(silent=True) or {}
+    jd = body.get("jd")
+    bad = _bad_jd(jd)
+    if bad:
+        return bad
+    r = network_brief.generate(jd, force=bool(body.get("force")))
+    return jsonify(r), (200 if r.get("ok") else 400)
+
+
+@app.route("/api/targets/<jd>", methods=["POST"])
+def network_save_targets(jd):
+    bad = _bad_jd(jd)
+    if bad:
+        return bad
+    r = network_brief.save_targets(jd, request.get_json(silent=True) or {})
+    return jsonify(r), (200 if r.get("ok") else 400)
+
+
+@app.route("/api/scout-context/<jd>")
+def scout_context(jd):
+    """Read by the linkedin-target-scout skill (Claude in Chrome) at the start
+    of a run: company, title, job ID, locations, gate status, target rules and
+    the output contract it must return. Read-only."""
+    bad = _bad_jd(jd)
+    if bad:
+        return bad
+    return jsonify(network_brief.scout_context(jd))
+
+
+@app.route("/api/targets/<jd>/import", methods=["POST"])
+def network_import_targets(jd):
+    """Import the skill's results: JSON contract, or its text format, as
+    {"text": "..."} or the JSON object itself."""
+    bad = _bad_jd(jd)
+    if bad:
+        return bad
+    body = request.get_json(silent=True)
+    if body is None:
+        body = {"text": request.get_data(as_text=True)}
+    r = network_brief.import_scout(jd, body)
+    return jsonify(r), (200 if r.get("ok") else 400)
+
+
+@app.route("/api/jd-meta/<jd>", methods=["POST"])
+def network_save_meta(jd):
+    """Fill what could not be derived from input/other (company for Oracle/ADP/
+    SAP/Dayforce/LinkedIn links, posting date for most JDs) or override a
+    knockout the regexes got wrong. Stored in prompts/JD_Analysis/JDx/.jd_meta.json."""
+    bad = _bad_jd(jd)
+    if bad:
+        return bad
+    body = request.get_json(silent=True) or {}
+    ko = body.get("knockout_overrides")
+    if ko is not None and (not isinstance(ko, dict) or
+                           any(v not in ("PASS", "FAIL", "UNKNOWN", "NA", "") for v in ko.values())):
+        return jsonify({"ok": False, "error": "knockout_overrides values must be PASS/FAIL/UNKNOWN/NA"}), 400
+    if ko is not None:
+        body["knockout_overrides"] = {k: v for k, v in ko.items() if v}
+    pd = body.get("posted_date")
+    if pd:
+        try:
+            __import__("datetime").date.fromisoformat(pd)
+        except ValueError:
+            return jsonify({"ok": False, "error": "posted_date must be YYYY-MM-DD"}), 400
+    jd_meta.save_override(jd, body)
+    return jsonify({"ok": True, "score": callback_score.compute(jd)})
 
 
 def _word_diff_html(before: str, after: str) -> dict:

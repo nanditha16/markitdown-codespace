@@ -13,7 +13,16 @@ RUN apt-get update && apt-get install -y \
 
 # Install markitdown
 RUN pip install --no-cache-dir "markitdown[all]"
-RUN pip install sentence-transformers scikit-learn
+# RUN pip install sentence-transformers scikit-learn
+
+RUN pip install --no-cache-dir \
+    torch \
+    --index-url https://download.pytorch.org/whl/cpu
+
+RUN pip install --no-cache-dir sentence-transformers
+
+RUN pip install --no-cache-dir scikit-learn
+
 
 # reportlab — used by scripts/md_to_pdf.py for PDF generation. Confirmed
 # via direct container check (docker exec ... python -c 'import reportlab')

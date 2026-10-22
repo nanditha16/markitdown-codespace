@@ -20,7 +20,7 @@ cd "$PROJECT_DIR"
 # Ensure container is running
 if ! docker exec markitdown echo "ok" >/dev/null 2>&1; then
   echo "Container not running — starting it..."
-  docker compose up -d --build
+  docker compose up -d
   sleep 3
 fi
 

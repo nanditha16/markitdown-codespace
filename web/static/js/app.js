@@ -59,7 +59,7 @@ function showStep(n) {
   if (n === 0) loadVariantBankStatus();
   if (n === 4) { renderReviewBoard(); renderDashboard(); }
   if (n === 2) renderRankCards();
-  if (n === 3) { renderAtsCards(); checkAndShowApiButton(); }
+  if (n === 3) { renderAtsCards(); renderAtsDashboardTable(); checkAndShowApiButton(); }
   if (n === 5) loadTierStatus();
 }
 
@@ -70,7 +70,7 @@ async function loadStatus() {
     statusData = await r.json();
     updateHealth(statusData.system);
     if (currentStep === 2) renderRankCards();
-    if (currentStep === 3) renderAtsCards();
+    if (currentStep === 3) { renderAtsCards(); renderAtsDashboardTable(); }
     if (currentStep === 4) { renderReviewBoard(); renderDashboard(); }
     updateSavedJDs();
     if (currentStep === 0) loadVariantBankStatus();
@@ -340,7 +340,7 @@ function generateStages24(jd) {
   disableBtn("btnGenStages24");
   streamToLog(url, "log-stages24", "log-stages24-body", (ok) => {
     enableBtn("btnGenStages24");
-    if (ok) { toast("ATS prompts ready.", "ok"); renderAtsCards(); }
+    if (ok) { toast("ATS prompts ready.", "ok"); renderAtsCards(); renderAtsDashboardTable(); }
   });
 }
 
@@ -529,6 +529,54 @@ function renderAtsCards() {
   }).join("");
 }
 
+function renderAtsDashboardTable() {
+  const container = el("atsDashboardTable");
+  if (!container) return;
+  if (!statusData) { container.innerHTML = "<p class='empty-state'>Loading…</p>"; return; }
+
+  const jds = statusData.jds
+    .filter(j => j.s2_subscores && j.s2_subscores.ats_score != null)
+    .sort((a, b) => (parseInt(a.name.replace(/\D/g, "")) || 0) - (parseInt(b.name.replace(/\D/g, "")) || 0));
+
+  if (!jds.length) {
+    container.innerHTML = "<p class='empty-state'>No Stage 2 responses yet.</p>";
+    return;
+  }
+
+  const verdictClass = (v) => v === "GOOD FIT" ? "verdict--good" : v === "PARTIAL FIT" ? "verdict--partial" : v === "POOR FIT" ? "verdict--poor" : "";
+  const cell = (n) => n != null ? `${n}/100` : "—";
+
+  const rows = jds.map(j => {
+    const s = j.s2_subscores;
+    return `
+      <tr>
+        <td class="ats-dash-jd">${j.name}<div class="ats-dash-variant">${j.chosen_variant || ""}</div></td>
+        <td class="${verdictClass(j.fit_verdict)}">${j.fit_verdict || "—"}</td>
+        <td>${cell(s.ats_score)}</td>
+        <td>${cell(s.technical_alignment)}</td>
+        <td>${cell(s.leadership_alignment)}</td>
+        <td>${cell(s.domain_alignment)}</td>
+        <td>${cell(s.interview_probability)}</td>
+      </tr>`;
+  }).join("");
+
+  container.innerHTML = `
+    <table class="ats-dash-table">
+      <thead>
+        <tr>
+          <th>JD</th>
+          <th>Stage 0/1 Verdict</th>
+          <th>ATS Score</th>
+          <th>Technical</th>
+          <th>Leadership</th>
+          <th>Domain</th>
+          <th>Interview Prob.</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
 // ── Review Board (Step 4) ────────────────────────────────────────────────────
 // Groups every JD by what actually needs doing next, instead of a flat
 // checklist of which stages have run. A JD only shows up in "Ready to
@@ -614,7 +662,8 @@ function reviewBoardCard(j, group) {
           Get final ATS score (Stage 9)
         </button>
         <div id="rescoreStatus-${j.name}" class="${cachedStatus(`rescore-${j.name}`).className}">${cachedStatus(`rescore-${j.name}`).html}</div>
-      </div>`;
+      </div>
+      ${stage10Button(j)}`;
   } else if (group === "gated") {
     action = `<a class="btn btn--ghost btn--sm" href="/review/${j.name}">View reason</a>`;
   } else if (group === "poor_fit") {
@@ -639,8 +688,33 @@ function reviewBoardCard(j, group) {
         <span>Stage 2: <strong>${scoreLine}</strong>${scoreAfterLine}</span>
         <span>~$${cost.toFixed(4)} so far</span>
       </div>
+      ${callbackBadge(j)}
       <div class="review-card-action">${action}</div>
     </div>`;
+}
+
+// Stage 10: Callback Score badge + outreach button. The button is NOT tied to
+// the "manual review completed" checkbox: it only needs a Stage 9 rescore and
+// a gated-in score (docs/STAGE10_CALLBACK_OUTREACH_PLAN.md, D2/D3).
+function callbackBadge(j) {
+  const cb = j.callback;
+  if (!cb) return "";
+  if (cb.status !== "scored") return `<div class="callback-badge callback-badge--none">Callback: not scored (${escHtml(cb.reason || "")})</div>`;
+  const cls = cb.gated_in ? "callback-badge--in" : "callback-badge--out";
+  const why = cb.gated_in ? "outreach" : (cb.failed_knockouts && cb.failed_knockouts.length
+    ? `${cb.failed_knockouts.join(", ")} knockout` : `below ${cb.threshold}`);
+  const unk = cb.unknown_knockouts && cb.unknown_knockouts.length
+    ? ` <span class="callback-unknown">check: ${cb.unknown_knockouts.join(", ")}</span>` : "";
+  return `<div class="callback-badge ${cls}">Callback ${cb.callback_score}: ${why}${unk}</div>`;
+}
+
+function stage10Button(j) {
+  const cb = j.callback;
+  if (!cb || cb.status !== "scored") return "";
+  const off = !cb.gated_in;
+  return `<a class="btn btn--ghost btn--sm stage10-btn ${off ? "stage10-btn--off" : ""}" href="/network/${j.name}"
+             title="${off ? "Gated out. Opens the score breakdown; brief generation asks for confirmation." : "Open outreach brief and targets"}">
+            Find outreach targets (Stage 10)</a>`;
 }
 
 function togglePdfButton(jdName) {
